@@ -1,0 +1,15 @@
+overwrite: true
+schema: "https://gpp-schedule-staging.herokuapp.com/graphql"
+documents: "src/**/*.tsx"
+generates:
+  ./src/gql/:
+    preset: "client"
+    plugins: []
+    presetConfig:
+      gqlTagname: 'gql'
+    config:
+      withHooks: true
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
+ignoreNoDocuments: true
