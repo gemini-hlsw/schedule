@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { Button } from 'primereact/button';
 import { SplitButton } from 'primereact/splitbutton';
@@ -7,9 +8,12 @@ import './Navbar.scss';
 
 export default function Navbar() {
 
+    const [value1, setValue1] = useState('South');
+
+
     let sites: string[] = [
-        "GS",
-        "GN"
+        "North",
+        "South"
     ]
 
     return(
@@ -27,8 +31,13 @@ export default function Navbar() {
                         <span>E</span>
                     </Button>
                 </Link>
+                
                 <div className= "site">
-                    <SelectButton options={sites} className=" p-button-text" />
+                    <SelectButton 
+                        value={value1} 
+                        options={sites} 
+                        className=" p-button-text" 
+                        onChange={(e) => setValue1(e.value)}/>
                 </div>
                 
                 
