@@ -1,5 +1,5 @@
 function Home() {
-    return <div className="container">
+    return <div>
         <h1>Welcome to the Scheduler!</h1>
     </div>
 }

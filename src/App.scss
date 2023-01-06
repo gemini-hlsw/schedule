@@ -1,0 +1,11 @@
+
+.layout {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+  
+    >.body {
+      margin-top: 26px;
+      flex: 1 1 auto;
+    }
+  }
