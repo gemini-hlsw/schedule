@@ -1,0 +1,25 @@
+.control-panel{
+    white-space:no-wrap;
+    width: 500px;
+    .p-button {
+        color: rgba(255, 255, 255, 0.87);
+        background: #216ca5;
+        border: 1px solid #216ca5;
+        padding: 0.78571429em 0.78571429em;
+        font-size: 1em;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        border-radius: 4px;
+        display:inline-block;
+        margin: 0 10px;
+
+        .p-button-icon-left {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .p-button:focus {
+        outline: 0 none;
+        outline-offset: 0;
+        box-shadow: 0 0 0 1px #499bdb;
+    }
+}
