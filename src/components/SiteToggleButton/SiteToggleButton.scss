@@ -1,0 +1,25 @@
+.stbtn-container {
+ padding-inline: 10px 10px;
+
+ .p-button{
+    background-color: #4f4f51;
+    margin-right: 0.5rem;
+    margin-left: 0.2rem;
+    border-radius: 5px;
+    color:#e1e0e05d; 
+    
+    .p-selectbutton{
+        color: aqua;
+    }
+
+    .p-highlight {
+        color:#e1e0e0;
+        border-width: 150px;
+        border-color: whitesmoke;
+    }
+    .p-button:hover {
+        opacity: 85%;
+    }
+ }
+ 
+}
