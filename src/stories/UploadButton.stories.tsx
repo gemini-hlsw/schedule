@@ -8,8 +8,11 @@ export default {
     component: UploadButton,
 } as ComponentMeta <typeof UploadButton>;
 
-const Template: ComponentStory<typeof UploadButton> = () => <UploadButton/>;
+const Template: ComponentStory<typeof UploadButton> = (args) => <UploadButton {...args}/>;
 
 
 
-export const NoUpload = Template.bind({});
+export const Upload = Template.bind({});
+Upload.args = {
+    label: 'Upload'
+}

@@ -1,0 +1,29 @@
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+
+import './SummaryTable.scss'
+
+export type Summary = {
+    program: string,
+    completed: string,
+    score: string
+}
+
+interface SummaryProps {
+    summaries: Summary[]
+}
+
+const footer = `Final Score: 2.3405`;
+
+
+export default function SummaryTable({ summaries }:SummaryProps) {
+        
+    return(
+        <DataTable className="summary-table" value={summaries} stripedRows footer={footer} responsiveLayout="scroll">
+            <Column field='program' header='Program' ></Column>
+            <Column field='completed' header='% Completed'></Column>
+            <Column field='score' header='Score'></Column> 
+        </DataTable>
+    )
+
+};

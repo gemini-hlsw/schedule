@@ -1,0 +1,34 @@
+.summary-table{
+    background-color: salmon;
+    
+}
+
+
+.p-datatable {
+    width: 30%;
+    .p-datatable-thead {
+      >tr {
+        >th {
+          border: 10px;
+          padding: 2px !important;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  
+    .p-datatable-tbody {
+      >tr {
+        >td {
+          padding: 2px !important;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+.p-datatable-footer{
+    text-align: right;
+    font-size: 0.9rem;
+    height: 10%;
+}
+
