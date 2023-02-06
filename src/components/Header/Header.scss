@@ -1,12 +1,14 @@
 .top-bar {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     display: flex;
+    top: 0;
+    left: 0;
     justify-content: space-between;
     background-color: #1f1e1f;
     padding: 3px 5px;
     font-family: var(--font-family);
-    border-width: 12ch;
-    border-color: white;
+    border-bottom: solid var(--surface-d);
+    border-width: 1px;
     position: fixed;
     height: 35px;
     width: 100vw;
