@@ -1,0 +1,17 @@
+.layout {
+    height: 100%;
+  
+    >.body {
+      margin-top: 150px;
+      flex: 1 1 auto;
+    }
+
+    .main{
+        margin-top: 15px;
+        flex: 1 1 auto; 
+    }
+}
+
+.main-container {
+    margin-top: 2rem;
+}

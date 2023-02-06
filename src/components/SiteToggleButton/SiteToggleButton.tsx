@@ -19,7 +19,7 @@ export default function SiteToggleButton(){
             <SelectButton 
                 value={value1} 
                 options={sites}
-                className="p-button p-selectbutton"
+                className="toggle-btn p-selectbutton"
                 onChange={(e) => setValue1(e.value)}
                 unselectable={false}/>
         </div>

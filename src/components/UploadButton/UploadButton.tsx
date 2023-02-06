@@ -1,7 +1,13 @@
 import { ChangeEvent, useState, useRef } from 'react';
 import './UploadButton.scss';
 
-export default function FileUploadSingle() {
+interface UploadProps{
+  label: string
+}
+
+
+export default function UploadButton( {label}: UploadProps) {
+
 
     const[file, setFile] = useState<File>();
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -17,12 +23,15 @@ export default function FileUploadSingle() {
     }
 
     return (
-        <div>
+        <div className='upload-btn-container'>
           <button onClick={handleUploadClick} className='upload-btn'>
-            {file ? <i className='pi pi-upload'></i>  :  <i className='pi pi-times-circle'></i>}
+            {file ? <i className='pi pi-times-circle'></i> : <i className='pi pi-upload'></i>}
                 
           </button>
-          <span>
+          <span className='label'>
+            {label}:
+          </span>
+          <span className='filename'>
             {file ? `${file.name}` : 'No file'}
           </span>
           
