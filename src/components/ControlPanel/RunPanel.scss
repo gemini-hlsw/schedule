@@ -1,6 +1,23 @@
 .control-panel{
     white-space:no-wrap;
     width: 500px;
+    display: flex;
+    align-items: center;
+
+    .p-panel-content{
+        padding-top: 1px;
+    }
+    
+}
+
+
+.calendar{
+    margin-top: 1em;
+    align-self: center
+}
+
+.run-buttons{
+    margin-top: 1em;
     .p-button {
         color: rgba(255, 255, 255, 0.87);
         background: #216ca5;

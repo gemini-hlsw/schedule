@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import SiteToggleButton from '../components/SiteToggleButton/SiteToggleButton';
+import SiteToggleButton from '../components/SiteToggleButton';
 
 export default {
     title: 'General/ Site Toggle Button',

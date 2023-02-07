@@ -11,7 +11,8 @@ export default function SiteToggleButton(){
 
     const sites = [
         {label: "North", value: "GN"},
-        {label: "South", value: "GS"}
+        {label: "South", value: "GS"},
+        {label: "Both", value: "Both"}
     ]
 
     return(
@@ -19,7 +20,7 @@ export default function SiteToggleButton(){
             <SelectButton 
                 value={value1} 
                 options={sites}
-                className="toggle-btn p-selectbutton"
+                className="toggle-btn p-selectbutton p-component"
                 onChange={(e) => setValue1(e.value)}
                 unselectable={false}/>
         </div>
