@@ -1,6 +1,6 @@
 
 import Layout from "./Layout/Layout";
-import RunPanel from "./RunPanel/RunPanel";
+import RunPanel from "./ControlPanel";
 import SummaryTable, { Summary } from "./SummaryTable/SummaryTable";
 import { Panel } from 'primereact/panel';
 import './validation.scss'

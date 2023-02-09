@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import SiteToggleButton from '../components/SiteToggleButton/SiteToggleButton';
+import SiteToggleButton from '../components/SiteToggleButton';
 import Header from '../components/Header/Header';
 
 export default {

@@ -1,0 +1,88 @@
+.control-panel{
+    white-space:no-wrap;
+    width: 500px;
+    display: flex;
+    align-items: center;
+
+    .p-panel-content{
+        padding-top: 1px;
+    }
+    
+}
+
+
+.calendar{
+    margin-top: 1em;
+    align-self: center
+}
+
+.run-buttons{
+    margin-top: 1em;
+    .p-button {
+        color: rgba(255, 255, 255, 0.87);
+        background: #216ca5;
+        border: 1px solid #216ca5;
+        padding: 0.78571429em 0.78571429em;
+        font-size: 1em;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        border-radius: 4px;
+        display:inline-block;
+        margin: 0 10px;
+
+        .p-button-icon-left {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .p-button:focus {
+        outline: 0 none;
+        outline-offset: 0;
+        box-shadow: 0 0 0 1px #499bdb;
+    }
+}
+
+
+.stbtn-container {
+    padding-inline: 10px 10px;
+    margin-right: 0;
+
+    .p-selectbutton{
+        .p-buttonset{
+            padding-top: 2px;
+            padding-left: 0;
+        }
+        .p-button {
+        margin-right: 0;
+        padding-top: 3%;
+        padding-bottom: 3%;
+
+        }
+
+    }
+
+    .p-component.p-button {
+        margin-right: 0 !important;
+    }
+}
+
+.toggle-btn {
+    background: none;
+    border: 0px;
+    font-size: 13px;
+    margin-right: 0;
+    padding: 0;
+    .p-component{
+        .p-button{
+            margin-right: 0;
+        }
+    }
+    
+}
+
+toggle-btn:hover {
+    background: none ; 
+}
+
+
+  
+  
