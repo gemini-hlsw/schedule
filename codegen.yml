@@ -4,12 +4,9 @@ documents: "src/**/*.tsx"
 generates:
   ./src/gql/:
     preset: "client"
-    plugins: []
-    presetConfig:
-      gqlTagname: 'gql'
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
     config:
       withHooks: true
-  ./graphql.schema.json:
-    plugins:
-      - "introspection"
 ignoreNoDocuments: true
