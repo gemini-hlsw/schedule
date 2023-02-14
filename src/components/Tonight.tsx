@@ -1,4 +1,4 @@
-import ScheduleList  from './ScheduleList' 
+import ScheduleList  from './SchedulerList/ScheduleList' 
 
 function Tonight() {
     console.log("LPM")
