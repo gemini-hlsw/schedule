@@ -1,15 +1,16 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import './App.scss';
-import Navbar from './components/Navbar';
+import ControlPanel from './components/ControlPanel';
+import Layout from './components/Layout/Layout';
 import SchedulerList from './components/SchedulerList/ScheduleList';
 
 function App() {
 
   return (
-    <div className="layout">
-      <Navbar/>
+    <Layout>
       <SchedulerList />
-    </div>
+      <ControlPanel />
+    </Layout>
   )
 }
 

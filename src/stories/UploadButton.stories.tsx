@@ -1,18 +1,13 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import UploadButton from '../components/UploadButton';
 
-import UploadButton from '../components/UploadButton/UploadButton';
+const meta: Meta<typeof UploadButton> = {
+    title:'SCHEDULER/Upload Card', 
+    component:  UploadButton,
+};
 
+export default meta;
 
-export default {
-    title: 'General/ Upload Button',
-    component: UploadButton,
-} as ComponentMeta <typeof UploadButton>;
+type Story = StoryObj<typeof UploadButton>;
 
-const Template: ComponentStory<typeof UploadButton> = (args) => <UploadButton {...args}/>;
-
-
-
-export const Upload = Template.bind({});
-Upload.args = {
-    label: 'Upload'
-}
+export const Normal: Story = {} 
