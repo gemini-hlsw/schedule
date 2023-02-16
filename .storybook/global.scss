@@ -1,0 +1,34 @@
+.light {
+    @import 'lucuma-ui-css/light-theme';
+  }
+  
+  .dark {
+    @import 'lucuma-ui-css/dark-theme';
+  }
+  
+  @import 'lucuma-ui-css/lucuma-ui';
+         
+  /* stylelint-enable no-invalid-position-at-import-rule */
+  
+  
+  // Base styles
+  body {
+    background-color: var(--surface-0);
+    font-family: var(--font-family);
+  }
+  
+  a {
+    text-decoration: inherit;
+  }
+  
+  #root {
+    max-width: 100%;
+    height: 100%;
+  }
+  
+  
+  button.p-component.p-button {
+    margin-right: 0;
+  }
+  
+  

@@ -1,5 +1,9 @@
 import React from "react";
 import ThemeProvider from "../src/theme/ThemeProvider";
+import "./global.scss"
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.min.css';
+
 
 export const decorators = [
   (Story) => (

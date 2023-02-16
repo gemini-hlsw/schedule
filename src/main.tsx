@@ -1,14 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
+import { BrowserRouter,  Route, Routes } from 'react-router-dom';
+
 import { ApolloProvider} from '@apollo/client';
 import { client } from './apollo-client'
-import './index.scss'
-import { BrowserRouter,  Route, Routes } from 'react-router-dom';
+
+import App from './App'
 import ThemeProvider from './theme/ThemeProvider';
 import Home from './components/Home';
 import Tonight from './components/Tonight';
 
+
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.min.css';
+import './index.scss'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
