@@ -5,7 +5,7 @@ import { ApolloProvider} from '@apollo/client';
 import { client } from './apollo-client'
 import './index.scss'
 import { BrowserRouter,  Route, Routes } from 'react-router-dom';
-import ThemeProvider from './components/Theme/ThemeProvider';
+import ThemeProvider from './theme/ThemeProvider';
 import Home from './components/Home';
 import Tonight from './components/Tonight';
 

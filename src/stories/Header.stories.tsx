@@ -20,9 +20,3 @@ export const Normal = Template.bind({})
 Normal.args = {
   title: 'schedule'
 }
-
-export const WithChildren = Template.bind({})
-WithChildren.args = {
-  title: 'schedule',
-  children: <SiteToggleButton />
-}
