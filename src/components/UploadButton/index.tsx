@@ -1,14 +1,15 @@
 import React, { useRef } from 'react';
 import { FileUpload } from 'primereact/fileupload';
+import { ProgressBar } from 'primereact/progressbar';
 import { Toast } from 'primereact/toast';
 import { Tooltip } from 'primereact/tooltip';
+
+import './UploadButton.scss';
+
 
 interface UploadProps{
     label: string
   }
-
-
-
 
 export default function UploadButton( {label}: UploadProps) {
     const toast = useRef<Toast>(null);
@@ -18,20 +19,35 @@ export default function UploadButton( {label}: UploadProps) {
     };
 
 
-    const headerTemplate = (options) => {
+    const headerTemplate = (options: any) => {
         const { className, chooseButton, uploadButton, cancelButton } = options;
-
+        
         return (
             <div className={className} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
+                <div className="flex align-items-right gap-3 ml-auto" style={{marginLeft: 1}}>
+                    <span>{label}</span>
+                </div>
                 {chooseButton}
-                {uploadButton}
+                {uploadButton} 
                 {cancelButton}
-                <div className="flex align-items-center gap-3 ml-auto">
-                    <span> {label}</span>
+                
+            </div>
+        );
+    };
+
+
+    const itemTemplate = (file: any, props: any) => {
+        return (
+            <div className="flex align-items-left flex-wrap">
+                <div className="flex align-items-left" style={{ width: '20%' }}>
+                    <span className="flex flex-column text-left ml-3">
+                        {file.name}
+                    </span>
                 </div>
             </div>
         );
     };
+
 
     const chooseOptions = { icon: 'pi pi-fw pi-images', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined' };
     const uploadOptions = { icon: 'pi pi-fw pi-cloud-upload', iconOnly: true, className: 'custom-upload-btn p-button-success p-button-rounded p-button-outlined' };
@@ -48,10 +64,12 @@ export default function UploadButton( {label}: UploadProps) {
                             url={'/api/upload'} 
                             onUpload={onUpload} 
                             accept="image/*" 
-                            maxFileSize={1000000} 
-                            emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>}
+                            maxFileSize={1000000}
+                            itemTemplate={itemTemplate}
                             headerTemplate={headerTemplate}
-                            chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions} 
+                            chooseOptions={chooseOptions} 
+                            uploadOptions={uploadOptions} 
+                            cancelOptions={cancelOptions} 
                 />
             </>
       );
