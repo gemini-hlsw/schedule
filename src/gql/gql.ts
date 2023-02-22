@@ -13,9 +13,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel-plugin for production.
  */
 const documents = {
+    "\n    mutation NewSchedule($startTime: String!, $endTime: String!) {\n        newSchedule(\n            newScheduleInput: {startTime: $startTime, endTime: $endTime}\n        ) {\n            __typename\n            ... on NewScheduleSuccess {\n            success\n            }\n            ... on NewScheduleError {\n            error\n            }\n        }\n    }\n": types.NewScheduleDocument,
     "\n    query GetPlansBySite{\n            sitePlans(site: GS) {\n                nightIdx\n                plansPerSite {\n                site\n                startTime\n                endTime\n                visits {\n                        startTime\n                        obsId\n                        atomStartIdx\n                        atomEndIdx\n                    }\n                }\n            }\n        }\n": types.GetPlansBySiteDocument,
 };
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation NewSchedule($startTime: String!, $endTime: String!) {\n        newSchedule(\n            newScheduleInput: {startTime: $startTime, endTime: $endTime}\n        ) {\n            __typename\n            ... on NewScheduleSuccess {\n            success\n            }\n            ... on NewScheduleError {\n            error\n            }\n        }\n    }\n"): (typeof documents)["\n    mutation NewSchedule($startTime: String!, $endTime: String!) {\n        newSchedule(\n            newScheduleInput: {startTime: $startTime, endTime: $endTime}\n        ) {\n            __typename\n            ... on NewScheduleSuccess {\n            success\n            }\n            ... on NewScheduleError {\n            error\n            }\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
