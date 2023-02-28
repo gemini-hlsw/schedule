@@ -5,6 +5,7 @@ import ControlPanel from '../components/ControlPanel';
 const meta: Meta<typeof ControlPanel> = {
     title:'SCHEDULER/Control Panel', 
     component:  ControlPanel,
+
 };
 
 export default meta;

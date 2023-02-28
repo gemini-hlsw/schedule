@@ -12,32 +12,9 @@ import { Toast } from 'primereact/toast';
 
 
 import './styles.scss';
-
-
-
-const MUTATION_NEW_SCHEDULE = graphql(/* GraphQL */`
-    mutation NewSchedule($startTime: String!, $endTime: String!) {
-        newSchedule(
-            newScheduleInput: {startTime: $startTime, endTime: $endTime}
-        ) {
-            __typename
-            ... on NewScheduleSuccess {
-            success
-            }
-            ... on NewScheduleError {
-            error
-            }
-        }
-    }
-`);
-
-
+import { newScheduleMutationDocument } from './query'
 
 export default function ControlPanel(){
-
-    
-
-    
     
     const  toast = useRef<Toast>(null);
     const [saveState, setSaveState] = useState(false);
@@ -49,7 +26,7 @@ export default function ControlPanel(){
         {label: "Both", value: "Both"}
     ]
 
-    const [loadNewSchedule, { data, loading, error, called }] =  useMutation(MUTATION_NEW_SCHEDULE);
+    const [loadNewSchedule, { data, loading, error, called }] =  useMutation(newScheduleMutationDocument);
 
 
     const onSaveClick = () => {
@@ -76,7 +53,8 @@ export default function ControlPanel(){
         // call GraphQL endpoint for new schedule acording to parameters 
         loadNewSchedule({ variables: {
             startTime: "2018-10-01 08:00:00",
-            endTime: "2018-10-03 08:00:00" 
+            endTime: "2018-10-03 08:00:00",
+            site: ['GS', 'GN'] 
         }}).then( () => {
 
             if(called){
@@ -126,4 +104,4 @@ export default function ControlPanel(){
                 </Panel>
         </div>
     );
-} 
+}
