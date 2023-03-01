@@ -1,24 +1,33 @@
 import { useState, useRef } from 'react';
 
+import { useMutation } from '@apollo/client';
+import { graphql } from '../../gql';
+
 //PrimeReact components
 import { Button } from 'primereact/button';
 import { Panel } from 'primereact/panel';
 import { Calendar } from 'primereact/calendar';
 import { SelectButton } from 'primereact/selectbutton';
+import { Toast } from 'primereact/toast';
 
 
 import './styles.scss';
+import { newScheduleMutationDocument } from './query'
 
 export default function ControlPanel(){
-
+    
+    const  toast = useRef<Toast>(null);
     const [saveState, setSaveState] = useState(false);
-    const [dates2, setDates2] = useState<Date | Date[] | string | null | undefined>(undefined);
-    const [siteState, setSite] = useState('South');
+    const [datesState, setDates] = useState<Date | Date[] | string | null | undefined>(undefined);
+    const [siteState, setSite] = useState(undefined);
     const sites = [
-        {label: "North", value: "GN"},
-        {label: "South", value: "GS"},
-        {label: "Both", value: "Both"}
+        {label: "North", value: ["GN"]},
+        {label: "South", value: ["GS"]},
+        {label: "All", value: ["GN","GS"]}
     ]
+
+    const [loadNewSchedule, { data, loading, error, called }] =  useMutation(newScheduleMutationDocument);
+
 
     const onSaveClick = () => {
         // Creates a json file with all the 
@@ -41,7 +50,34 @@ export default function ControlPanel(){
     }
 
     const onRunClick = () => {
-        // call GraphQL endpoint for new schedule acording to parameters 
+        // call GraphQL endpoint for new schedule acording to parameters
+        if(siteState && datesState && Array.isArray(datesState)) {
+            loadNewSchedule({ variables: {
+                startTime: datesState[0].toISOString().split('.')[0].replace('T', ' ') ,
+                endTime: datesState[1].toISOString().split('.')[0].replace('T', ' ') ,
+                site: siteState
+            }}).then( () => {
+    
+                if(called){
+                    if(data){
+                        console.log(data)
+                    }
+                }
+    
+                if(error){
+                    toast.current.show({severity:'error', 
+                                        summary: 'Error', 
+                                        detail:'Failed to create a new schedule', 
+                                        life: 3000});
+                }
+            });
+    
+        } else {
+            toast.current.show({severity:'error', 
+                                summary: 'Error', 
+                                detail:'Missing parameters to run Validation', 
+                                life: 3000});
+        }
     }
 
 
@@ -60,8 +96,8 @@ export default function ControlPanel(){
                     <div className='calendar'>
                         <Calendar 
                             id="range" 
-                            value={dates2} 
-                            onChange={(e) => setDates2(e.value)} 
+                            value={datesState} 
+                            onChange={(e) => setDates(e.value)} 
                             selectionMode="range" 
                             readOnlyInput 
                             showButtonBar
@@ -70,11 +106,11 @@ export default function ControlPanel(){
                     </div>
                     
                     <div className='run-buttons'>
-                        <Button label="RUN" icon="pi pi-play" onClick={onRunClick} ></Button>
+                        <Button label="RUN" icon="pi pi-play" loading={loading} onClick={onRunClick} ></Button>
                         <Button label="SAVE" icon="pi pi-save" loading={saveState} onClick={onSaveClick}></Button> 
                         <Button label="LOAD" icon="pi pi-arrow-circle-up" loading={saveState} onClick={onLoadClick} />
                     </div>
                 </Panel>
         </div>
     );
-} 
+}
