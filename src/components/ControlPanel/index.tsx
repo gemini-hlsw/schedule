@@ -18,12 +18,12 @@ export default function ControlPanel(){
     
     const  toast = useRef<Toast>(null);
     const [saveState, setSaveState] = useState(false);
-    const [dates2, setDates2] = useState<Date | Date[] | string | null | undefined>(undefined);
-    const [siteState, setSite] = useState('South');
+    const [datesState, setDates] = useState<Date | Date[] | string | null | undefined>(undefined);
+    const [siteState, setSite] = useState(undefined);
     const sites = [
-        {label: "North", value: "GN"},
-        {label: "South", value: "GS"},
-        {label: "Both", value: "Both"}
+        {label: "North", value: ["GN"]},
+        {label: "South", value: ["GS"]},
+        {label: "All", value: ["GN","GS"]}
     ]
 
     const [loadNewSchedule, { data, loading, error, called }] =  useMutation(newScheduleMutationDocument);
@@ -50,25 +50,34 @@ export default function ControlPanel(){
     }
 
     const onRunClick = () => {
-        // call GraphQL endpoint for new schedule acording to parameters 
-        loadNewSchedule({ variables: {
-            startTime: "2018-10-01 08:00:00",
-            endTime: "2018-10-03 08:00:00",
-            site: ['GS', 'GN'] 
-        }}).then( () => {
-
-            if(called){
-                if(data){
-                    console.log(data)
+        // call GraphQL endpoint for new schedule acording to parameters
+        if(siteState && datesState && Array.isArray(datesState)) {
+            loadNewSchedule({ variables: {
+                startTime: datesState[0].toISOString().split('.')[0].replace('T', ' ') ,
+                endTime: datesState[1].toISOString().split('.')[0].replace('T', ' ') ,
+                site: siteState
+            }}).then( () => {
+    
+                if(called){
+                    if(data){
+                        console.log(data)
+                    }
                 }
-            }
-
-            if(error){
-                toast.current.show({severity:'error', summary: 'Error', detail:'Failed to create a new schedule', life: 3000});
-            }
-        });
-
-       
+    
+                if(error){
+                    toast.current.show({severity:'error', 
+                                        summary: 'Error', 
+                                        detail:'Failed to create a new schedule', 
+                                        life: 3000});
+                }
+            });
+    
+        } else {
+            toast.current.show({severity:'error', 
+                                summary: 'Error', 
+                                detail:'Missing parameters to run Validation', 
+                                life: 3000});
+        }
     }
 
 
@@ -87,8 +96,8 @@ export default function ControlPanel(){
                     <div className='calendar'>
                         <Calendar 
                             id="range" 
-                            value={dates2} 
-                            onChange={(e) => setDates2(e.value)} 
+                            value={datesState} 
+                            onChange={(e) => setDates(e.value)} 
                             selectionMode="range" 
                             readOnlyInput 
                             showButtonBar
