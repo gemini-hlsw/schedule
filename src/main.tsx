@@ -20,11 +20,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ThemeProvider>
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <App/>  
-          <Routes>
+        <Routes>
             <Route path="/" element= {<Home/>} />
-            <Route path="/tonight" element= {<Tonight/>} />
           </Routes>
+          <App/>  
         </BrowserRouter>
       </ApolloProvider>
     </ThemeProvider>
