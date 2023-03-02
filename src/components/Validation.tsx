@@ -7,12 +7,7 @@ import { Panel } from 'primereact/panel';
 import './validation.scss'
 import ControlPanel from "./ControlPanel";
 
-export interface ValidationScreen {
-    summaries: Summary[] 
-}
-
-
-export default function ValidationScreen({ summaries }) {
+export default function ValidationScreen() {
 
     return(
         <Layout>

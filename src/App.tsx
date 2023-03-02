@@ -8,7 +8,6 @@ function App() {
 
   return (
     <Layout>
-      <SchedulerList />
       <ControlPanel />
     </Layout>
   )
