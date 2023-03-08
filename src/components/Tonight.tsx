@@ -1,5 +1,5 @@
 import ScheduleList  from './SchedulerList/ScheduleList' 
-import ControlPanel from './ControlPanel'
+import ControlPanel from './ControlPanel/ControlPanel'
 
 function Tonight() {
 

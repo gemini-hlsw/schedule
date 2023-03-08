@@ -1,0 +1,31 @@
+.control-panel {
+  .validation-run {
+    margin: 0 0 10px 0;
+  }
+
+  .location-buttons {
+    .p-button.p-component {
+      margin-right: 0;
+    }
+
+    margin-bottom: 10px;
+  }
+
+  .calendar {
+    margin-bottom: 10px;
+    .p-inputtext {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+    .p-button {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+  }
+
+  .run-buttons {
+    > button {
+      margin-right: 5px !important;
+    }
+  }
+}

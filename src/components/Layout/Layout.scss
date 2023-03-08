@@ -1,17 +1,33 @@
 .layout {
-    height: 100%;
-  
-    >.body {
-      margin-top: 150px;
-      flex: 1 1 auto;
-    }
+  height: 100%;
+  display: grid;
+  grid-template:
+    "header header" 35px
+    "nav main" 1fr
+    / 35px 1fr;
 
-    .main{
-        margin-top: 15px;
-        flex: 1 1 auto; 
-    }
+  > .header {
+    grid-area: header;
+  }
+
+  > .navbar {
+    grid-area: nav;
+  }
+
+  > .main {
+    grid-area: main;
+    padding: 10px;
+    color: var(--text-color);
+    overflow-y: auto;
+  }
 }
 
-.main-container {
-    margin-top: 2rem;
+@media (max-width: 700px) {
+  .layout {
+    grid-template:
+      "header" 35px
+      "main" 1fr
+      "nav" 35px
+      / 1fr;
+  }
 }

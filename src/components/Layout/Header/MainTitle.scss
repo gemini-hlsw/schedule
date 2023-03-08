@@ -1,0 +1,40 @@
+.header-title {
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  font-family: Lato, Helvetica Neue, Arial, Helvetica, sans-serif;
+  padding-left: 10px;
+  padding-top: 5px;
+  > span {
+    position: relative;
+    margin-right: 3px;
+    opacity: 0;
+    animation: move-text 0.75s forwards;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  @for $i from 1 through 8 {
+    > span:nth-child(#{$i}n) {
+      animation-delay: #{$i * 0.2}s;
+    }
+  }
+
+  @keyframes move-text {
+    0% {
+      bottom: -0.2em;
+      opacity: 1;
+    }
+  
+    50% {
+      bottom: 0.2em;
+    }
+  
+    100% {
+      bottom: 0;
+      opacity: 1;
+    }
+  }
+}

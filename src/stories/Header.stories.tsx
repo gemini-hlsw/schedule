@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import SiteToggleButton from '../components/SiteToggleButton';
-import Header from '../components/Header/Header';
+import Header from '../components/Layout/Header/Header';
 
 export default {
   title: 'General/Header',
