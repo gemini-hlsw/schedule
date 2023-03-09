@@ -14,19 +14,21 @@
 body {
   background-color: var(--surface-0);
   font-family: var(--font-family);
-}
-
-a {
-  text-decoration: inherit;
+  top: 0;
+  left: 0;
+  margin: 0;
+  height: 100vh;
+  max-height: -webkit-fill-available;
+  width: 100vw;
 }
 
 #root {
-  max-width: 100%;
+  position: fixed;
   height: 100%;
+  width: 100%;
 }
 
 
 button.p-component.p-button {
   margin-right: 0;
 }
-

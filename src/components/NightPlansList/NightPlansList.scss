@@ -1,0 +1,32 @@
+.night-plans {
+  .single-plan {
+    margin-bottom: 10px;
+    .summary {
+      margin-bottom: 10px;
+      > i {
+        margin-right: 10px;
+        &::before {
+          margin-right: 3px;
+          vertical-align: -2px;
+        }
+        &::after {
+          content: "-";
+          margin-left: 10px;
+        }
+      }
+
+      > i:last-child {
+        margin-right: 0;
+        &::after {
+          display: none;
+        }
+      }
+    }
+
+    .view-plan {
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

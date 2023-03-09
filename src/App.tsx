@@ -1,15 +1,15 @@
-import { Link, Route, Routes } from 'react-router-dom'
-import './App.scss';
-import ControlPanel from './components/ControlPanel';
+import { Outlet } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
-import SchedulerList from './components/SchedulerList/ScheduleList';
+import GlobalStateProvider from './components/GlobalState/GlobalState';
 
 function App() {
 
   return (
-    <Layout>
-      <ControlPanel />
-    </Layout>
+    <GlobalStateProvider>
+      <Layout>
+        <Outlet />
+      </Layout>
+    </GlobalStateProvider>
   )
 }
 

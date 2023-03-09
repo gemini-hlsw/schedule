@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import ControlPanel from '../components/ControlPanel';
+import ControlPanel from '../components/ControlPanel/ControlPanel';
 
 const meta: Meta<typeof ControlPanel> = {
     title:'SCHEDULER/Control Panel', 
