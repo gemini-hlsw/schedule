@@ -1,59 +1,34 @@
 import { graphql } from '../../gql';
 
-
-export const newScheduleMutationDocument = graphql(/* GraphQL */`
-    mutation NewSchedule($startTime: String!, $endTime: String!, $site: Sites! ) {
-        newSchedule(
+export const scheduleQuery = graphql(`
+    query getNightPlans($startTime: String!, $endTime: String!, $site: Sites!) {
+        schedule(
             newScheduleInput: {startTime: $startTime, 
                                endTime: $endTime,
                                site: $site}
         ) {
-            __typename
-            ... on NewScheduleSuccess {
-            success
-            }
-            ... on NewScheduleError {
-            error
-            }
-        }
-    }
-`);
-
-
-export const allPlansQueryDocument = graphql(/* GraphQL */`
-    query allPlans {
-        plans{
-            nightIdx,
-            plansPerSite{
-            site,
-            startTime,
-            endTime,
-            visits{
-                    obsId
-                    atomStartIdx
-                    atomEndIdx
-                    
-                }
-            }
-        }
-    }
-`);
-
-export const plansBySiteQueryDocument = graphql(/* GraphQL */`
-    query GetPlansBySite{
-            sitePlans(site: GS) {
+            nightPlans {
                 nightIdx
                 plansPerSite {
-                site
-                startTime
-                endTime
-                visits {
-                        startTime
-                        obsId
-                        atomStartIdx
-                        atomEndIdx
+                    endTime
+                    site
+                    startTime
+                    visits {
+                    atomEndIdx
+                    atomStartIdx
+                    obsId
+                    startTime
                     }
                 }
+                nightStats {
+                    completionFraction
+                    nToos
+                    planConditions
+                    planScore
+                    timeloss
+                }
             }
-        } 
-`);
+            plansSummary
+        }
+    }
+`)

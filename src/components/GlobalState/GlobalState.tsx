@@ -9,6 +9,7 @@ export const GlobalStateContext = createContext<GlobalStateContextType>(null!);
 
 export default function GlobalStateProvider ({ children }: { children: ReactNode }) {
   let [nightPlans, setNightPlans] = useState<[]>([])
+  let [plansSummary, setPlansSummary] = useState<[]>([])
 
   return (
     <GlobalStateContext.Provider value={{
