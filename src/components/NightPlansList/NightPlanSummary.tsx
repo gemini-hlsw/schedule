@@ -7,17 +7,21 @@ interface NightPlanSummaryProps {
   planConditions: string, // TODO: Might be good to have a special type or class
   nToOs: number, //TODO: Same as conditions. An optional list of ToOs might want to be display
   planScore: number,
-  completionFraction: string
+  completionFraction: string,
+  site: string
 
 
 }
 
 
-export default function NightPlanSummary({timeloss, planConditions, nToOs, planScore, completionFraction }: NightPlanSummaryProps){
+export default function NightPlanSummary({timeloss, planConditions, nToOs, planScore, completionFraction, site }: NightPlanSummaryProps){
   const conditions = JSON.parse(planConditions)
   const completion = JSON.parse(completionFraction) 
   return(
     <div className="summary">
+      <Tag icon="pi pi-compass" severity="warning">
+        Site: {site}
+      </Tag>
       <Tag icon="pi pi-clock">
         Timeloss: {timeloss}
       </Tag>
