@@ -26,7 +26,7 @@ export default function ControlPanel() {
 
   const [schedule, {loading, error, data}] = useLazyQuery(scheduleQuery)
   
-  const { setNightPlans } = useContext(GlobalStateContext)
+  const { setNightPlans, setPlansSummary } = useContext(GlobalStateContext)
 
   const onSaveClick = () => {
     // Creates a json file with all the 
@@ -78,7 +78,8 @@ export default function ControlPanel() {
 
   useEffect(() => {
     if (Boolean(data)) {
-      setNightPlans(data.schedule.nightPlans)
+      setNightPlans(data?.schedule.nightPlans)
+      setPlansSummary(data?.schedule.plansSummary)
     }
   }, [data])
 

@@ -9,30 +9,13 @@ import "./Validation.scss"
 
 // For testing
 import SummaryTable from "../SummaryTable/SummaryTable"
-import { Summary } from "../SummaryTable/SummaryTable"
+
 import { Panel } from "primereact/panel"
 
 
-const default_summary: Summary[] = [
-  {
-    program: "GS-2018B-Q-201",
-    completed: "90%",
-    score: '2.3405'
-  },
-  {
-    program: "GS-2018B-Q-217",
-    completed: "40%",
-    score: '1.905'
-  },
-  {
-    program: "GN-2019A-FT-201-9",
-    completed: "10%",
-    score: '1.0405'
-  },
-]
-
 export default function Validation() {
-  const { nightPlans } = useContext(GlobalStateContext)
+  const { nightPlans, plansSummary } = useContext(GlobalStateContext)
+
 
   return (
     <div className="validation">
@@ -49,14 +32,16 @@ export default function Validation() {
       </div>
       <Divider />
       <div className="middle">
+      {Boolean(nightPlans.length) && (plansSummary !== undefined)  && <>
         <div className="left">
-          <SummaryTable summaries={default_summary} />
+          <SummaryTable summary={plansSummary} />
         </div>
         <div className="right">
           <Panel header="Stats">
-            <p>Replace with stats... Band, Instrument, Weather</p>
-          </Panel>
-        </div>
+              <p>Replace with stats... Band, Instrument, Weather</p>
+            </Panel>
+          </div>
+        </>}
       </div>
       <div className="bottom">
         {Boolean(nightPlans.length) && <>
