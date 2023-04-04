@@ -1,4 +1,7 @@
 
+import { Tag } from 'primereact/tag';
+
+
 interface NightPlanSummaryProps {
   timeloss: string,
   planConditions: string, // TODO: Might be good to have a special type or class
@@ -15,14 +18,38 @@ export default function NightPlanSummary({timeloss, planConditions, nToOs, planS
   const completion = JSON.parse(completionFraction) 
   return(
     <div className="summary">
-      <i className="pi pi-clock">{timeloss}</i>
-      <i className="pi pi-cloud">cc: {conditions.cc} </i>
-      <i className="pi pi-eye">{nToOs}</i>
-      <i className="pi pi-chart-line">{planScore}</i>
-      <i className="pi pi-percentage">Band 1: {completion[1]}</i>
-      <i className="pi pi-percentage">Band 2: {completion[2]}</i>
-      <i className="pi pi-percentage">Band 3: {completion[3]}</i>
-      <i className="pi pi-percentage">Band 4: {completion[4]}</i>
+      <Tag icon="pi pi-clock">
+        Timeloss: {timeloss}
+      </Tag>
+      <Tag icon="pi pi-cloud">
+        CC: {conditions.cc} WV: {conditions.wv}
+      </Tag>
+      <Tag icon="pi pi-eye">
+        ToOs: 0{nToOs}
+      </Tag>
+      <Tag icon="pi pi-chart-line">
+        Score: {planScore.toFixed(2)}
+      </Tag>
+      { (completion[1]>0) &&  
+        <Tag icon="pi pi-percentage">
+          Band 1: {completion[1]}
+        </Tag>
+      }
+      { (completion[2]>0) &&  
+        <Tag icon="pi pi-percentage">
+          Band 2: {completion[2]}
+        </Tag>
+      }
+       { (completion[3]>0) &&  
+        <Tag icon="pi pi-percentage">
+          Band 3: {completion[3]}
+        </Tag>
+      }
+       { (completion[4]>0) &&  
+        <Tag icon="pi pi-percentage">
+          Band 4: {completion[4]}
+        </Tag>
+      }
     </div>
   )
 }
