@@ -33,20 +33,6 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
     )
   }
 
-  //TODO: This should be inside the query
-  const summary = {
-    timeloss: 200,
-    conditions: "0.5``- 0.7`` 0.3mag WV",
-    nToOs: 1,
-    planScore: 555,
-    completition: {
-      band1: 70,
-      band2: 20,
-      band3: 0,
-      band4: 0
-    }
-  }
-
   return (
     <Panel className="night-plans" header="Night Plans">
       {plans.map((nightPlan: any, i: number) => {
@@ -55,7 +41,7 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
             {nightPlan.plansPerSite.map((plan: any, j: number) => {
               return (
                 <React.Fragment key={`per_site_${j}`}>
-                  <NightPlanSummary {...summary} />
+                  <NightPlanSummary {...nightPlan.nightStats} site={plan.site}/>
                   <Accordion className="view-plan">
                     <AccordionTab header="View Plan">
                       <p>{plan.site}</p>
