@@ -14,19 +14,20 @@ export const scheduleQuery = graphql(`
                     site
                     startTime
                     visits {
-                    atomEndIdx
-                    atomStartIdx
-                    obsId
-                    startTime
+                        atomEndIdx
+                        atomStartIdx
+                        obsId
+                        startTime
+                    }
+                    nightStats {
+                        completionFraction
+                        nToos
+                        planConditions
+                        planScore
+                        timeloss
                     }
                 }
-                nightStats {
-                    completionFraction
-                    nToos
-                    planConditions
-                    planScore
-                    timeloss
-                }
+                
             }
             plansSummary
         }

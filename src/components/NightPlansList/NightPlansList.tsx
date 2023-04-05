@@ -41,7 +41,7 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
             {nightPlan.plansPerSite.map((plan: any, j: number) => {
               return (
                 <React.Fragment key={`per_site_${j}`}>
-                  <NightPlanSummary {...nightPlan.nightStats} site={plan.site}/>
+                  <NightPlanSummary {...plan.nightStats} site={plan.site}/>
                   <Accordion className="view-plan">
                     <AccordionTab header="View Plan">
                       <p>{plan.site}</p>
