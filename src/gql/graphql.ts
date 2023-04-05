@@ -84,6 +84,7 @@ export type SNightStats = {
 export type SPlan = {
   __typename?: 'SPlan';
   endTime: Scalars['DateTime'];
+  nightStats: SNightStats;
   site: Site;
   startTime: Scalars['DateTime'];
   visits: Array<SVisit>;
@@ -92,7 +93,6 @@ export type SPlan = {
 export type SPlans = {
   __typename?: 'SPlans';
   nightIdx: Scalars['Int'];
-  nightStats: SNightStats;
   plansPerSite: Array<SPlan>;
 };
 
@@ -116,7 +116,7 @@ export type GetNightPlansQueryVariables = Exact<{
 }>;
 
 
-export type GetNightPlansQuery = { __typename?: 'Query', schedule: { __typename?: 'NewNightPlans', plansSummary: any, nightPlans: Array<{ __typename?: 'SPlans', nightIdx: number, plansPerSite: Array<{ __typename?: 'SPlan', endTime: any, site: Site, startTime: any, visits: Array<{ __typename?: 'SVisit', atomEndIdx: number, atomStartIdx: number, obsId: string, startTime: any }> }>, nightStats: { __typename?: 'SNightStats', completionFraction: any, nToos: number, planConditions: any, planScore: number, timeloss: string } }> } };
+export type GetNightPlansQuery = { __typename?: 'Query', schedule: { __typename?: 'NewNightPlans', plansSummary: any, nightPlans: Array<{ __typename?: 'SPlans', nightIdx: number, plansPerSite: Array<{ __typename?: 'SPlan', endTime: any, site: Site, startTime: any, visits: Array<{ __typename?: 'SVisit', atomEndIdx: number, atomStartIdx: number, obsId: string, startTime: any }>, nightStats: { __typename?: 'SNightStats', completionFraction: any, nToos: number, planConditions: any, planScore: number, timeloss: string } }> }> } };
 
 export type GetPlansBySiteQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -124,7 +124,7 @@ export type GetPlansBySiteQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetPlansBySiteQuery = { __typename?: 'Query', sitePlans: Array<{ __typename?: 'SPlans', nightIdx: number, plansPerSite: Array<{ __typename?: 'SPlan', site: Site, startTime: any, endTime: any, visits: Array<{ __typename?: 'SVisit', startTime: any, obsId: string, atomStartIdx: number, atomEndIdx: number }> }> }> };
 
 
-export const GetNightPlansDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getNightPlans"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"startTime"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"site"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Sites"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"schedule"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"newScheduleInput"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"startTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"startTime"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"site"},"value":{"kind":"Variable","name":{"kind":"Name","value":"site"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nightPlans"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nightIdx"}},{"kind":"Field","name":{"kind":"Name","value":"plansPerSite"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"site"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"visits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"atomEndIdx"}},{"kind":"Field","name":{"kind":"Name","value":"atomStartIdx"}},{"kind":"Field","name":{"kind":"Name","value":"obsId"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"nightStats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"completionFraction"}},{"kind":"Field","name":{"kind":"Name","value":"nToos"}},{"kind":"Field","name":{"kind":"Name","value":"planConditions"}},{"kind":"Field","name":{"kind":"Name","value":"planScore"}},{"kind":"Field","name":{"kind":"Name","value":"timeloss"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"plansSummary"}}]}}]}}]} as unknown as DocumentNode<GetNightPlansQuery, GetNightPlansQueryVariables>;
+export const GetNightPlansDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getNightPlans"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"startTime"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"site"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Sites"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"schedule"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"newScheduleInput"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"startTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"startTime"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"site"},"value":{"kind":"Variable","name":{"kind":"Name","value":"site"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nightPlans"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nightIdx"}},{"kind":"Field","name":{"kind":"Name","value":"plansPerSite"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"site"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"visits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"atomEndIdx"}},{"kind":"Field","name":{"kind":"Name","value":"atomStartIdx"}},{"kind":"Field","name":{"kind":"Name","value":"obsId"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nightStats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"completionFraction"}},{"kind":"Field","name":{"kind":"Name","value":"nToos"}},{"kind":"Field","name":{"kind":"Name","value":"planConditions"}},{"kind":"Field","name":{"kind":"Name","value":"planScore"}},{"kind":"Field","name":{"kind":"Name","value":"timeloss"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"plansSummary"}}]}}]}}]} as unknown as DocumentNode<GetNightPlansQuery, GetNightPlansQueryVariables>;
 export const GetPlansBySiteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPlansBySite"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sitePlans"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"site"},"value":{"kind":"EnumValue","value":"GS"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nightIdx"}},{"kind":"Field","name":{"kind":"Name","value":"plansPerSite"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"site"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"visits"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"obsId"}},{"kind":"Field","name":{"kind":"Name","value":"atomStartIdx"}},{"kind":"Field","name":{"kind":"Name","value":"atomEndIdx"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetPlansBySiteQuery, GetPlansBySiteQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -205,6 +205,7 @@ export type SNightStats = {
 export type SPlan = {
   __typename?: 'SPlan';
   endTime: Scalars['DateTime'];
+  nightStats: SNightStats;
   site: Site;
   startTime: Scalars['DateTime'];
   visits: Array<SVisit>;
@@ -213,7 +214,6 @@ export type SPlan = {
 export type SPlans = {
   __typename?: 'SPlans';
   nightIdx: Scalars['Int'];
-  nightStats: SNightStats;
   plansPerSite: Array<SPlan>;
 };
 
@@ -237,7 +237,7 @@ export type GetNightPlansQueryVariables = Exact<{
 }>;
 
 
-export type GetNightPlansQuery = { __typename?: 'Query', schedule: { __typename?: 'NewNightPlans', plansSummary: any, nightPlans: Array<{ __typename?: 'SPlans', nightIdx: number, plansPerSite: Array<{ __typename?: 'SPlan', endTime: any, site: Site, startTime: any, visits: Array<{ __typename?: 'SVisit', atomEndIdx: number, atomStartIdx: number, obsId: string, startTime: any }> }>, nightStats: { __typename?: 'SNightStats', completionFraction: any, nToos: number, planConditions: any, planScore: number, timeloss: string } }> } };
+export type GetNightPlansQuery = { __typename?: 'Query', schedule: { __typename?: 'NewNightPlans', plansSummary: any, nightPlans: Array<{ __typename?: 'SPlans', nightIdx: number, plansPerSite: Array<{ __typename?: 'SPlan', endTime: any, site: Site, startTime: any, visits: Array<{ __typename?: 'SVisit', atomEndIdx: number, atomStartIdx: number, obsId: string, startTime: any }>, nightStats: { __typename?: 'SNightStats', completionFraction: any, nToos: number, planConditions: any, planScore: number, timeloss: string } }> }> } };
 
 export type GetPlansBySiteQueryVariables = Exact<{ [key: string]: never; }>;
 
