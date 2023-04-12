@@ -1,0 +1,41 @@
+name: Deploy to Heroku
+# on: 
+#  push:
+#    branches:
+#      - main
+on:
+  pull_request:
+    types: [opened, reopened]
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Check-out your repository.
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Heroku - Provision static plugin
+        run: 'heroku plugins:install heroku-cli-static'
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19
+          cache: npm
+      
+      - name: yarn install
+        run: yarn install
+
+      - name: Build application
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
+        run: yarn build
+
+      - name: Heroku - Deploy
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          cd ./heroku
+          heroku static:deploy -a ${{ secrets.HEROKU_APP_NAME }}
