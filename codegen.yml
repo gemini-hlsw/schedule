@@ -3,10 +3,9 @@ schema: "https://gpp-schedule-staging.herokuapp.com/graphql"
 documents: "src/**/*.{ts,tsx}"
 generates:
   ./src/gql/:
-    preset: "client"
-    plugins:
-      - 'typescript'
-      - 'typescript-operations'
+    preset: client
     config:
       withHooks: true
+      enumsAsTypes: true
+      futureProofEnums: true
 ignoreNoDocuments: true
