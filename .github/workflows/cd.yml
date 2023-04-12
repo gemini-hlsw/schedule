@@ -4,9 +4,7 @@ name: Deploy to Heroku
 #    branches:
 #      - main
 on:
-  pull_request:
-    types: [opened, reopened]
-
+  push
 
 jobs:
   deploy:
