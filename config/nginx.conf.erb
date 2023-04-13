@@ -1,6 +1,3 @@
-upstream node_entry {
-    server unix:/tmp/nginx.socket fail_timeout=0;
-}
 server {
     listen  <%= ENV['PORT'] %>;
     server_name localhost;
