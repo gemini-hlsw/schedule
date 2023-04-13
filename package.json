@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "start": "nginx -p . -c nginx.conf",
     "preview": "vite preview ",
-    "start": "vite --port $PORT",
+    "heroku-postbuild": "npm run build",
     "codegen": "graphql-codegen --config codegen.yml",
     "codegen-watch": "graphql-codegen -w",
     "storybook": "storybook dev -p 6006",
