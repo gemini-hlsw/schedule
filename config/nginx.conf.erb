@@ -1,7 +1,47 @@
-server {
-    listen  <%= ENV['PORT'] %>;
-    server_name localhost;
+# nginx.conf
+
+# Set the user and group for Nginx to run as
+user nginx;
+worker_processes auto;
+
+# The location of the error log
+error_log /var/log/nginx/error.log;
+
+# The location of the access log
+access_log /var/log/nginx/access.log;
+
+# The events block
+events {
+  # The maximum number of connections that can be opened by a worker process
+  worker_connections 1024;
+}
+
+# The http block
+http {
+  # Set the MIME types
+  include /etc/nginx/mime.types;
+  default_type application/octet-stream;
+
+  # The log format for access logs
+  log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                  '$status $body_bytes_sent "$http_referer" '
+                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+  # The location of the access log
+  access_log /var/log/nginx/access.log main;
+
+  # The server block
+  server {
+    listen $PORT;  # Specify the port to listen on, e.g., 80 for HTTP
+
+    # Specify the domain or IP address for your app
+    server_name localhost;  
     keepalive_timeout 5;
+    # Location of your static files
+    root /app/dist;  # Update the path to your dist folder
+
+    # Additional configuration for serving static files
+    
     location = /index.html {
             add_header Cache-Control "no-store, no-cache";
             try_files $uri $uri/ =404;
@@ -11,4 +51,10 @@ server {
         add_header 'Cache-Control' "public, max-age=3600";
         try_files $uri $uri/ /index.html;
     }
+  }
 }
+
+
+
+
+
