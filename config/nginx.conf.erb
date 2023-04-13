@@ -1,0 +1,17 @@
+upstream node_entry {
+    server unix:/tmp/nginx.socket fail_timeout=0;
+}
+server {
+    listen  <%= ENV['PORT'] %>;
+    server_name localhost;
+    keepalive_timeout 5;
+    location = /index.html {
+            add_header Cache-Control "no-store, no-cache";
+            try_files $uri $uri/ =404;
+    }
+
+    location / {
+        add_header 'Cache-Control' "public, max-age=3600";
+        try_files $uri $uri/ /index.html;
+    }
+}
