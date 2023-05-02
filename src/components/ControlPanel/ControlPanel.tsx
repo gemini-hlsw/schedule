@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useContext } from 'react'
+import { useState, useRef, useEffect, useContext, SetStateAction } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { scheduleQuery } from './query'
 import { GlobalStateContext } from '../GlobalState/GlobalState'
@@ -10,6 +10,7 @@ import { Panel } from 'primereact/panel'
 import { Calendar } from 'primereact/calendar'
 import { SelectButton } from 'primereact/selectbutton'
 import { Toast } from 'primereact/toast'
+import { SPlan } from '../../gql/graphql'
 
 
 
@@ -78,7 +79,7 @@ export default function ControlPanel() {
 
   useEffect(() => {
     if (Boolean(data)) {
-      setNightPlans(data?.schedule.nightPlans)
+      setNightPlans(data?.schedule.nightPlans as SetStateAction<[]>)
       setPlansSummary(data?.schedule.plansSummary)
     }
   }, [data])
