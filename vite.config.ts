@@ -22,14 +22,7 @@ fixCssRoot.postcss = true;
 export default defineConfig({
   plugins: [react()],
   server: {
-    proxy: {
-      "/api": {
-        target: "import.meta.env.SCHEDULER_ENDPOINT",
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
+    host: "0.0.0.0",
   },
   preview: {
     host: "0.0.0.0",
