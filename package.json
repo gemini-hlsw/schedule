@@ -18,6 +18,8 @@
     "@apollo/client": "^3.7.2",
     "@types/react-router-dom": "^5.3.3",
     "graphql": "^16.6.0",
+    "highcharts": "^11.0.0",
+    "highcharts-react-official": "^3.2.0",
     "lucuma-ui-css": "^0.63.1",
     "primeicons": "^6.0.1",
     "primereact": "^8.7.3",
