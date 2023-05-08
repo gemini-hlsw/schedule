@@ -18,7 +18,7 @@ interface AltAzPlotProps {
 
 
 const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
-  const chartRef = useRef<HighchartsReact>(null);
+  const chartRef = useRef<HighchartsReact.Props>(null);
   const colors = Highcharts.getOptions().colors;
   
   const seriesData: Array<SeriesArearangeOptions> = data.map((d, index) => {
@@ -34,7 +34,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
         };
       }),
       lineWidth: 1,
-      color: colors[index % colors.length],
+      color: colors ? colors[index % colors.length] : undefined,
       fillOpacity: 0.3,
       zIndex: 0,
       marker: {
@@ -81,13 +81,13 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       type: "arearange",
     },
     title: {
-        text: null,
+        text: undefined,
       },
     xAxis: {
       type: "datetime",
       labels: {
         formatter: function () {
-          return Highcharts.dateFormat("%H:%M", this.value);
+          return Highcharts.dateFormat("%H:%M", this.value as number);
         },
       },
       tickPositioner: function () {
