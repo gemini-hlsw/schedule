@@ -22,7 +22,7 @@ fixCssRoot.postcss = true;
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: "0.0.0.0",
+    host: "scheduler.lucuma.xyz",
   },
   preview: {
     host: "0.0.0.0",

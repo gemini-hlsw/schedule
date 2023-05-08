@@ -3,7 +3,9 @@ import { Fieldset } from 'primereact/fieldset'
 import { Panel } from 'primereact/panel'
 import { Accordion, AccordionTab } from 'primereact/accordion'
 import NightPlanSummary from './NightPlanSummary'
+import SchedulerPlot from '../SchedulerPlot/SchedulerPlot'
 import "./NightPlansList.scss"
+import AltAzPlot from '../SchedulerPlot/SchedulerPlot'
 
 
 // TODO: This should be given by codegen but no specific type response exists in the backend
@@ -24,6 +26,7 @@ interface SitePlan {
 }
 
 export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
+  
   const legendTemplate = (nightIdx: number) => {
     return (
       <div className="flex align-items-center text-primary">
@@ -32,6 +35,25 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
       </div>
     )
   }
+
+  const parseToVisitForPlot = (visits: any) => {
+    const parseData = visits.map((visit: any) => {  
+      const startDate = new Date(visit.startTime) // startDate
+      const endDate = new Date(visit.startTime)
+      endDate.setMinutes(endDate.getMinutes() + 15) //missing length, fix this
+      return {
+        startDate,
+        endDate,
+        yPoints: visit.altitude,
+        label: visit.obsId
+      }
+    })
+
+    return (
+      <AltAzPlot data={parseData}/>
+    )
+  }
+
 
   return (
     <Panel className="night-plans" header="Night Plans">
@@ -44,15 +66,7 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
                   <NightPlanSummary {...plan.nightStats} site={plan.site}/>
                   <Accordion className="view-plan">
                     <AccordionTab header="View Plan">
-                      <p>{plan.site}</p>
-                      <p>{plan.startTime}</p>
-                      <p>{plan.endTime}</p>
-                      <p>Visits</p>
-                      {plan.visits.map((visit: any, k: number) => {
-                        return (
-                          <p key={k}>{visit.obsId}</p>
-                        )
-                      })}
+                      {parseToVisitForPlot(plan.visits)}
                     </AccordionTab>
                   </Accordion>
                 </React.Fragment>
