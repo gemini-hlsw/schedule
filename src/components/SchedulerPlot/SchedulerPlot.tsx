@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import Highcharts, { SeriesArearangeOptions } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartMore from 'highcharts/highcharts-more';
 HighchartMore(Highcharts)
 
+import "./SchedulerPlot.scss"
+import { ThemeContext } from '../../theme/ThemeProvider';
 
 interface Visit{
     startDate: Date,
@@ -18,7 +20,16 @@ interface AltAzPlotProps {
 
 
 const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
+  
+  // Get theme context to modify chart values
+  const { theme} = useContext(ThemeContext);
+  const textColor = theme === 'light' ? '#000' : '#ECEAEA';
+  const gridLineColor = theme === 'light' ? '#e6e6e6' : '#444';
+  
+  // ref for post-render use
   const chartRef = useRef<HighchartsReact.Props>(null);
+  
+  // Array of colors from Highcharts
   const colors = Highcharts.getOptions().colors;
   
   const seriesData: Array<SeriesArearangeOptions> = data.map((d, index) => {
@@ -70,6 +81,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
           })
           .css({
             fontWeight: "bold",
+            color: textColor, // Change the color of the custom label
           })
           .add();
       });
@@ -89,6 +101,9 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
         formatter: function () {
           return Highcharts.dateFormat("%H:%M", this.value as number);
         },
+        style: {
+            color: textColor, // Change the color of y-axis tick labels
+        },
       },
       tickPositioner: function () {
         const minTimestamp = Math.min(...data.map((d) => d.startDate.getTime()));
@@ -106,7 +121,13 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
     yAxis: {
         title:{
             text: null
-        }
+        },
+        labels: {
+            style: {
+              color: textColor, // Change the color of y-axis tick labels
+            },
+        },
+        gridLineColor: gridLineColor, // Change the color of horizontal grid lines
     },
     legend: {
         enabled: false,
@@ -114,7 +135,11 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
     series: seriesData,
   };
 
-  return <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />;
+  return (
+    <div className='scheduler-plot'>
+        <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
+    </div>
+    );
 };
 
 export default AltAzPlot;

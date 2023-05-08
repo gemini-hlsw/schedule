@@ -1,0 +1,13 @@
+.scheduler-plot {
+
+    .highcharts-background {
+        fill: var(--surface-0);// Change the chart background color
+    }
+    .highcharts-container text {
+        fill: var(--plot-text-color);
+    }
+    .highcharts-text-outline {
+        display: none; // Remove the text outline
+    }
+   
+}
