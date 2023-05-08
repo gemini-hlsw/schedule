@@ -18,6 +18,7 @@ export const scheduleQuery = graphql(`
                         atomStartIdx
                         obsId
                         startTime,
+                        endTime,
                         altitude
                     }
                     nightStats {

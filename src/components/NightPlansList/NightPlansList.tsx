@@ -39,8 +39,7 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
   const parseToVisitForPlot = (visits: any) => {
     const parseData = visits.map((visit: any) => {  
       const startDate = new Date(visit.startTime) // startDate
-      const endDate = new Date(visit.startTime)
-      endDate.setMinutes(endDate.getMinutes() + 15) //missing length, fix this
+      const endDate = new Date(visit.endTime)
       return {
         startDate,
         endDate,
