@@ -44,7 +44,8 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
         startDate,
         endDate,
         yPoints: visit.altitude,
-        label: visit.obsId
+        label: visit.obsId,
+        instrument: visit.instrument
       }
     })
 

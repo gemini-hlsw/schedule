@@ -19,7 +19,8 @@ export const scheduleQuery = graphql(`
                         obsId
                         startTime,
                         endTime,
-                        altitude
+                        altitude,
+                        instrument
                     }
                     nightStats {
                         completionFraction
