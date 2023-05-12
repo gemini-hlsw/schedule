@@ -27,11 +27,12 @@ interface SitePlan {
 
 export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
   
-  const legendTemplate = (nightIdx: number) => {
+  const legendTemplate = (startTime: string) => {
+    let dateString = startTime.substring(0, startTime.indexOf('T'));
     return (
       <div className="flex align-items-center text-primary">
-        <span className="pi pi-user mr-2"></span>
-        <span className="font-bold text-lg">NightPlan {nightIdx}</span>
+        <span className="pi pi-moon mr-2"></span>
+        <span className="font-bold text-lg">{dateString}</span>
       </div>
     )
   }
@@ -44,7 +45,8 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
         startDate,
         endDate,
         yPoints: visit.altitude,
-        label: visit.obsId
+        label: visit.obsId,
+        instrument: visit.instrument
       }
     })
 
@@ -57,10 +59,12 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
   return (
     <Panel className="night-plans" header="Night Plans">
       {plans.map((nightPlan: any, i: number) => {
-        return (
-          <Fieldset className="single-plan" key={`night_plan_field_${i}`} legend={legendTemplate(nightPlan.nightIdx)} toggleable>
-            {nightPlan.plansPerSite.map((plan: any, j: number) => {
-              return (
+        return nightPlan.plansPerSite.map((plan: any, j: number) => {
+            return (
+              <Fieldset className="single-plan" 
+                        key={`night_plan_field_${i}`} 
+                        legend={legendTemplate(plan.startTime)} 
+                        toggleable>
                 <React.Fragment key={`per_site_${j}`}>
                   <NightPlanSummary {...plan.nightStats} site={plan.site}/>
                   <Accordion className="view-plan">
@@ -69,10 +73,9 @@ export default function NightPlansList({ plans }: { plans: SitePlan[] }) {
                     </AccordionTab>
                   </Accordion>
                 </React.Fragment>
-              )
-            })}
-          </Fieldset>
-        )
+              </Fieldset>
+            )
+        })
       })}
     </Panel>
   )

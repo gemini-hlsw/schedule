@@ -11,7 +11,8 @@ interface Visit{
     startDate: Date,
     endDate: Date,
     yPoints: number[],
-    label: string
+    label: string,
+    instrument: string
 }
 
 interface AltAzPlotProps {
@@ -30,12 +31,33 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
   const chartRef = useRef<HighchartsReact.Props>(null);
   
   // Array of colors from Highcharts
-  const colors = Highcharts.getOptions().colors;
+  const colorsOption = Highcharts.getOptions().colors;
+  const colors = colorsOption
+    ? colorsOption.filter((color): color is Highcharts.ColorString => typeof color === 'string')
+    : [];
+
+  const instruments = ['GMOS-N', 'GMOS-S', 'GNIRS', 'NIRI','Flamingos2', 'GSAOI', 'GPI','IGRINS', 'NIFS']
+  
+  type ColorMap = {
+    [key: string]: Highcharts.ColorString;
+  };
+  const createMap = (keys: string[], colors: Highcharts.ColorString[]): ColorMap => {
+    let map: ColorMap = {};
+  
+    for (let i = 0; i < keys.length; i++) {
+      map[keys[i]] = colors[i];
+    }
+  
+    return map;
+  };
+  const colorMap = createMap(instruments, colors);
+  
+
   
   const seriesData: Array<SeriesArearangeOptions> = data.map((d, index) => {
     const yMinArray = d.yPoints.map((y) => 0);
     return {
-      name: `Entry ${index + 1}`,
+      name: d.instrument,
       type: "arearange",
       data: d.yPoints.map((y, i) => {
         return {
@@ -45,14 +67,29 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
         };
       }),
       lineWidth: 1,
-      color: colors ? colors[index % colors.length] : undefined,
+      color: colorMap[d.instrument],
       fillOpacity: 0.3,
       zIndex: 0,
       marker: {
         enabled: false,
       },
+      
+      showInLegend: true, // Hide this series in the legend
     };
   });
+
+  // Create a set to keep track of names we've seen
+  let seenNames = new Set();
+
+  // Modify the series to set showInLegend to false for duplicates
+  for (let serie of seriesData) {
+    if (seenNames.has(serie.name)) {
+      serie.showInLegend = false;  // Don't show in legend if it's a duplicate
+    } else {
+      seenNames.add(serie.name);  // Add the name to the set if we haven't seen it
+    }
+  }
+ 
 
   useEffect(() => {
     if (chartRef.current) {
@@ -130,7 +167,13 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
         gridLineColor: gridLineColor, // Change the color of horizontal grid lines
     },
     legend: {
-        enabled: false,
+      enabled: true,
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      itemStyle: {
+        color: textColor,
+      },
     },
     series: seriesData,
   };
