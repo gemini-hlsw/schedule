@@ -10,7 +10,7 @@ import { Panel } from 'primereact/panel'
 import { Calendar } from 'primereact/calendar'
 import { SelectButton } from 'primereact/selectbutton'
 import { Toast } from 'primereact/toast'
-import { SPlan } from '../../gql/graphql'
+import { SchedulerModes } from '../../gql/graphql'
 
 
 
@@ -53,7 +53,11 @@ export default function ControlPanel() {
         variables: {
           startTime: datesState[0].toISOString().split('.')[0].replace('T', ' '),
           endTime: datesState[1].toISOString().split('.')[0].replace('T', ' '),
-          site: siteState
+          sites: siteState,
+          numNightsToSchedule:3,
+          mode: 'VALIDATION',
+
+
         }
       })
     } else {
@@ -79,7 +83,7 @@ export default function ControlPanel() {
 
   useEffect(() => {
     if (Boolean(data)) {
-      setNightPlans(data?.schedule.nightPlans as SetStateAction<[]>)
+      setNightPlans(data?.schedule.nightPlans as unknown as SetStateAction<[]>)
       setPlansSummary(data?.schedule.plansSummary)
     }
   }, [data])
@@ -88,7 +92,6 @@ export default function ControlPanel() {
     <>
       <Toast ref={toast}></Toast>
       <Panel className="control-panel" header="Control Panel">
-        <h4 className="validation-run">Validation run: 0000001</h4>
         <div className="location-buttons">
           <SelectButton
             value={siteState}

@@ -1,38 +1,51 @@
 import { graphql } from '../../gql';
 
 export const scheduleQuery = graphql(`
-    query getNightPlans($startTime: String!, $endTime: String!, $site: Sites!) {
-        schedule(
-            newScheduleInput: {startTime: $startTime, 
-                               endTime: $endTime,
-                               site: $site}
-        ) {
-            nightPlans {
-                nightIdx
-                plansPerSite {
-                    endTime
-                    site
-                    startTime
-                    visits {
-                        atomEndIdx
-                        atomStartIdx
-                        obsId
-                        startTime,
-                        endTime,
-                        altitude,
-                        instrument
-                    }
-                    nightStats {
-                        completionFraction
-                        nToos
-                        planConditions
-                        planScore
-                        timeloss
-                    }
+    query schedule($startTime: String!,
+                  $endTime: String!,
+                  $sites: Sites!,
+                  $mode: SchedulerModes!,
+                  $numNightsToSchedule: Int! ) {
+      schedule(
+        newScheduleInput: {
+          startTime: $startTime, 
+          numNightsToSchedule: $numNightsToSchedule , 
+          sites: $sites, 
+          mode: $mode, 
+          endTime: $endTime}
+      ) {
+        nightPlans{
+          nightTimeline{
+            nightIndex
+            timeEntriesBySite{
+              site,
+              timeEntries{
+                startTimeSlots,
+                event,
+                plan{
+                  startTime,
+                  visits{
+                    obsId,
+                    endTime,
+                    altitude,
+                    atomEndIdx,
+                    atomStartIdx,
+                    startTime,
+                    instrument
+                  },
+                  nightStats{
+                    timeloss,
+                    planScore,
+                    timeloss,
+                    nToos,
+                    completionFraction,
+                  }
                 }
-                
+              }
             }
-            plansSummary
-        }
+          }
+        },
+        plansSummary
+      }
     }
 `)
