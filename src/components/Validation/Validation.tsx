@@ -32,7 +32,7 @@ export default function Validation() {
       </div>
       <Divider />
       <div className="middle">
-      {Boolean(nightPlans.length) && (plansSummary !== undefined)  && <>
+      {Boolean(nightPlans) && (plansSummary !== undefined)  && <>
         <div className="left">
           <SummaryTable summary={plansSummary} />
         </div>
