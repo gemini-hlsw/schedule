@@ -11,6 +11,7 @@ import { Calendar } from 'primereact/calendar'
 import { SelectButton } from 'primereact/selectbutton'
 import { Toast } from 'primereact/toast'
 import { SchedulerModes } from '../../gql/graphql'
+import { NightPlanType } from '../../types'
 
 
 
@@ -20,13 +21,13 @@ export default function ControlPanel() {
   const [datesState, setDates] = useState<Date | Date[] | string | null | undefined>(undefined)
   const [siteState, setSite] = useState(undefined)
   const sites = [
-    { label: "North", value: "GN" },
-    { label: "South", value: "GS" },
-    { label: "All", value: "ALL_SITES" }
+    { label: "GN", value: "GN" },
+    { label: "GS", value: "GS" },
+    { label: "BOTH", value: "ALL_SITES" }
   ]
 
-  const [schedule, {loading, error, data}] = useLazyQuery(scheduleQuery)
-  
+  const [schedule, { loading, error, data }] = useLazyQuery(scheduleQuery)
+
   const { setNightPlans, setPlansSummary } = useContext(GlobalStateContext)
 
   const onSaveClick = () => {
@@ -54,7 +55,7 @@ export default function ControlPanel() {
           startTime: datesState[0].toISOString().split('.')[0].replace('T', ' '),
           endTime: datesState[1].toISOString().split('.')[0].replace('T', ' '),
           sites: siteState,
-          numNightsToSchedule:3,
+          numNightsToSchedule: 3,
           mode: 'VALIDATION',
 
 
@@ -83,7 +84,7 @@ export default function ControlPanel() {
 
   useEffect(() => {
     if (Boolean(data)) {
-      setNightPlans(data?.schedule.nightPlans as unknown as SetStateAction<[]>)
+      setNightPlans(data?.schedule.nightPlans.nightTimeline as NightPlanType[])
       setPlansSummary(data?.schedule.plansSummary)
     }
   }, [data])
@@ -92,30 +93,24 @@ export default function ControlPanel() {
     <>
       <Toast ref={toast}></Toast>
       <Panel className="control-panel" header="Control Panel">
-        <div className="location-buttons">
-          <SelectButton
-            value={siteState}
-            options={sites}
-            className="toggle-btn p-selectbutton p-component"
-            onChange={(e) => setSite(e.value)}
-            unselectable={false} />
-        </div>
-        <div className="calendar">
-          <Calendar
-            id="range"
-            value={datesState}
-            onChange={(e) => setDates(e.value)}
-            selectionMode="range"
-            readOnlyInput
-            showButtonBar
-            showIcon
-          />
-        </div>
-        <div className="run-buttons">
-          <Button label="RUN" icon="pi pi-play" loading={loading} onClick={onRunClick} />
-          <Button label="SAVE" icon="pi pi-save" loading={saveState} onClick={onSaveClick} />
-          <Button label="LOAD" icon="pi pi-arrow-circle-up" loading={saveState} onClick={onLoadClick}/>
-        </div>
+        <Button label="RUN" icon="pi pi-play" className='p-button-success' loading={loading} onClick={onRunClick} />
+        <Button label="SAVE" icon="pi pi-save" loading={saveState} onClick={onSaveClick} />
+        <Button label="LOAD" icon="pi pi-arrow-circle-up" loading={saveState} onClick={onLoadClick} />
+        <SelectButton
+          value={siteState}
+          options={sites}
+          className="toggle-btn p-selectbutton p-component"
+          onChange={(e) => setSite(e.value)}
+          unselectable={false} />
+        <Calendar
+          id="range"
+          value={datesState}
+          onChange={(e) => setDates(e.value)}
+          selectionMode="range"
+          readOnlyInput
+          showButtonBar
+          showIcon
+        />
       </Panel>
     </>
   )

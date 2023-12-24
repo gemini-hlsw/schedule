@@ -1,5 +1,6 @@
 import UploadButton from "../UploadButton/UploadButton";
 import { Panel } from 'primereact/panel';
+import "./InputsPanel.scss"
 
 export default function InputsPanel() {
   return (

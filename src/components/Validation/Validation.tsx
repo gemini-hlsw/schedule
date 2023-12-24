@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import ControlPanel from "../ControlPanel/ControlPanel"
 import InputsPanel from "../InputsPanel/InputsPanel"
-import NightPlansList from "../NightPlansList/NightPlansList"
+// import NightPlansList from "../NightPlansList/NightPlansList"
 import { Divider } from 'primereact/divider'
 import { GlobalStateContext } from "../GlobalState/GlobalState"
 
@@ -11,6 +11,7 @@ import "./Validation.scss"
 import SummaryTable from "../SummaryTable/SummaryTable"
 
 import { Panel } from "primereact/panel"
+import Results from "../Results/Results"
 
 
 export default function Validation() {
@@ -19,34 +20,22 @@ export default function Validation() {
 
   return (
     <div className="validation">
-      <div className="upper">
-        <div className="left">
-          <ControlPanel />
-        </div>
-        <div className="right">
-          <InputsPanel />
-          <Panel header="Ranker Tweaker" style={{marginTop: "10px"}}>
-            <p>Replace with ranker tweaker</p>
-          </Panel>
-        </div>
-      </div>
+      <ControlPanel />
+      <InputsPanel />
+      <Panel header="Ranker Tweaker">
+        <p>Replace with ranker tweaker</p>
+      </Panel>
       <Divider />
-      <div className="middle">
-      {Boolean(nightPlans) && (plansSummary !== undefined)  && <>
-        <div className="left">
-          <SummaryTable summary={plansSummary} />
-        </div>
-        <div className="right">
-          <Panel header="Stats">
-              <p>Replace with stats... Band, Instrument, Weather</p>
-            </Panel>
-          </div>
-        </>}
-      </div>
+      {(plansSummary !== undefined) && <>
+        <SummaryTable summary={plansSummary} />
+        <Panel header="Stats">
+          <p>Replace with stats... Band, Instrument, Weather</p>
+        </Panel>
+      </>}
       <div className="bottom">
-        {Boolean(nightPlans.length) && <>
+        {Boolean(nightPlans) && <>
           <Divider />
-          <NightPlansList plans={nightPlans} />
+          <Results plans={nightPlans} />
         </>}
       </div>
     </div>

@@ -1,0 +1,121 @@
+.results {
+  .p-tabview-nav-link {
+    .p-tabview-title {
+      >div>span:last-child {
+        padding-left: 10px;
+      }
+    }
+  }
+
+  .site-entry {
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    >.title {
+      margin-top: 0;
+    }
+
+    >.timeline {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      position: relative;
+      z-index: 0;
+      // margin-bottom: 60px;
+
+      &::before {
+        border-top: 1px solid var(--surface-border);
+        width: 100%;
+        position: absolute;
+        top: 9px;
+        content: "";
+        z-index: -1;
+        transition: border-color 0.2s;
+      }
+
+      &:hover::before {
+        border-color: var(--primary-color);
+      }
+
+      >.event-bullet {
+        display: block;
+        margin-bottom: 10px;
+        cursor: pointer;
+
+        >.bullet {
+          margin: 0 auto;
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          border: 1px solid var(--gray-500);
+          background-color: var(--surface-card);
+          position: relative;
+          transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        >.text {
+          display: inline-block;
+          text-align: center;
+          margin-top: 5px;
+          max-width: 100px;
+          transition: color 0.2s;
+        }
+
+        &:hover {
+          >.bullet {
+            border-color: var(--primary-color);
+          }
+
+          >.text {
+            color: var(--primary-color);
+          }
+        }
+
+        &.active {
+          >.bullet {
+            background-color: var(--primary-color);
+          }
+        }
+
+        // &:first-child {
+        //   >span {
+        //     display: none;
+        //   }
+        // }
+
+        // &:last-child {
+        //   >span {
+        //     display: none;
+        //   }
+        // }
+      }
+    }
+
+    >.time-entry {
+      .p-accordion-header-text {
+        width: 100%;
+
+        >.summary {
+          padding-left: 10px;
+
+          >.title {
+            margin-top: 0;
+            margin-bottom: 5px;
+          }
+
+          >.body {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+}

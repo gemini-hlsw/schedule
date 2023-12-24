@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "start": "bin/start-nginx-solo",
-    "preview": "vite preview ",
+    "preview": "vite preview",
     "heroku-postbuild": "npm run build",
     "codegen": "graphql-codegen --config codegen.yml",
     "codegen-watch": "graphql-codegen -w",

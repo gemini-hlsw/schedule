@@ -29,6 +29,17 @@ body {
 }
 
 
-button.p-component.p-button {
+button.p-component.p-button,
+div.p-component.p-button {
   margin-right: 0;
+  padding: 0.4rem;
+  height: 100%;
+}
+
+.p-selectbutton.p-buttonset.p-component.toggle-btn.p-selectbutton.p-component {
+  height: 100%;
+}
+
+.p-button.p-component.p-datepicker-trigger.p-button-icon-only {
+  padding: 0.4rem;
 }

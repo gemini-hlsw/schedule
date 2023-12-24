@@ -1,25 +1,38 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
 
+// ------------------------------------------------------------
+// Populate initial data, just for testing, should be removed
+import { PLAN_SUMMARY, NIGHT_PLANS } from "../../test/initial-plan"
+import { NightPlanType } from "../../types"
+// ------------------------------------------------------------
+
 interface GlobalStateContextType {
-  nightPlans: []
-  setNightPlans: React.Dispatch<React.SetStateAction<[]>>
-  plansSummary: []
-  setPlansSummary:React.Dispatch<React.SetStateAction<[]>> 
+  nightPlans: NightPlanType[]
+  setNightPlans: React.Dispatch<React.SetStateAction<NightPlanType[]>>
+  plansSummary: object
+  setPlansSummary: React.Dispatch<React.SetStateAction<[]>>
 }
 
 
 export const GlobalStateContext = createContext<GlobalStateContextType>(null!);
 
-export default function GlobalStateProvider ({ children }: { children: ReactNode }) {
+export default function GlobalStateProvider({ children }: { children: ReactNode }) {
+  const [nightPlans, setNightPlans] = useState<NightPlanType[]>([])
+  const [plansSummary, setPlansSummary] = useState<object>([])
 
-  let [nightPlans, setNightPlans] = useState<[]>([])
-  let [plansSummary, setPlansSummary] = useState<[]>([])
+  // ------------------------------------------------------------
+  // Populate initial data, just for testing, should be removed
+  useEffect(() => {
+    setNightPlans(NIGHT_PLANS)
+    setPlansSummary(PLAN_SUMMARY)
+  }, [])
+  // ------------------------------------------------------------
 
   return (
     <GlobalStateContext.Provider value={{
       nightPlans, setNightPlans, plansSummary, setPlansSummary
     }}>
-      { children }
+      {children}
     </GlobalStateContext.Provider>
   );
 }
