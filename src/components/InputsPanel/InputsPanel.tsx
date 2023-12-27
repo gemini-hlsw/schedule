@@ -1,6 +1,6 @@
 import UploadButton from "../UploadButton/UploadButton";
-import { Panel } from 'primereact/panel';
-import "./InputsPanel.scss"
+import { Panel } from "primereact/panel";
+import "./InputsPanel.scss";
 
 export default function InputsPanel() {
   return (
@@ -11,5 +11,5 @@ export default function InputsPanel() {
       <UploadButton label="Weather"></UploadButton>
       <UploadButton label="Calendar"></UploadButton>
     </Panel>
-  )
+  );
 }
