@@ -7,12 +7,12 @@ HighchartMore(Highcharts)
 import "./SchedulerPlot.scss"
 import { ThemeContext } from '../../theme/ThemeProvider';
 
-interface Visit{
-    startDate: Date,
-    endDate: Date,
-    yPoints: number[],
-    label: string,
-    instrument: string
+interface Visit {
+  startDate: Date,
+  endDate: Date,
+  yPoints: number[],
+  label: string,
+  instrument: string
 }
 
 interface AltAzPlotProps {
@@ -21,39 +21,39 @@ interface AltAzPlotProps {
 
 
 const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
-  
+
   // Get theme context to modify chart values
-  const { theme} = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const textColor = theme === 'light' ? '#000' : '#ECEAEA';
   const gridLineColor = theme === 'light' ? '#e6e6e6' : '#444';
-  
+
   // ref for post-render use
   const chartRef = useRef<HighchartsReact.Props>(null);
-  
+
   // Array of colors from Highcharts
   const colorsOption = Highcharts.getOptions().colors;
   const colors = colorsOption
     ? colorsOption.filter((color): color is Highcharts.ColorString => typeof color === 'string')
     : [];
 
-  const instruments = ['GMOS-N', 'GMOS-S', 'GNIRS', 'NIRI','Flamingos2', 'GSAOI', 'GPI','IGRINS', 'NIFS']
-  
+  const instruments = ['GMOS-N', 'GMOS-S', 'GNIRS', 'NIRI', 'Flamingos2', 'GSAOI', 'GPI', 'IGRINS', 'NIFS']
+
   type ColorMap = {
     [key: string]: Highcharts.ColorString;
   };
   const createMap = (keys: string[], colors: Highcharts.ColorString[]): ColorMap => {
     let map: ColorMap = {};
-  
+
     for (let i = 0; i < keys.length; i++) {
       map[keys[i]] = colors[i];
     }
-  
+
     return map;
   };
   const colorMap = createMap(instruments, colors);
-  
 
-  
+
+
   const seriesData: Array<SeriesArearangeOptions> = data.map((d, index) => {
     const yMinArray = d.yPoints.map((y) => 0);
     return {
@@ -73,7 +73,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       marker: {
         enabled: false,
       },
-      
+
       showInLegend: true, // Hide this series in the legend
     };
   });
@@ -89,12 +89,12 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       seenNames.add(serie.name);  // Add the name to the set if we haven't seen it
     }
   }
- 
+
 
   useEffect(() => {
     if (chartRef.current) {
       const chart = chartRef.current.chart;
-  
+
       chart.update({
         series: seriesData,
         xAxis: {
@@ -102,15 +102,15 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
         },
         yAxis: {},
       });
-  
+
       // Render custom labels for each section
       data.forEach((d, index) => {
         const x = (d.startDate.getTime() + d.endDate.getTime()) / 2;
         const y = Math.max(...d.yPoints) / 2;
-  
+
         const xPos = chart.xAxis[0].toPixels(x);
         const yPos = chart.yAxis[0].toPixels(y);
-  
+
         chart.renderer.text(d.label, xPos, yPos)
           .attr({
             rotation: -90,
@@ -130,8 +130,8 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       type: "arearange",
     },
     title: {
-        text: undefined,
-      },
+      text: undefined,
+    },
     xAxis: {
       type: "datetime",
       labels: {
@@ -139,7 +139,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
           return Highcharts.dateFormat("%H:%M", this.value as number);
         },
         style: {
-            color: textColor, // Change the color of y-axis tick labels
+          color: textColor, // Change the color of y-axis tick labels
         },
       },
       tickPositioner: function () {
@@ -156,15 +156,15 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       },
     },
     yAxis: {
-        title:{
-            text: null
+      title: {
+        text: null
+      },
+      labels: {
+        style: {
+          color: textColor, // Change the color of y-axis tick labels
         },
-        labels: {
-            style: {
-              color: textColor, // Change the color of y-axis tick labels
-            },
-        },
-        gridLineColor: gridLineColor, // Change the color of horizontal grid lines
+      },
+      gridLineColor: gridLineColor, // Change the color of horizontal grid lines
     },
     legend: {
       enabled: true,
@@ -180,9 +180,9 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
 
   return (
     <div className='scheduler-plot'>
-        <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
+      <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
     </div>
-    );
+  );
 };
 
 export default AltAzPlot;

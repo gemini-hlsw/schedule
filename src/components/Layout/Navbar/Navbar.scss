@@ -3,31 +3,36 @@
   background-color: var(--surface-border);
   text-align: right;
 
-  > .button-group {
+  >.button-group {
     margin-top: 20px;
     line-height: 10px;
-    > a {
+
+    >a {
       text-decoration: none;
       padding: 10px 11px;
       writing-mode: vertical-lr;
       scale: -1;
       background-color: var(--surface-50);
+      transition: 0.2s background-color, 0.2s color;
+      color: #FFFFFF;
+
       &:hover {
         background-color: var(--surface-section);
+        color: #D0ADF0
       }
     }
 
-    > a:first-child {
-      border-bottom-left-radius: 8px;
+    >a:first-child {
+      border-bottom-left-radius: 0px;
       border-bottom-right-radius: 8px;
     }
 
-    > a:last-child {
-      border-top-left-radius: 8px;
+    >a:last-child {
+      border-top-left-radius: 0px;
       border-top-right-radius: 8px;
     }
 
-    > .active {
+    >.active {
       border-top-left-radius: 0 !important;
       border-bottom-left-radius: 0 !important;
       background-color: var(--surface-0);
