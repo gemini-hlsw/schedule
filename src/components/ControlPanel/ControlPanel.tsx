@@ -10,6 +10,7 @@ import { Panel } from 'primereact/panel'
 import { Calendar } from 'primereact/calendar'
 import { SelectButton } from 'primereact/selectbutton'
 import { Toast } from 'primereact/toast'
+import { Nullable } from "primereact/ts-helpers";
 import { SchedulerModes } from '../../gql/graphql'
 import { NightPlanType } from '../../types'
 
@@ -18,7 +19,7 @@ import { NightPlanType } from '../../types'
 export default function ControlPanel() {
   const toast = useRef<Toast>(null)
   const [saveState, setSaveState] = useState(false)
-  const [datesState, setDates] = useState<Date | Date[] | string | null | undefined>(undefined)
+  const [datesState, setDates] = useState<Nullable<(Date | null)[]>>(null);
   const [siteState, setSite] = useState(undefined)
   const sites = [
     { label: "GN", value: "GN" },
@@ -49,7 +50,7 @@ export default function ControlPanel() {
 
   const onRunClick = () => {
     // call GraphQL endpoint for new schedule acording to parameters
-    if (siteState && datesState && Array.isArray(datesState)) {
+    if (siteState && datesState !== null && Array.isArray(datesState)) {
       schedule({
         variables: {
           startTime: datesState[0].toISOString().split('.')[0].replace('T', ' '),
