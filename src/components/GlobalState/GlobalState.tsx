@@ -21,17 +21,9 @@ export default function GlobalStateProvider({
   children: ReactNode;
 }) {
   const [nightPlans, setNightPlans] = useState<NightPlanType[]>([]);
-  const [plansSummary, setPlansSummary] = useState<object>([]);
+  const [plansSummary, setPlansSummary] = useState<object>({});
 
-  // ------------------------------------------------------------
-  // Populate initial data, just for testing, should be removed
-  useEffect(() => {
-    setTimeout(() => {
-      setNightPlans(NIGHT_PLANS);
-      setPlansSummary(PLAN_SUMMARY);
-    }, 1000);
-  }, []);
-  // ------------------------------------------------------------
+
 
   return (
     <GlobalStateContext.Provider

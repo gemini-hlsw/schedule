@@ -50,7 +50,7 @@ export default function ControlPanel() {
 
   const onRunClick = () => {
     // call GraphQL endpoint for new schedule acording to parameters
-    if (siteState && datesState !== null && Array.isArray(datesState)) {
+    if (siteState && datesState !== null && datesState.length >= 2 && Array.isArray(datesState)) {
       schedule({
         variables: {
           startTime: datesState[0].toISOString().split('.')[0].replace('T', ' '),
