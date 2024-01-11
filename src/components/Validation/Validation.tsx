@@ -26,14 +26,14 @@ export default function Validation() {
         <p>Replace with ranker tweaker</p>
       </Panel>
       <Divider />
-      {(plansSummary !== undefined) && <>
+      {(Object.keys(plansSummary).length > 0) && <>
         <SummaryTable summary={plansSummary} />
         <Panel header="Stats">
           <p>Replace with stats... Band, Instrument, Weather</p>
         </Panel>
       </>}
       <div className="bottom">
-        {Boolean(nightPlans) && <>
+        {nightPlans.length > 0 && <>
           <Divider />
           <Results plans={nightPlans} />
         </>}

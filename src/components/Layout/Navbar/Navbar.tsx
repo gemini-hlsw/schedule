@@ -19,13 +19,6 @@ export default function Navbar() {
       { to: "/validation", name: "Validation" },
       { to: "/simulation", name: "Simulation" }
     ],
-    [
-      { to: "/link1", name: "Link1" },
-      { to: "/link2", name: "Link2" },
-      { to: "/link3", name: "Link3" },
-      { to: "/link4", name: "Link4" },
-      { to: "/link5", name: "Link5" },
-    ]
   ]
 
   let groups: JSX.Element[] = []
