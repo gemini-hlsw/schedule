@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { InputNumber, InputNumberValueChangeEvent } from 'primereact/inputnumber';
+import { GlobalStateContext } from '../GlobalState/GlobalState'
 
 export default function RankerTweaker () {
 
-    const [thesis, setThesis] = useState<number>(1.0);
-    const [power, setPower] = useState<number>(2);
-    const [metPower, setMetPower] = useState<number>(1.0);
-    const [visPower, setVisPower] = useState<number>(1.0);
-    const [whaPower, setWhaPower] = useState<number>(1.0);
+    const { thesis, setThesis, 
+            power, setPower, 
+            metPower, setMetPower, 
+            visPower, setVisPower, 
+            whaPower, setWhaPower } = useContext(GlobalStateContext);
 
 
     return (

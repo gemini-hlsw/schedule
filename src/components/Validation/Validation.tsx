@@ -29,9 +29,6 @@ export default function Validation() {
       <Divider />
       {(Object.keys(plansSummary).length > 0) && <>
         <SummaryTable summary={plansSummary} />
-        <Panel header="Stats">
-          <p>Replace with stats... Band, Instrument, Weather</p>
-        </Panel>
       </>}
       <div className="bottom">
         {nightPlans.length > 0 && <>

@@ -28,7 +28,7 @@ export default function ControlPanel() {
 
   const [schedule, { loading, error, data }] = useLazyQuery(scheduleQuery)
 
-  const { setNightPlans, setPlansSummary } = useContext(GlobalStateContext)
+  const { setNightPlans, setPlansSummary, thesis, power, metPower, whaPower, visPower } = useContext(GlobalStateContext)
 
   const onSaveClick = () => {
     // Creates a json file with all the 
@@ -57,8 +57,11 @@ export default function ControlPanel() {
           sites: siteState,
           numNightsToSchedule: 3,
           mode: 'VALIDATION',
-
-
+          thesis: thesis,
+          power: power,
+          metPower: metPower,
+          visPower: visPower,
+          whaPower: whaPower
         }
       })
     } else {
