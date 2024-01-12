@@ -57,7 +57,7 @@ export default function ControlPanel() {
           sites: siteState,
           numNightsToSchedule: 3,
           mode: 'VALIDATION',
-          thesis: thesis,
+          thesisFactor: thesis,
           power: power,
           metPower: metPower,
           visPower: visPower,

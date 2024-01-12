@@ -9,10 +9,11 @@ import "./Validation.scss"
 
 // For testing
 import SummaryTable from "../SummaryTable/SummaryTable"
+import RankerTweaker from "../RankerTweaker/RankerTweaker"
 
 import { Panel } from "primereact/panel"
 import Results from "../Results/Results"
-import RankerTweaker from "../RankerTweaker/rankerTweaker"
+
 
 
 export default function Validation() {
