@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useEffect } from "react";
+import React, { createContext, useState, ReactNode} from "react";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed

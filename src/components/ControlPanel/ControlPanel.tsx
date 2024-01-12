@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useContext, SetStateAction } from 'react'
+import React, { useState, useRef, useEffect, useContext, SetStateAction } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { scheduleQuery } from './query'
 import { GlobalStateContext } from '../GlobalState/GlobalState'
@@ -11,7 +11,6 @@ import { Calendar } from 'primereact/calendar'
 import { SelectButton } from 'primereact/selectbutton'
 import { Toast } from 'primereact/toast'
 import { Nullable } from "primereact/ts-helpers";
-import { SchedulerModes } from '../../gql/graphql'
 import { NightPlanType } from '../../types'
 
 
@@ -102,7 +101,7 @@ export default function ControlPanel() {
           options={sites}
           className="toggle-btn p-selectbutton p-component"
           onChange={(e) => setSite(e.value)}
-          unselectable={false} />
+          allowEmpty={false} />
         <Calendar
           id="range"
           value={datesState}
