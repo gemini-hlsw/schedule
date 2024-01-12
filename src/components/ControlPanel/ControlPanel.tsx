@@ -95,7 +95,7 @@ export default function ControlPanel() {
   return (
     <>
       <Toast ref={toast}></Toast>
-      <Panel className="control-panel" header="Control Panel">
+      <Panel className="control-panel">
         <Button label="RUN" icon="pi pi-play" className='p-button-success' loading={loading} onClick={onRunClick} />
         <Button label="SAVE" icon="pi pi-save" loading={saveState} onClick={onSaveClick} />
         <Button label="LOAD" icon="pi pi-arrow-circle-up" loading={saveState} onClick={onLoadClick} />
