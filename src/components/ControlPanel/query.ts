@@ -5,14 +5,24 @@ export const scheduleQuery = graphql(`
                   $endTime: String!,
                   $sites: Sites!,
                   $mode: SchedulerModes!,
-                  $numNightsToSchedule: Int! ) {
+                  $numNightsToSchedule: Int!,
+                  $thesisFactor: Float,
+                  $power: Int,
+                  $metPower: Float,
+                  $visPower: Float,
+                  $whaPower: Float ) {
       schedule(
         newScheduleInput: {
           startTime: $startTime, 
           numNightsToSchedule: $numNightsToSchedule , 
           sites: $sites, 
           mode: $mode, 
-          endTime: $endTime}
+          endTime: $endTime,
+          thesisFactor: $thesisFactor,
+          power: $power,
+          visPower: $visPower,
+          metPower: $metPower,
+          whaPower: $whaPower}
       ) {
         nightPlans{
           nightTimeline{

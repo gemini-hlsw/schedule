@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import React, { useContext } from "react"
 import ControlPanel from "../ControlPanel/ControlPanel"
 import InputsPanel from "../InputsPanel/InputsPanel"
 // import NightPlansList from "../NightPlansList/NightPlansList"
@@ -12,6 +12,7 @@ import SummaryTable from "../SummaryTable/SummaryTable"
 
 import { Panel } from "primereact/panel"
 import Results from "../Results/Results"
+import RankerTweaker from "../RankerTweaker/rankerTweaker"
 
 
 export default function Validation() {
@@ -23,14 +24,11 @@ export default function Validation() {
       <ControlPanel />
       <InputsPanel />
       <Panel header="Ranker Tweaker">
-        <p>Replace with ranker tweaker</p>
+        <RankerTweaker />
       </Panel>
       <Divider />
       {(Object.keys(plansSummary).length > 0) && <>
         <SummaryTable summary={plansSummary} />
-        <Panel header="Stats">
-          <p>Replace with stats... Band, Instrument, Weather</p>
-        </Panel>
       </>}
       <div className="bottom">
         {nightPlans.length > 0 && <>

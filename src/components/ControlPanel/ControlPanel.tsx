@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useContext, SetStateAction } from 'react'
+import React, { useState, useRef, useEffect, useContext, SetStateAction } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { scheduleQuery } from './query'
 import { GlobalStateContext } from '../GlobalState/GlobalState'
@@ -11,7 +11,6 @@ import { Calendar } from 'primereact/calendar'
 import { SelectButton } from 'primereact/selectbutton'
 import { Toast } from 'primereact/toast'
 import { Nullable } from "primereact/ts-helpers";
-import { SchedulerModes } from '../../gql/graphql'
 import { NightPlanType } from '../../types'
 
 
@@ -29,7 +28,7 @@ export default function ControlPanel() {
 
   const [schedule, { loading, error, data }] = useLazyQuery(scheduleQuery)
 
-  const { setNightPlans, setPlansSummary } = useContext(GlobalStateContext)
+  const { setNightPlans, setPlansSummary, thesis, power, metPower, whaPower, visPower } = useContext(GlobalStateContext)
 
   const onSaveClick = () => {
     // Creates a json file with all the 
@@ -58,8 +57,11 @@ export default function ControlPanel() {
           sites: siteState,
           numNightsToSchedule: 3,
           mode: 'VALIDATION',
-
-
+          thesis: thesis,
+          power: power,
+          metPower: metPower,
+          visPower: visPower,
+          whaPower: whaPower
         }
       })
     } else {
@@ -93,7 +95,7 @@ export default function ControlPanel() {
   return (
     <>
       <Toast ref={toast}></Toast>
-      <Panel className="control-panel" header="Control Panel">
+      <Panel className="control-panel">
         <Button label="RUN" icon="pi pi-play" className='p-button-success' loading={loading} onClick={onRunClick} />
         <Button label="SAVE" icon="pi pi-save" loading={saveState} onClick={onSaveClick} />
         <Button label="LOAD" icon="pi pi-arrow-circle-up" loading={saveState} onClick={onLoadClick} />
@@ -102,7 +104,7 @@ export default function ControlPanel() {
           options={sites}
           className="toggle-btn p-selectbutton p-component"
           onChange={(e) => setSite(e.value)}
-          unselectable={false} />
+          allowEmpty={false} />
         <Calendar
           id="range"
           value={datesState}
