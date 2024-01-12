@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import Highcharts, { SeriesArearangeOptions } from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import HighchartsReact, { HighchartsReactRefObject } from 'highcharts-react-official';
 import HighchartMore from 'highcharts/highcharts-more';
 HighchartMore(Highcharts)
 
@@ -28,7 +28,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
   const gridLineColor = theme === 'light' ? '#e6e6e6' : '#444';
 
   // ref for post-render use
-  const chartRef = useRef<HighchartsReact.Props>(null);
+  const chartRef = useRef<HighchartsReactRefObject>(null);
 
   // Array of colors from Highcharts
   const colorsOption = Highcharts.getOptions().colors;
@@ -108,8 +108,8 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
         const x = (d.startDate.getTime() + d.endDate.getTime()) / 2;
         const y = Math.max(...d.yPoints) / 2;
 
-        const xPos = chart.xAxis[0].toPixels(x);
-        const yPos = chart.yAxis[0].toPixels(y);
+        const xPos = chart.xAxis[0].toPixels(x, false);
+        const yPos = chart.yAxis[0].toPixels(y, false);
 
         chart.renderer.text(d.label, xPos, yPos)
           .attr({
