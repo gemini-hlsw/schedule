@@ -10,6 +10,7 @@ import { Panel } from 'primereact/panel'
 import { Calendar } from 'primereact/calendar'
 import { SelectButton } from 'primereact/selectbutton'
 import { Toast } from 'primereact/toast'
+import { InputNumber, InputNumberValueChangeEvent } from 'primereact/inputnumber';
 import { Nullable } from "primereact/ts-helpers";
 import { NightPlanType } from '../../types'
 
@@ -25,6 +26,8 @@ export default function ControlPanel() {
     { label: "GS", value: "GS" },
     { label: "BOTH", value: "ALL_SITES" }
   ]
+
+  const [numNight, setNumNight] = useState<number>(1);
 
   const [schedule, { loading, error, data }] = useLazyQuery(scheduleQuery)
 
@@ -55,7 +58,7 @@ export default function ControlPanel() {
           startTime: datesState[0].toISOString().split('.')[0].replace('T', ' '),
           endTime: datesState[1].toISOString().split('.')[0].replace('T', ' '),
           sites: siteState,
-          numNightsToSchedule: 3,
+          numNightsToSchedule: numNight,
           mode: 'VALIDATION',
           thesisFactor: thesis,
           power: power,
@@ -114,6 +117,10 @@ export default function ControlPanel() {
           showButtonBar
           showIcon
         />
+        <div className="flex-auto">
+          <label htmlFor="minmax">Num of Nights: </label>
+          <InputNumber inputId="minmax" value={numNight} onValueChange={(e: InputNumberValueChangeEvent) =>  setNumNight(e.value)} min={1} max={365} />
+        </div>
       </Panel>
     </>
   )
