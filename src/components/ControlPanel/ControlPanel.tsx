@@ -17,9 +17,11 @@ import { NightPlanType } from '../../types'
 
 
 export default function ControlPanel() {
+
+  const defaultDate: Date = new Date('2018-10-01');
   const toast = useRef<Toast>(null)
   const [saveState, setSaveState] = useState(false)
-  const [datesState, setDates] = useState<Nullable<(Date | null)[]>>(null);
+  const [datesState, setDates] = useState<Nullable<(Date | null)[]>>([defaultDate]);
   const [siteState, setSite] = useState(undefined)
   const sites = [
     { label: "GN", value: "GN" },
@@ -52,7 +54,9 @@ export default function ControlPanel() {
 
   const onRunClick = () => {
     // call GraphQL endpoint for new schedule acording to parameters
-    if (siteState && datesState !== null && datesState.length >= 2 && Array.isArray(datesState)) {
+    if (siteState && datesState !== null
+        && datesState.length >= 2 && Array.isArray(datesState)
+        && numNight) {
       schedule({
         variables: {
           startTime: datesState[0].toISOString().split('.')[0].replace('T', ' '),
