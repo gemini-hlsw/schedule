@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TimeEntriesBySite, TimeEntryType } from "../../types";
 import TimeEntry from "./TimeEntry";
 
@@ -10,6 +10,11 @@ export default function EntryBySite({
   const [selectedEntry, setSelectedEntry] = useState<TimeEntryType>(
     entryBySite.timeEntries[0] ?? ({} as TimeEntryType)
   );
+
+  useEffect(() => {
+    setSelectedEntry(entryBySite.timeEntries[0] ?? ({} as TimeEntryType));
+  }, [entryBySite]);
+
   let timeLine: React.ReactElement[] = [];
   entryBySite.timeEntries.map((en: TimeEntryType, idx: number) => {
     timeLine.push(
