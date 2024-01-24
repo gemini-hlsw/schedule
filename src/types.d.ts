@@ -30,6 +30,9 @@ export interface Visit {
   atomStartIdx: number
   startTime: string
   instrument: string
+  score: number
+  completion: string
+  obsClass: string
 }
 
 export interface NightStats {
