@@ -41,7 +41,10 @@ export const scheduleQuery = graphql(`
                     atomEndIdx,
                     atomStartIdx,
                     startTime,
-                    instrument
+                    instrument,
+                    score,
+                    obsClass,
+                    completion,
                   },
                   nightStats{
                     timeloss,
