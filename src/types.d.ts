@@ -33,6 +33,7 @@ export interface Visit {
   score: number
   completion: string
   obsClass: string
+  peakScore: number
 }
 
 export interface NightStats {

@@ -24,12 +24,35 @@ export default function TimeEntry({ timeEntry }: { timeEntry: TimeEntryType }) {
     return score.toFixed(2)
   };
 
+  function fractionToPercentage(fraction: string): number {
+    const parts = fraction.split('/');
+    if (parts.length !== 2) {
+      throw new Error('Invalid fraction format');
+    }
+    const numerator = parseFloat(parts[0]);
+    const denominator = parseFloat(parts[1]);
+    if (denominator === 0) {
+      throw new Error('Denominator cannot be zero');
+    }
+    const percentage = (numerator / denominator) * 100;
+  
+    return percentage;
+  }
+  
+
   const obsClassBodyTemplate = (visit: Visit) => {
     return <Tag value={visit.obsClass} severity={getSeverity(visit)}></Tag>;
   };
 
   const scoreBodyTemplate = (visit: Visit) => {
     return formatScore(visit.score)
+  }
+  const peakScoreBodyTemplate = (visit: Visit) => {
+    return formatScore(visit.peakScore)
+  }
+
+  const obsCompletionBodyTemplate = (visit: Visit) => {
+    return `${visit.completion} (${fractionToPercentage(visit.completion).toFixed(0)}%)`
   }
 
   const getSeverity = (visit: Visit )=> {
@@ -70,7 +93,8 @@ export default function TimeEntry({ timeEntry }: { timeEntry: TimeEntryType }) {
           <Column header="Observation Class" body={obsClassBodyTemplate}></Column>
           <Column field="atomStartIdx" header="Atom Start"> </Column>
           <Column field="atomEndIdx" header="Atom End"> </Column>
-          <Column field="completion" header="Obs Completion"> </Column>
+          <Column header="Obs Completion" body={obsCompletionBodyTemplate}> </Column>
+          <Column header="peakScore" body={peakScoreBodyTemplate}></Column>
           <Column header="Score" body={scoreBodyTemplate}></Column>
         </DataTable>
       </AccordionTab>

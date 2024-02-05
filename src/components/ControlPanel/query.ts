@@ -18,6 +18,7 @@ export const scheduleQuery = graphql(`
           sites: $sites, 
           mode: $mode, 
           endTime: $endTime,
+          semesterVisibility:false,
           thesisFactor: $thesisFactor,
           power: $power,
           visPower: $visPower,
@@ -45,6 +46,7 @@ export const scheduleQuery = graphql(`
                     score,
                     obsClass,
                     completion,
+                    peakScore,
                   },
                   nightStats{
                     timeloss,
