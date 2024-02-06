@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import moment from 'moment-timezone';
 import Highcharts, { SeriesArearangeOptions } from 'highcharts';
 import HighchartsReact, { HighchartsReactRefObject } from 'highcharts-react-official';
 import HighchartMore from 'highcharts/highcharts-more';
@@ -52,7 +53,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
   };
   const colorMap = createMap(instruments, colors);
 
-
+  const [timezone, setTimezone] = useState('UTC');
 
   const seriesData: Array<SeriesArearangeOptions> = data.map((d, index) => {
     const yMinArray = d.yPoints.map((y) => 0);
@@ -61,7 +62,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       type: "arearange",
       data: d.yPoints.map((y, i) => {
         return {
-          x: d.startDate.getTime() + i * 60 * 1000,
+          x: moment(d.startDate).add(i, 'minutes').tz(timezone).valueOf(),
           low: yMinArray[i],
           high: y,
         };
@@ -89,7 +90,6 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       seenNames.add(serie.name);  // Add the name to the set if we haven't seen it
     }
   }
-
 
   useEffect(() => {
     if (chartRef.current) {
@@ -180,7 +180,11 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
 
   return (
     <div className='scheduler-plot'>
+      
       <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
+      <button onClick={() => setTimezone('Pacific/Honolulu')}>HST</button>
+      <button onClick={() => setTimezone('America/Santiago')}>CLT</button>
+      
     </div>
   );
 };
