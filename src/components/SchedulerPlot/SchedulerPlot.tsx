@@ -57,12 +57,12 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
   const eveTwiDate = new Date (eveTwilight)
   const mornTwiDate = new Date (mornTwilight)
 
-  const seriesData: Array<SeriesArearangeOptions> = data.map((d, index) => {
-    const yMinArray = d.yPoints.map((y) => 0);
+  const seriesData: Array<SeriesArearangeOptions> = data.map((d: any, index: number) => {
+    const yMinArray = d.yPoints.map((y: number) => 0);
     return {
       name: d.instrument,
       type: "arearange",
-      data: d.yPoints.map((y, i) => {
+      data: d.yPoints.map((y: any, i: number) => {
         return {
           x: d.startDate.getTime() + i * 60 * 1000,
           low: yMinArray[i],
@@ -76,7 +76,11 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
       marker: {
         enabled: false,
       },
-
+      events: {
+        legendItemClick: function() {
+            return false; // Prevents the default action, which is toggling visibility
+        }
+    },
       showInLegend: true, // Hide this series in the legend
     };
   });
@@ -133,6 +137,20 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
     },
     chart: {
       type: "arearange",
+    },
+
+    tooltip: {
+      // Use the shared tooltip to show information for the entire area
+      shared: true,
+      formatter: function () {
+          if (this.points) {
+              var points = this.points;
+              // Assuming the first point is representative for the area
+              var point = this.series.name;
+              return point;
+          }
+          return false; // No tooltip for individual points
+      }
     },
     title: {
       text: undefined,
