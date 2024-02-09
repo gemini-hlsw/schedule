@@ -7,6 +7,8 @@ export interface NightPlanType {
 
 export interface TimeEntriesBySite {
   site: string
+  eveTwilight: string
+  mornTwilight: string
   timeEntries: TimeEntryType[]
 }
 

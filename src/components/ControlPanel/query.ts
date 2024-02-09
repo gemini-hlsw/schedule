@@ -30,6 +30,8 @@ export const scheduleQuery = graphql(`
             nightIndex
             timeEntriesBySite{
               site,
+              mornTwilight,
+              eveTwilight,
               timeEntries{
                 startTimeSlots,
                 event,

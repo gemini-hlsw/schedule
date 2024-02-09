@@ -18,10 +18,12 @@ interface Visit {
 
 interface AltAzPlotProps {
   data: Visit[];
+  eveTwilight: string, 
+  mornTwilight: string
 }
 
 
-const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
+const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight}) => {
 
   // Get theme context to modify chart values
   const { theme } = useContext(ThemeContext);
@@ -52,8 +54,8 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
     return map;
   };
   const colorMap = createMap(instruments, colors);
-
-  const [timezone, setTimezone] = useState('UTC');
+  const eveTwiDate = new Date (eveTwilight)
+  const mornTwiDate = new Date (mornTwilight)
 
   const seriesData: Array<SeriesArearangeOptions> = data.map((d, index) => {
     const yMinArray = d.yPoints.map((y) => 0);
@@ -62,7 +64,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       type: "arearange",
       data: d.yPoints.map((y, i) => {
         return {
-          x: moment(d.startDate).add(i, 'minutes').tz(timezone).valueOf(),
+          x: d.startDate.getTime() + i * 60 * 1000,
           low: yMinArray[i],
           high: y,
         };
@@ -126,6 +128,9 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
   }, seriesData);
 
   const options: Highcharts.Options = {
+    time: {
+      timezone: 'Pacific/Honolulu'
+    },
     chart: {
       type: "arearange",
     },
@@ -142,18 +147,18 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
           color: textColor, // Change the color of y-axis tick labels
         },
       },
+      min: eveTwiDate.getTime(),
+      max: mornTwiDate.getTime(),
       tickPositioner: function () {
-        const minTimestamp = Math.min(...data.map((d) => d.startDate.getTime()));
-        const maxTimestamp = Math.max(...data.map((d) => d.endDate.getTime()));
-        const oneHour = 1000 * 60 * 60;
+          var positions = []
+          var interval = 1 * 60 * 60 * 1000
 
-        const tickPositions = [];
-        for (let timestamp = minTimestamp; timestamp <= maxTimestamp; timestamp += oneHour) {
-          tickPositions.push(timestamp);
-        }
+          for (var i = eveTwiDate.getTime(); i <= mornTwiDate.getTime(); i+=interval){
+              positions.push(i);
+          } 
+          return positions;
+      }
 
-        return tickPositions;
-      },
     },
     yAxis: {
       title: {
@@ -182,9 +187,6 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
     <div className='scheduler-plot'>
       
       <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
-      <button onClick={() => setTimezone('Pacific/Honolulu')}>HST</button>
-      <button onClick={() => setTimezone('America/Santiago')}>CLT</button>
-      
     </div>
   );
 };
