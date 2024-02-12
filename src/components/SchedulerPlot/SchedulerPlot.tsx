@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import moment from 'moment-timezone';
 import Highcharts, { SeriesArearangeOptions } from 'highcharts';
 import HighchartsReact, { HighchartsReactRefObject } from 'highcharts-react-official';
 import HighchartMore from 'highcharts/highcharts-more';
@@ -17,10 +18,12 @@ interface Visit {
 
 interface AltAzPlotProps {
   data: Visit[];
+  eveTwilight: string, 
+  mornTwilight: string
 }
 
 
-const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
+const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight}) => {
 
   // Get theme context to modify chart values
   const { theme } = useContext(ThemeContext);
@@ -51,15 +54,15 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
     return map;
   };
   const colorMap = createMap(instruments, colors);
+  const eveTwiDate = new Date (eveTwilight)
+  const mornTwiDate = new Date (mornTwilight)
 
-
-
-  const seriesData: Array<SeriesArearangeOptions> = data.map((d, index) => {
-    const yMinArray = d.yPoints.map((y) => 0);
+  const seriesData: Array<SeriesArearangeOptions> = data.map((d: any, index: number) => {
+    const yMinArray = d.yPoints.map((y: number) => 0);
     return {
       name: d.instrument,
       type: "arearange",
-      data: d.yPoints.map((y, i) => {
+      data: d.yPoints.map((y: any, i: number) => {
         return {
           x: d.startDate.getTime() + i * 60 * 1000,
           low: yMinArray[i],
@@ -73,7 +76,11 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       marker: {
         enabled: false,
       },
-
+      events: {
+        legendItemClick: function() {
+            return false; // Prevents the default action, which is toggling visibility
+        }
+    },
       showInLegend: true, // Hide this series in the legend
     };
   });
@@ -89,7 +96,6 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
       seenNames.add(serie.name);  // Add the name to the set if we haven't seen it
     }
   }
-
 
   useEffect(() => {
     if (chartRef.current) {
@@ -126,8 +132,25 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
   }, seriesData);
 
   const options: Highcharts.Options = {
+    time: {
+      timezone: 'Pacific/Honolulu'
+    },
     chart: {
       type: "arearange",
+    },
+
+    tooltip: {
+      // Use the shared tooltip to show information for the entire area
+      shared: true,
+      formatter: function () {
+          if (this.points) {
+              var points = this.points;
+              // Assuming the first point is representative for the area
+              var point = this.series.name;
+              return point;
+          }
+          return false; // No tooltip for individual points
+      }
     },
     title: {
       text: undefined,
@@ -142,18 +165,18 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
           color: textColor, // Change the color of y-axis tick labels
         },
       },
+      min: eveTwiDate.getTime(),
+      max: mornTwiDate.getTime(),
       tickPositioner: function () {
-        const minTimestamp = Math.min(...data.map((d) => d.startDate.getTime()));
-        const maxTimestamp = Math.max(...data.map((d) => d.endDate.getTime()));
-        const oneHour = 1000 * 60 * 60;
+          var positions = []
+          var interval = 1 * 60 * 60 * 1000
 
-        const tickPositions = [];
-        for (let timestamp = minTimestamp; timestamp <= maxTimestamp; timestamp += oneHour) {
-          tickPositions.push(timestamp);
-        }
+          for (var i = eveTwiDate.getTime(); i <= mornTwiDate.getTime(); i+=interval){
+              positions.push(i);
+          } 
+          return positions;
+      }
 
-        return tickPositions;
-      },
     },
     yAxis: {
       title: {
@@ -180,6 +203,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data }) => {
 
   return (
     <div className='scheduler-plot'>
+      
       <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
     </div>
   );

@@ -35,7 +35,9 @@ export default function EntryBySite({
     <div className="site-entry">
       <h4 className="title">Timeline</h4>
       <div className="timeline">{timeLine}</div>
-      <TimeEntry timeEntry={selectedEntry} />
+      <TimeEntry timeEntry={selectedEntry}
+                 eveTwilight={entryBySite.eveTwilight} 
+                 mornTwilight={entryBySite.mornTwilight}/>
     </div>
   );
 }

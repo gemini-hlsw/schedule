@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment-timezone';
 import { TimeEntryType, Visit } from "../../types";
 import NightPlanSummary from "./NightPlanSummary";
 import AltAzPlot from "../SchedulerPlot/SchedulerPlot";
@@ -9,8 +10,12 @@ import { Tag } from 'primereact/tag';
 import { ProgressBar } from 'primereact/progressbar';
 
 
-export default function TimeEntry({ timeEntry }: { timeEntry: TimeEntryType }) {
+export default function TimeEntry({timeEntry, mornTwilight, eveTwilight}: {timeEntry: TimeEntryType, 
+                                                                           mornTwilight: string, 
+                                                                           eveTwilight: string}) {
   function parseToVisitForPlot(visits: Visit[]) {
+    console.log(visits[0].startTime)
+    console.log( moment.utc(visits[0].startTime).tz('Pacific/Honolulu').toDate())
     return visits.map((visit: Visit) => ({
       startDate: new Date(visit.startTime),
       endDate: new Date(visit.endTime),
@@ -87,7 +92,7 @@ export default function TimeEntry({ timeEntry }: { timeEntry: TimeEntryType }) {
           nightState={timeEntry.plan.nightStats}
           nightTitle={timeEntry.plan.startTime.substring(0, timeEntry.plan.startTime.indexOf('T'))} />}
       >
-        <AltAzPlot data={parseToVisitForPlot(timeEntry.plan.visits)} />
+        <AltAzPlot data={parseToVisitForPlot(timeEntry.plan.visits)} eveTwilight={eveTwilight} mornTwilight={mornTwilight} />
         <DataTable value={timeEntry.plan.visits} tableStyle={{ minWidth: '50rem' }}>
           <Column field="obsId" header="Observation ID"> </Column>
           <Column header="Observation Class" body={obsClassBodyTemplate}></Column>
