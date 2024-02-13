@@ -19,9 +19,8 @@ export default function EntryBySite({
   entryBySite.timeEntries.map((en: TimeEntryType, idx: number) => {
     timeLine.push(
       <div
-        className={`${
-          JSON.stringify(en) === JSON.stringify(selectedEntry) ? "active" : ""
-        } event-bullet`}
+        className={`${JSON.stringify(en) === JSON.stringify(selectedEntry) ? "active" : ""
+          } event-bullet`}
         key={`timeEntry${idx}`}
         onClick={() => setSelectedEntry(en)}
       >
@@ -36,8 +35,10 @@ export default function EntryBySite({
       <h4 className="title">Timeline</h4>
       <div className="timeline">{timeLine}</div>
       <TimeEntry timeEntry={selectedEntry}
-                 eveTwilight={entryBySite.eveTwilight} 
-                 mornTwilight={entryBySite.mornTwilight}/>
+        eveTwilight={entryBySite.eveTwilight}
+        mornTwilight={entryBySite.mornTwilight}
+        site={entryBySite.site}
+      />
     </div>
   );
 }
