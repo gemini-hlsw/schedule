@@ -43,4 +43,5 @@ export interface NightStats {
   planScore: number
   nToos: number
   completionFraction: string
+  programCompletion: string
 }
