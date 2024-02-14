@@ -18,12 +18,22 @@ interface Visit {
 
 interface AltAzPlotProps {
   data: Visit[];
-  eveTwilight: string, 
-  mornTwilight: string
+  eveTwilight: string,
+  mornTwilight: string,
+  site: string
 }
 
+const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight, site }) => {
+  const getOffset = (timeZone = 'UTC', date = new Date()) => {
+    const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
+    const tzDate = new Date(date.toLocaleString('en-US', { timeZone }));
+    return (tzDate.getTime() - utcDate.getTime()) / 6e4;
+  }
+  const INITIAL_TIMEZONE = site === "GN" ? getOffset("Pacific/Honolulu") : getOffset("America/Santiago")
 
-const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight}) => {
+  function getTzTime(date: Date) {
+    return date.getTime() + (INITIAL_TIMEZONE) * 60 * 1000
+  }
 
   // Get theme context to modify chart values
   const { theme } = useContext(ThemeContext);
@@ -54,8 +64,8 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
     return map;
   };
   const colorMap = createMap(instruments, colors);
-  const eveTwiDate = new Date (eveTwilight)
-  const mornTwiDate = new Date (mornTwilight)
+  const eveTwiDate = new Date(eveTwilight)
+  const mornTwiDate = new Date(mornTwilight)
 
   const seriesData: Array<SeriesArearangeOptions> = data.map((d: any, index: number) => {
     const yMinArray = d.yPoints.map((y: number) => 0);
@@ -64,7 +74,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
       type: "arearange",
       data: d.yPoints.map((y: any, i: number) => {
         return {
-          x: d.startDate.getTime() + i * 60 * 1000,
+          x: getTzTime(d.startDate) + i * 60 * 1000,
           low: yMinArray[i],
           high: y,
         };
@@ -77,10 +87,10 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
         enabled: false,
       },
       events: {
-        legendItemClick: function() {
-            return false; // Prevents the default action, which is toggling visibility
+        legendItemClick: function () {
+          return false; // Prevents the default action, which is toggling visibility
         }
-    },
+      },
       showInLegend: true, // Hide this series in the legend
     };
   });
@@ -111,7 +121,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
 
       // Render custom labels for each section
       data.forEach((d, index) => {
-        const x = (d.startDate.getTime() + d.endDate.getTime()) / 2;
+        const x = (getTzTime(d.startDate) + getTzTime(d.endDate)) / 2;
         const y = Math.max(...d.yPoints) / 2;
 
         const xPos = chart.xAxis[0].toPixels(x, false);
@@ -133,7 +143,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
 
   const options: Highcharts.Options = {
     time: {
-      timezone: 'Pacific/Honolulu'
+      timezone: "Pacific/Honolulu",
     },
     chart: {
       type: "arearange",
@@ -143,13 +153,13 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
       // Use the shared tooltip to show information for the entire area
       shared: true,
       formatter: function () {
-          if (this.points) {
-              var points = this.points;
-              // Assuming the first point is representative for the area
-              var point = this.series.name;
-              return point;
-          }
-          return false; // No tooltip for individual points
+        if (this.points) {
+          var points = this.points;
+          // Assuming the first point is representative for the area
+          var point = this.series.name;
+          return point;
+        }
+        return false; // No tooltip for individual points
       }
     },
     title: {
@@ -165,16 +175,16 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
           color: textColor, // Change the color of y-axis tick labels
         },
       },
-      min: eveTwiDate.getTime(),
-      max: mornTwiDate.getTime(),
+      min: getTzTime(eveTwiDate),
+      max: getTzTime(mornTwiDate),
       tickPositioner: function () {
-          var positions = []
-          var interval = 1 * 60 * 60 * 1000
+        var positions = []
+        var interval = 1 * 60 * 60 * 1000
 
-          for (var i = eveTwiDate.getTime(); i <= mornTwiDate.getTime(); i+=interval){
-              positions.push(i);
-          } 
-          return positions;
+        for (var i = getTzTime(eveTwiDate); i <= getTzTime(mornTwiDate); i += interval) {
+          positions.push(i);
+        }
+        return positions;
       }
 
     },
@@ -203,7 +213,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight})
 
   return (
     <div className='scheduler-plot'>
-      
+
       <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
     </div>
   );
