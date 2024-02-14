@@ -25,7 +25,7 @@ export default function TimeEntry({ timeEntry, mornTwilight, eveTwilight, site }
       instrument: visit.instrument
     }))
   };
-
+  const tz = site ==='GN' ? 'Pacific/Honolulu' : 'America/Santiago';
   const formatScore = (score: number) => {
     return score.toFixed(2)
   };
@@ -45,7 +45,9 @@ export default function TimeEntry({ timeEntry, mornTwilight, eveTwilight, site }
     return percentage;
   }
 
-
+  const startTimeBodyTemplate =(visit: Visit) => { 
+    return new Date(visit.startTime).toLocaleString('en-UK', {timeZone: tz})
+  };
   const obsClassBodyTemplate = (visit: Visit) => {
     return <Tag value={visit.obsClass} severity={getSeverity(visit)}></Tag>;
   };
@@ -97,6 +99,7 @@ export default function TimeEntry({ timeEntry, mornTwilight, eveTwilight, site }
         <DataTable value={timeEntry.plan.visits} tableStyle={{ minWidth: '50rem' }}>
           <Column field="obsId" header="Observation ID"> </Column>
           <Column header="Observation Class" body={obsClassBodyTemplate}></Column>
+          <Column header="Start Time" body={startTimeBodyTemplate}></Column>
           <Column field="atomStartIdx" header="Atom Start"> </Column>
           <Column field="atomEndIdx" header="Atom End"> </Column>
           <Column header="Obs Completion" body={obsCompletionBodyTemplate}> </Column>
