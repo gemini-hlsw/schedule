@@ -113,10 +113,6 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight, 
 
       chart.update({
         series: seriesData,
-        xAxis: {
-          type: "datetime",
-        },
-        yAxis: {},
       });
 
       // Render custom labels for each section
@@ -198,6 +194,8 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({ data, eveTwilight, mornTwilight, 
         },
       },
       gridLineColor: gridLineColor, // Change the color of horizontal grid lines
+      min: 0,
+      max: 90,
     },
     legend: {
       enabled: true,
