@@ -88,6 +88,19 @@ export default function TimeEntry({ timeEntry, mornTwilight, eveTwilight, site }
     }
   };
 
+  const programCompletion = (programCompletion: string) => {
+    const jProgCompletion = JSON.parse(programCompletion);
+    var pc = [];
+    
+    for(var p in jProgCompletion){
+      pc.push({
+        progId: p,
+        completion:jProgCompletion[p]
+      })
+    }
+    return pc
+  };
+
   return (
     <Accordion className="time-entry">
       <AccordionTab header={
@@ -106,6 +119,11 @@ export default function TimeEntry({ timeEntry, mornTwilight, eveTwilight, site }
           <Column header="peakScore" body={peakScoreBodyTemplate}></Column>
           <Column header="Score" body={scoreBodyTemplate}></Column>
         </DataTable>
+        <DataTable value={programCompletion(timeEntry.plan.nightStats.programCompletion)}>
+          <Column field="progId" header="ProgramID"></Column>
+          <Column field="completion" header="Completion"></Column>
+        </DataTable>
+     
       </AccordionTab>
     </Accordion >
   )

@@ -56,6 +56,7 @@ export const scheduleQuery = graphql(`
                     timeloss,
                     nToos,
                     completionFraction,
+                    programCompletion
                   }
                 }
               }
