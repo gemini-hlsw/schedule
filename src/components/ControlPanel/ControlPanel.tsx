@@ -140,11 +140,13 @@ export default function ControlPanel() {
           <label htmlFor="minmax">Num of Nights: </label>
           <InputNumber inputId="minmax" value={numNight} onValueChange={(e: InputNumberValueChangeEvent) =>  setNumNight(e.value)} min={1} max={365} />
         </div>
-        <FileUpload mode="basic" 
-                    name="demo[]"
-                    accept="text/*" maxFileSize={1000000}
-                    customUpload uploadHandler={customBase64Uploader} 
-                    chooseLabel="Program List" />
+        <div>
+          <FileUpload mode="basic" 
+                      name="demo[]"
+                      accept="text/*" maxFileSize={1000000}
+                      customUpload uploadHandler={customBase64Uploader} 
+                      chooseLabel="Programs Selection" />
+        </div>
       </Panel>
     </>
   )
