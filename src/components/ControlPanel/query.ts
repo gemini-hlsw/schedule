@@ -10,7 +10,8 @@ export const scheduleQuery = graphql(`
                   $power: Int,
                   $metPower: Float,
                   $visPower: Float,
-                  $whaPower: Float ) {
+                  $whaPower: Float,
+                  $programFile: Upload ) {
       schedule(
         newScheduleInput: {
           startTime: $startTime, 
@@ -23,7 +24,9 @@ export const scheduleQuery = graphql(`
           power: $power,
           visPower: $visPower,
           metPower: $metPower,
-          whaPower: $whaPower}
+          whaPower: $whaPower,
+          programFile: $programFile
+          }
       ) {
         nightPlans{
           nightTimeline{
