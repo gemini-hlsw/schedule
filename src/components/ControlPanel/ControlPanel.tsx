@@ -1,28 +1,30 @@
-import React, { useState, useRef, useEffect, useContext, SetStateAction } from 'react'
-import { useLazyQuery } from '@apollo/client'
-import { scheduleQuery } from './query'
-import { GlobalStateContext } from '../GlobalState/GlobalState'
-import "./ControlPanel.scss"
+import React, { useState, useRef, useEffect, useContext, SetStateAction } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import { scheduleQuery } from './query';
+import { GlobalStateContext } from '../GlobalState/GlobalState';
+import "./ControlPanel.scss";
 
 //PrimeReact components
-import { Button } from 'primereact/button'
-import { Panel } from 'primereact/panel'
-import { Calendar } from 'primereact/calendar'
-import { SelectButton } from 'primereact/selectbutton'
-import { Toast } from 'primereact/toast'
+import { Button } from 'primereact/button';
+import { Panel } from 'primereact/panel';
+import { Calendar } from 'primereact/calendar';
+import { SelectButton } from 'primereact/selectbutton';
+import { Toast } from 'primereact/toast';
+import { FileUpload, FileUploadHandlerEvent } from 'primereact/fileupload';
 import { InputNumber, InputNumberValueChangeEvent } from 'primereact/inputnumber';
 import { Nullable } from "primereact/ts-helpers";
-import { NightPlanType } from '../../types'
-
+import { NightPlanType } from '../../types';
 
 
 export default function ControlPanel() {
 
   const defaultDate: Date = new Date('2018-10-01');
   const toast = useRef<Toast>(null)
+  const fileToast = useRef<Toast>(null)
   const [saveState, setSaveState] = useState(false)
   const [datesState, setDates] = useState<Nullable<(Date | null)[]>>([defaultDate]);
   const [siteState, setSite] = useState(undefined)
+  const [fileData, setFileData] = useState<any | null>(null);
   const sites = [
     { label: "GN", value: "GN" },
     { label: "GS", value: "GS" },
@@ -35,6 +37,17 @@ export default function ControlPanel() {
 
   const { setNightPlans, setPlansSummary, thesis, power, metPower, whaPower, visPower } = useContext(GlobalStateContext)
 
+
+  const customBase64Uploader = async (event: FileUploadHandlerEvent) => {
+    // convert file to base64 encoded
+    const file = event.files[0];
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file)
+    reader.onloadend = function () {
+        setFileData(reader.result);
+    };
+  };
+
   const onSaveClick = () => {
     // Creates a json file with all the 
     setSaveState(true)
@@ -45,13 +58,13 @@ export default function ControlPanel() {
     setTimeout(() => {
       setSaveState(false)
     }, 2000)
-  }
+  };
 
   const onLoadClick = () => {
     // TODO: Idealistcally shows a list of saved runs.
     console.log("Load Clicked")
-  }
-
+  };
+  
   const onRunClick = () => {
     // call GraphQL endpoint for new schedule acording to parameters
     if (siteState && datesState !== null
@@ -68,9 +81,11 @@ export default function ControlPanel() {
           power: power,
           metPower: metPower,
           visPower: visPower,
-          whaPower: whaPower
+          whaPower: whaPower,
+          programFile: fileData
         }
       })
+      console.log(fileData)
     } else {
       toast.current?.show({
         severity: 'error',
@@ -124,6 +139,13 @@ export default function ControlPanel() {
         <div className="flex-auto">
           <label htmlFor="minmax">Num of Nights: </label>
           <InputNumber inputId="minmax" value={numNight} onValueChange={(e: InputNumberValueChangeEvent) =>  setNumNight(e.value)} min={1} max={365} />
+        </div>
+        <div>
+          <FileUpload mode="basic" 
+                      name="demo[]"
+                      accept="text/*" maxFileSize={1000000}
+                      customUpload uploadHandler={customBase64Uploader} 
+                      chooseLabel="Programs Selection" />
         </div>
       </Panel>
     </>
