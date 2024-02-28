@@ -147,7 +147,6 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
       });
 
       // Remove old labels
-      console.log(labelRef.current);
       labelRef.current.forEach((lbl: any) => lbl.destroy());
 
       // Render custom labels for each section
