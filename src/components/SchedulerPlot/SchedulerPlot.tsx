@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Highcharts, { SeriesArearangeOptions } from "highcharts";
+import Highcharts, { SVGRenderer, SeriesArearangeOptions } from "highcharts";
 import HighchartsReact, {
   HighchartsReactRefObject,
 } from "highcharts-react-official";
@@ -147,7 +147,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
       });
 
       // Remove old labels
-      labelRef.current.forEach((lbl: any) => lbl.destroy());
+      labelRef.current.forEach((lbl: SVGRenderer) => lbl.destroy());
 
       // Render custom labels for each section
       data.forEach((d, index) => {
