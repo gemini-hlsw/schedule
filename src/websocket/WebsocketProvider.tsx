@@ -1,5 +1,14 @@
-import { createContext, useState, ReactNode, useEffect, useRef } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useEffect,
+  useRef,
+  useContext,
+} from "react";
 import { v4 as uuid } from "uuid";
+import { GlobalStateContext } from "../components/GlobalState/GlobalState";
+import { NightPlanType } from "../types";
 
 interface WebsocketContextType {
   isReady: boolean;
@@ -21,6 +30,8 @@ export default function WebsocketProvider({
   const [val, setVal] = useState(null);
   const ws = useRef(null);
   const sessionId = new Date().getTime();
+  const { setLoadingPlan, setNightPlans, setPlansSummary } =
+    useContext(GlobalStateContext);
 
   useEffect(() => console.log(val), [val]);
 
@@ -36,7 +47,13 @@ export default function WebsocketProvider({
       };
 
       ws.current.onmessage = (event: { data: any }) => {
-        setVal(JSON.parse(event.data));
+        let data = JSON.parse(event.data);
+        console.log(data);
+        if (data.type === "plans") {
+          setLoadingPlan(false);
+          setNightPlans(data.payload as NightPlanType[]);
+          // setPlansSummary(data.payload.schedule.plansSummary);
+        }
       };
 
       ws.current.onclose = (e: { reason: string }) => {

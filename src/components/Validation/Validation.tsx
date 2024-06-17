@@ -1,24 +1,26 @@
-import React, { useContext } from "react"
-import ControlPanel from "../ControlPanel/ControlPanel"
-import InputsPanel from "../InputsPanel/InputsPanel"
+import React, { useContext, useEffect } from "react";
+import ControlPanel from "../ControlPanel/ControlPanel";
+import InputsPanel from "../InputsPanel/InputsPanel";
 // import NightPlansList from "../NightPlansList/NightPlansList"
-import { Divider } from 'primereact/divider'
-import { GlobalStateContext } from "../GlobalState/GlobalState"
+import { Divider } from "primereact/divider";
+import { GlobalStateContext } from "../GlobalState/GlobalState";
 
-import "./Validation.scss"
+import "./Validation.scss";
 
 // For testing
-import SummaryTable from "../SummaryTable/SummaryTable"
-import RankerTweaker from "../RankerTweaker/RankerTweaker"
+import SummaryTable from "../SummaryTable/SummaryTable";
+import RankerTweaker from "../RankerTweaker/RankerTweaker";
 
-import { Panel } from "primereact/panel"
-import Results from "../Results/Results"
-
-
+import { Panel } from "primereact/panel";
+import Results from "../Results/Results";
 
 export default function Validation() {
-  const { nightPlans, plansSummary } = useContext(GlobalStateContext)
+  const { nightPlans, plansSummary } = useContext(GlobalStateContext);
 
+  useEffect(() => {
+    // console.log("Plans Summary: ", plansSummary)
+    console.log("Night Plans: ", nightPlans);
+  }, [nightPlans]);
 
   return (
     <div className="validation">
@@ -28,15 +30,19 @@ export default function Validation() {
         <RankerTweaker />
       </Panel>
       <Divider />
-      {(Object.keys(plansSummary).length > 0) && <>
-        <SummaryTable summary={plansSummary} />
-      </>}
+      {Object.keys(plansSummary).length > 0 && (
+        <>
+          <SummaryTable summary={plansSummary} />
+        </>
+      )}
       <div className="bottom">
-        {nightPlans.length > 0 && <>
-          <Divider />
-          <Results plans={nightPlans} />
-        </>}
+        {nightPlans.length > 0 && (
+          <>
+            <Divider />
+            <Results plans={nightPlans} />
+          </>
+        )}
       </div>
     </div>
-  )
+  );
 }

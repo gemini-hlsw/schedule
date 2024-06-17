@@ -1,16 +1,12 @@
-import { Outlet } from 'react-router-dom';
-import Layout from './components/Layout/Layout';
-import GlobalStateProvider from './components/GlobalState/GlobalState';
+import { Outlet } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
 
 function App() {
-
   return (
-    <GlobalStateProvider>
-      <Layout>
-        <Outlet />
-      </Layout>
-    </GlobalStateProvider>
-  )
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
 }
 
-export default App
+export default App;

@@ -17,6 +17,7 @@ import { Calendar } from "primereact/calendar";
 import { SelectButton } from "primereact/selectbutton";
 import { Toast } from "primereact/toast";
 import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
+import { ProgressSpinner } from "primereact/progressspinner";
 import {
   InputNumber,
   InputNumberValueChangeEvent,
@@ -24,6 +25,7 @@ import {
 import { Nullable } from "primereact/ts-helpers";
 import { NightPlanType } from "../../types";
 import { WebsocketContext } from "../../websocket/WebsocketProvider";
+import NightPlan from "../Results/NightPlan";
 
 export default function ControlPanel() {
   const defaultDate: Date = new Date("2018-10-01");
@@ -54,6 +56,8 @@ export default function ControlPanel() {
     metPower,
     whaPower,
     visPower,
+    loadingPlan,
+    setLoadingPlan,
   } = useContext(GlobalStateContext);
 
   const customBase64Uploader = async (event: FileUploadHandlerEvent) => {
@@ -93,6 +97,7 @@ export default function ControlPanel() {
 
   const onRunClick = () => {
     if (isReady) {
+      setLoadingPlan(true);
       txMessage({
         startTime: datesState[0].toISOString().split(".")[0].replace("T", " "),
         endTime: datesState[1].toISOString().split(".")[0].replace("T", " "),
@@ -129,12 +134,12 @@ export default function ControlPanel() {
     }
   }, [error]);
 
-  useEffect(() => {
-    if (Boolean(data)) {
-      setNightPlans(data?.schedule.nightPlans.nightTimeline as NightPlanType[]);
-      setPlansSummary(data?.schedule.plansSummary);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (Boolean(data)) {
+  //     setNightPlans(data?.schedule.nightPlans.nightTimeline as NightPlanType[]);
+  //     setPlansSummary(data?.schedule.plansSummary);
+  //   }
+  // }, [data]);
 
   return (
     <>
@@ -144,9 +149,10 @@ export default function ControlPanel() {
           label="RUN"
           icon="pi pi-play"
           className="p-button-success"
-          loading={loading}
+          loading={loadingPlan}
           onClick={onRunClick}
-          disabled={isRunDisabled}
+          disabled={isRunDisabled || loadingPlan}
+          loadingIcon="pi pi-spin pi-spinner"
         />
         <Button
           label="SAVE"
