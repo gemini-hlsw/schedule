@@ -6,9 +6,9 @@ import {
   useRef,
   useContext,
 } from "react";
-import { v4 as uuid } from "uuid";
 import { GlobalStateContext } from "../components/GlobalState/GlobalState";
 import { NightPlanType } from "../types";
+import { sortNightPlan } from "../helpers/sortNightPlan";
 
 interface WebsocketContextType {
   isReady: boolean;
@@ -27,19 +27,15 @@ export default function WebsocketProvider({
   children: ReactNode;
 }) {
   const [isReady, setIsReady] = useState(false);
-  const [val, setVal] = useState(null);
+  const [wsRxMsg, setWsRxMsg] = useState(null);
   const ws = useRef(null);
   const sessionId = new Date().getTime();
   const { setLoadingPlan, setNightPlans, setPlansSummary } =
     useContext(GlobalStateContext);
 
-  useEffect(() => console.log(val), [val]);
-
   useEffect(() => {
     function connect() {
-      ws.current = new WebSocket(
-        `ws://gpp-schedule-staging.herokuapp.com/ws/${sessionId}`
-      );
+      ws.current = new WebSocket(`${import.meta.env.VITE_WS_URL}${sessionId}`);
 
       ws.current.onopen = () => {
         console.log("Socket successfully connected");
@@ -48,11 +44,13 @@ export default function WebsocketProvider({
 
       ws.current.onmessage = (event: { data: any }) => {
         let data = JSON.parse(event.data);
-        console.log(data);
+        setWsRxMsg(data);
         if (data.type === "plans") {
           setLoadingPlan(false);
-          setNightPlans(data.payload as NightPlanType[]);
-          // setPlansSummary(data.payload.schedule.plansSummary);
+          setNightPlans(
+            sortNightPlan(data.payload.timelines) as NightPlanType[]
+          );
+          setPlansSummary(data.payload.plans_summary);
         }
       };
 
@@ -81,7 +79,7 @@ export default function WebsocketProvider({
   const ret = {
     isReady,
     sessionId,
-    rxMessage: val,
+    rxMessage: wsRxMsg,
     txMessage: (message: object) => ws.current?.send(JSON.stringify(message)),
   };
 

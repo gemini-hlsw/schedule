@@ -30,11 +30,11 @@ export default function Validation() {
         <RankerTweaker />
       </Panel>
       <Divider />
-      {Object.keys(plansSummary).length > 0 && (
+      {/* {Object.keys(plansSummary).length > 0 && (
         <>
           <SummaryTable summary={plansSummary} />
         </>
-      )}
+      )} */}
       <div className="bottom">
         {nightPlans.length > 0 && (
           <>

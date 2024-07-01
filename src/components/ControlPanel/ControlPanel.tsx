@@ -1,12 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  SetStateAction,
-} from "react";
-import { useLazyQuery } from "@apollo/client";
-import { scheduleQuery } from "./query";
+import { useState, useRef, useContext } from "react";
 import { GlobalStateContext } from "../GlobalState/GlobalState";
 import "./ControlPanel.scss";
 
@@ -17,20 +9,16 @@ import { Calendar } from "primereact/calendar";
 import { SelectButton } from "primereact/selectbutton";
 import { Toast } from "primereact/toast";
 import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
-import { ProgressSpinner } from "primereact/progressspinner";
 import {
   InputNumber,
   InputNumberValueChangeEvent,
 } from "primereact/inputnumber";
 import { Nullable } from "primereact/ts-helpers";
-import { NightPlanType } from "../../types";
 import { WebsocketContext } from "../../websocket/WebsocketProvider";
-import NightPlan from "../Results/NightPlan";
 
 export default function ControlPanel() {
   const defaultDate: Date = new Date("2018-10-01");
   const toast = useRef<Toast>(null);
-  const fileToast = useRef<Toast>(null);
   const [saveState, setSaveState] = useState(false);
   const [datesState, setDates] = useState<Nullable<(Date | null)[]>>([
     defaultDate,
@@ -44,13 +32,9 @@ export default function ControlPanel() {
   ];
 
   const [numNight, setNumNight] = useState<number>(1);
-
-  const { isReady, rxMessage, txMessage } = useContext(WebsocketContext);
-  const [schedule, { loading, error, data }] = useLazyQuery(scheduleQuery);
+  const { isReady, txMessage } = useContext(WebsocketContext);
 
   const {
-    setNightPlans,
-    setPlansSummary,
     thesis,
     power,
     metPower,
@@ -122,24 +106,6 @@ export default function ControlPanel() {
       });
     }
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: "Failed to create a new schedule",
-        life: 3000,
-      });
-    }
-  }, [error]);
-
-  // useEffect(() => {
-  //   if (Boolean(data)) {
-  //     setNightPlans(data?.schedule.nightPlans.nightTimeline as NightPlanType[]);
-  //     setPlansSummary(data?.schedule.plansSummary);
-  //   }
-  // }, [data]);
 
   return (
     <>
