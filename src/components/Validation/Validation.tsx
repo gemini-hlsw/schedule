@@ -17,11 +17,6 @@ import Results from "../Results/Results";
 export default function Validation() {
   const { nightPlans, plansSummary } = useContext(GlobalStateContext);
 
-  useEffect(() => {
-    // console.log("Plans Summary: ", plansSummary)
-    console.log("Night Plans: ", nightPlans);
-  }, [nightPlans]);
-
   return (
     <div className="validation">
       <ControlPanel />
@@ -30,11 +25,11 @@ export default function Validation() {
         <RankerTweaker />
       </Panel>
       <Divider />
-      {/* {Object.keys(plansSummary).length > 0 && (
+      {plansSummary && Object.keys(plansSummary).length > 0 && (
         <>
           <SummaryTable summary={plansSummary} />
         </>
-      )} */}
+      )}
       <div className="bottom">
         {nightPlans.length > 0 && (
           <>
