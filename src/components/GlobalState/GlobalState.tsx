@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode} from "react";
+import React, { createContext, useState, ReactNode } from "react";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed
@@ -11,16 +11,18 @@ interface GlobalStateContextType {
   setNightPlans: React.Dispatch<React.SetStateAction<NightPlanType[]>>;
   plansSummary: object;
   setPlansSummary: React.Dispatch<React.SetStateAction<[]>>;
-  thesis: number,
+  thesis: number;
   setThesis: React.Dispatch<React.SetStateAction<number>>;
-  power: number,
+  power: number;
   setPower: React.Dispatch<React.SetStateAction<number>>;
-  metPower: number,
+  metPower: number;
   setMetPower: React.Dispatch<React.SetStateAction<number>>;
-  visPower: number,
+  visPower: number;
   setVisPower: React.Dispatch<React.SetStateAction<number>>;
-  whaPower: number,
+  whaPower: number;
   setWhaPower: React.Dispatch<React.SetStateAction<number>>;
+  loadingPlan: boolean;
+  setLoadingPlan: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const GlobalStateContext = createContext<GlobalStateContextType>(null!);
@@ -32,13 +34,12 @@ export default function GlobalStateProvider({
 }) {
   const [nightPlans, setNightPlans] = useState<NightPlanType[]>([]);
   const [plansSummary, setPlansSummary] = useState<object>({});
-  const [thesis, setThesis] = useState<number>(1.0);
-  const [power, setPower] = useState<number>(2);
-  const [metPower, setMetPower] = useState<number>(1.0);
-  const [visPower, setVisPower] = useState<number>(1.0);
-  const [whaPower, setWhaPower] = useState<number>(1.0);
-
-
+  const [thesis, setThesis] = useState(1.0);
+  const [power, setPower] = useState(2);
+  const [metPower, setMetPower] = useState(1.0);
+  const [visPower, setVisPower] = useState(1.0);
+  const [whaPower, setWhaPower] = useState(1.0);
+  const [loadingPlan, setLoadingPlan] = useState(false);
 
   return (
     <GlobalStateContext.Provider
@@ -51,12 +52,14 @@ export default function GlobalStateProvider({
         setThesis,
         power,
         setPower,
-        metPower, 
+        metPower,
         setMetPower,
         visPower,
         setVisPower,
         whaPower,
-        setWhaPower
+        setWhaPower,
+        loadingPlan,
+        setLoadingPlan,
       }}
     >
       {children}
