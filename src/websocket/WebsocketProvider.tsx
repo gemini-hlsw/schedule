@@ -35,7 +35,11 @@ export default function WebsocketProvider({
 
   useEffect(() => {
     function connect() {
-      ws.current = new WebSocket(`${import.meta.env.VITE_WS_URL}${sessionId}`);
+      ws.current = new WebSocket(
+        `${
+          import.meta.env.VITE_WS_URL
+        }${sessionId} ?? "ws://gpp-schedule-staging.herokuapp.com/ws/"`
+      );
 
       ws.current.onopen = () => {
         console.log("Socket successfully connected");
