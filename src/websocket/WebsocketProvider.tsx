@@ -38,7 +38,7 @@ export default function WebsocketProvider({
       ws.current = new WebSocket(
         `${
           import.meta.env.VITE_WS_URL ??
-          "ws://gpp-schedule-staging.herokuapp.com/ws/"
+          "wss://gpp-schedule-staging.herokuapp.com/ws/"
         }${sessionId}`
       );
 
