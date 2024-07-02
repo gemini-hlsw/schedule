@@ -37,8 +37,9 @@ export default function WebsocketProvider({
     function connect() {
       ws.current = new WebSocket(
         `${
-          import.meta.env.VITE_WS_URL
-        }${sessionId} ?? "ws://gpp-schedule-staging.herokuapp.com/ws/"`
+          import.meta.env.VITE_WS_URL ??
+          "ws://gpp-schedule-staging.herokuapp.com/ws/"
+        }${sessionId}`
       );
 
       ws.current.onopen = () => {
@@ -54,7 +55,7 @@ export default function WebsocketProvider({
           setNightPlans(
             sortNightPlan(data.payload.timelines) as NightPlanType[]
           );
-          setPlansSummary(data.payload.plans_summary);
+          setPlansSummary(data.payload.plan_summary);
         }
       };
 
