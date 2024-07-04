@@ -34,7 +34,7 @@ export default function GlobalStateProvider({
 }) {
   const [nightPlans, setNightPlans] = useState<NightPlanType[]>([]);
   const [plansSummary, setPlansSummary] = useState<object>({});
-  const [thesis, setThesis] = useState(1.0);
+  const [thesis, setThesis] = useState(1.1);
   const [power, setPower] = useState(2);
   const [metPower, setMetPower] = useState(1.0);
   const [visPower, setVisPower] = useState(1.0);

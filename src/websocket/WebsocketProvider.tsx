@@ -43,7 +43,7 @@ export default function WebsocketProvider({
       );
 
       ws.current.onopen = () => {
-        console.log("Socket successfully connected");
+        console.log(`Socket successfully connected with ID ${sessionId}`);
         setIsReady(true);
       };
 
