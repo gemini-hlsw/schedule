@@ -59,6 +59,5 @@ export function sortNightPlan(timeline: any) {
       timeEntriesBySite: sTimelineEntries,
     });
   }
-  console.log({ newTimelines });
   return newTimelines;
 }
