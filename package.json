@@ -15,15 +15,16 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.2",
+    "@apollo/client": "^3.10.8",
     "@types/react-router-dom": "^5.3.3",
     "graphql": "^16.6.0",
+    "graphql-ws": "^5.16.0",
     "highcharts": "^11.0.0",
     "highcharts-react-official": "^3.2.0",
     "lucuma-ui-css": "^0.63.1",
     "moment-timezone": "^0.5.45",
     "primeicons": "^6.0.1",
-    "primereact": "^10.2.1",
+    "primereact": "^10.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.5.0",

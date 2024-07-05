@@ -1,72 +1,27 @@
-import { graphql } from '../../gql';
-
+import { graphql } from "../../gql";
 export const scheduleQuery = graphql(`
-    query schedule($startTime: String!,
-                  $endTime: String!,
-                  $sites: Sites!,
-                  $mode: SchedulerModes!,
-                  $numNightsToSchedule: Int!,
-                  $thesisFactor: Float,
-                  $power: Int,
-                  $metPower: Float,
-                  $visPower: Float,
-                  $whaPower: Float,
-                  $programFile: Upload ) {
-      schedule(
-        newScheduleInput: {
-          startTime: $startTime, 
-          numNightsToSchedule: $numNightsToSchedule , 
-          sites: $sites, 
-          mode: $mode, 
-          endTime: $endTime,
-          semesterVisibility:false,
-          thesisFactor: $thesisFactor,
-          power: $power,
-          visPower: $visPower,
-          metPower: $metPower,
-          whaPower: $whaPower,
-          programFile: $programFile
-          }
-      ) {
-        nightPlans{
-          nightTimeline{
-            nightIndex
-            timeEntriesBySite{
-              site,
-              mornTwilight,
-              eveTwilight,
-              timeEntries{
-                startTimeSlots,
-                event,
-                plan{
-                  startTime,
-                  visits{
-                    obsId,
-                    endTime,
-                    altitude,
-                    atomEndIdx,
-                    atomStartIdx,
-                    startTime,
-                    instrument,
-                    score,
-                    obsClass,
-                    completion,
-                    peakScore,
-                  },
-                  nightStats{
-                    timeloss,
-                    planScore,
-                    timeloss,
-                    nToos,
-                    completionFraction,
-                    programCompletion
-                  }
-                }
-              }
-            }
-          }
-        },
-        plansSummary
+  query testSubQuery(
+    $scheduleId: String!
+    $startTime: String!
+    $endTime: String!
+    $sites: Sites!
+    $mode: SchedulerModes!
+    $numNightsToSchedule: Int!
+    $thesisFactor: Float
+    $power: Int
+  ) {
+    testSubQuery(
+      scheduleId: $scheduleId
+      newScheduleInput: {
+        startTime: $startTime
+        sites: $sites
+        mode: $mode
+        endTime: $endTime
+        thesisFactor: $thesisFactor
+        power: $power
+        semesterVisibility: false
+        numNightsToSchedule: $numNightsToSchedule
       }
-    }
-`)
+    )
+  }
+`);

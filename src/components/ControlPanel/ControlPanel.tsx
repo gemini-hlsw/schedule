@@ -14,7 +14,8 @@ import {
   InputNumberValueChangeEvent,
 } from "primereact/inputnumber";
 import { Nullable } from "primereact/ts-helpers";
-import { WebsocketContext } from "../../websocket/WebsocketProvider";
+import { useLazyQuery } from "@apollo/client";
+import { scheduleQuery } from "./query";
 
 export default function ControlPanel() {
   const defaultDate: Date = new Date("2018-10-01");
@@ -32,7 +33,9 @@ export default function ControlPanel() {
   ];
 
   const [numNight, setNumNight] = useState<number>(1);
-  const { isReady, txMessage } = useContext(WebsocketContext);
+  // const { isReady, txMessage } = useContext(WebsocketContext);
+  const [schedule, { loading, error, data: scheduleData }] =
+    useLazyQuery(scheduleQuery);
 
   const {
     thesis,
@@ -80,31 +83,19 @@ export default function ControlPanel() {
   );
 
   const onRunClick = () => {
-    if (isReady) {
-      setLoadingPlan(true);
-      txMessage({
+    setLoadingPlan(true);
+    schedule({
+      variables: {
+        scheduleId: "test",
         startTime: datesState[0].toISOString().split(".")[0].replace("T", " "),
         endTime: datesState[1].toISOString().split(".")[0].replace("T", " "),
+        mode: "VALIDATION",
         sites: siteState,
-        schedulerMode: "VALIDATION",
-        semesterVisibility: "True",
         numNightsToSchedule: numNight,
-        rankerParameters: {
-          thesisFactor: thesis,
-          power: power,
-          metPower: metPower,
-          visPower: visPower,
-          whaPower: whaPower,
-        },
-      });
-    } else {
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: "Websocket not connected yet",
-        life: 3000,
-      });
-    }
+        thesisFactor: thesis,
+        power: power,
+      },
+    });
   };
 
   return (
@@ -148,7 +139,7 @@ export default function ControlPanel() {
           showButtonBar
           showIcon
         />
-        <div className="flex-auto">
+        <div>
           <label htmlFor="minmax">Num of Nights: </label>
           <InputNumber
             inputId="minmax"
@@ -160,17 +151,15 @@ export default function ControlPanel() {
             max={365}
           />
         </div>
-        <div>
-          <FileUpload
-            mode="basic"
-            name="demo[]"
-            accept="text/*"
-            maxFileSize={1000000}
-            customUpload
-            uploadHandler={customBase64Uploader}
-            chooseLabel="Programs Selection"
-          />
-        </div>
+        <FileUpload
+          mode="basic"
+          name="demo[]"
+          accept="text/*"
+          maxFileSize={1000000}
+          customUpload
+          uploadHandler={customBase64Uploader}
+          chooseLabel="Programs Selection"
+        />
       </Panel>
     </>
   );
