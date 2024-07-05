@@ -85,16 +85,16 @@ export default function ControlPanel() {
       txMessage({
         startTime: datesState[0].toISOString().split(".")[0].replace("T", " "),
         endTime: datesState[1].toISOString().split(".")[0].replace("T", " "),
-        sites: siteState,
+        sites: siteState === "ALL_SITES" ? ["GN", "GS"] : [siteState],
         schedulerMode: "VALIDATION",
         semesterVisibility: "True",
-        numNightsToSchedule: numNight,
+        numNightsToSchedule: numNight.toString(),
         rankerParameters: {
-          thesisFactor: thesis,
-          power: power,
-          metPower: metPower,
-          visPower: visPower,
-          whaPower: whaPower,
+          thesisFactor: thesis.toFixed(1),
+          power: power.toString(),
+          metPower: metPower.toFixed(1),
+          visPower: visPower.toFixed(1),
+          whaPower: whaPower.toFixed(1),
         },
       });
     } else {
