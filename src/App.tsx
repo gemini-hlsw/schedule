@@ -16,7 +16,6 @@ function App() {
 
   useEffect(() => {
     if (!subscriptionLoading) {
-      console.log(scheduleData);
       setNightPlans(scheduleData?.queueSchedule?.nightPlans?.nightTimeline);
       setPlansSummary(scheduleData?.queueSchedule?.plansSummary);
     }
