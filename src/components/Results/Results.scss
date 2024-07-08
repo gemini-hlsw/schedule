@@ -7,16 +7,25 @@
       }
       .p-tabview {
         padding-top: 15px;
-        .p-tabview-nav li {
-          flex-grow: 1;
-          > .p-tabview-nav-link {
-            padding: 10px;
-            border: 1px solid var(--surface-border);
-            border-bottom: 0;
-          }
-          &.p-tabview-selected {
+        .p-tabview-nav {
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: row;
+          height: 30px;
+
+          li {
+            display: block;
+            // flex-grow: 1;
             > .p-tabview-nav-link {
-              background-color: var(--surface-b);
+              padding: 10px;
+              border: 1px solid var(--surface-border);
+              border-bottom: 0;
+            }
+            &.p-tabview-selected {
+              > .p-tabview-nav-link {
+                background-color: var(--surface-b);
+              }
             }
           }
         }

@@ -2,7 +2,6 @@ import React, { createContext, useState, ReactNode } from "react";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed
-import { PLAN_SUMMARY, NIGHT_PLANS } from "../../test/initial-plan";
 import { NightPlanType } from "../../types";
 // ------------------------------------------------------------
 
