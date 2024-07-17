@@ -6,7 +6,8 @@ import { useContext, useEffect } from "react";
 import { GlobalStateContext } from "./components/GlobalState/GlobalState";
 
 function App() {
-  const { setNightPlans, setPlansSummary } = useContext(GlobalStateContext);
+  const { setNightPlans, setPlansSummary, setLoadingPlan } =
+    useContext(GlobalStateContext);
   const { data: scheduleData, loading: subscriptionLoading } = useSubscription(
     subscriptionQueueSchedule,
     {
@@ -18,6 +19,7 @@ function App() {
     if (!subscriptionLoading) {
       setNightPlans(scheduleData?.queueSchedule?.nightPlans?.nightTimeline);
       setPlansSummary(scheduleData?.queueSchedule?.plansSummary);
+      setLoadingPlan(false);
     }
   }, [scheduleData, subscriptionLoading]);
 
