@@ -26,9 +26,7 @@ export default function Validation() {
       </Panel>
       <Divider />
       {plansSummary && Object.keys(plansSummary).length > 0 && (
-        <>
-          <SummaryTable summary={plansSummary} />
-        </>
+        <SummaryTable summary={plansSummary} />
       )}
       <div className="bottom">
         {nightPlans.length > 0 && (
