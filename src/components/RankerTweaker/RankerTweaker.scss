@@ -1,0 +1,11 @@
+.ranker-tweaker {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .ranker-tweaker {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
