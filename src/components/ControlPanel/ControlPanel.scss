@@ -8,4 +8,19 @@
     border-radius: 4px;
     border: 1px solid var(--surface-d) !important;
   }
+
+  .semester-visibility {
+    display: flex;
+    align-items: center;
+
+  .p-checkbox {
+    position: relative;
+    margin-left: 5px;
+      .p-checkbox-box {
+        float: left;
+        position: absolute;
+        top: 0;
+      }
+    }
+  }
 }

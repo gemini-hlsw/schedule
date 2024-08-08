@@ -1,4 +1,5 @@
 import React, { createContext, useState, ReactNode } from "react";
+import { v4 } from "uuid";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed
@@ -20,8 +21,11 @@ interface GlobalStateContextType {
   setVisPower: React.Dispatch<React.SetStateAction<number>>;
   whaPower: number;
   setWhaPower: React.Dispatch<React.SetStateAction<number>>;
+  semesterVisibility: boolean;
+  setSemesterVisibility: React.Dispatch<React.SetStateAction<boolean>>;
   loadingPlan: boolean;
   setLoadingPlan: React.Dispatch<React.SetStateAction<boolean>>;
+  uuid: string;
 }
 
 export const GlobalStateContext = createContext<GlobalStateContextType>(null!);
@@ -38,7 +42,9 @@ export default function GlobalStateProvider({
   const [metPower, setMetPower] = useState(1.0);
   const [visPower, setVisPower] = useState(1.0);
   const [whaPower, setWhaPower] = useState(1.0);
+  const [semesterVisibility, setSemesterVisibility] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState(false);
+  const [uuid] = useState(v4());
 
   return (
     <GlobalStateContext.Provider
@@ -57,8 +63,11 @@ export default function GlobalStateProvider({
         setVisPower,
         whaPower,
         setWhaPower,
+        semesterVisibility,
+        setSemesterVisibility,
         loadingPlan,
         setLoadingPlan,
+        uuid,
       }}
     >
       {children}
