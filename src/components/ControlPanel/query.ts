@@ -7,6 +7,7 @@ export const scheduleQuery = graphql(`
     $sites: Sites!
     $mode: SchedulerModes!
     $numNightsToSchedule: Int!
+    $semesterVisibility: Boolean!
     $thesisFactor: Float
     $power: Int
   ) {
@@ -19,7 +20,7 @@ export const scheduleQuery = graphql(`
         endTime: $endTime
         thesisFactor: $thesisFactor
         power: $power
-        semesterVisibility: false
+        semesterVisibility: $semesterVisibility
         numNightsToSchedule: $numNightsToSchedule
       }
     )

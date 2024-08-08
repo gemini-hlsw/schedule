@@ -16,6 +16,7 @@ import {
 import { Nullable } from "primereact/ts-helpers";
 import { useLazyQuery } from "@apollo/client";
 import { scheduleQuery } from "./query";
+import { Checkbox } from "primereact/checkbox";
 
 export default function ControlPanel() {
   const defaultDate: Date = new Date("2018-10-01");
@@ -43,8 +44,11 @@ export default function ControlPanel() {
     metPower,
     whaPower,
     visPower,
+    semesterVisibility,
+    setSemesterVisibility,
     loadingPlan,
     setLoadingPlan,
+    uuid,
   } = useContext(GlobalStateContext);
 
   const customBase64Uploader = async (event: FileUploadHandlerEvent) => {
@@ -86,13 +90,14 @@ export default function ControlPanel() {
     setLoadingPlan(true);
     schedule({
       variables: {
-        scheduleId: "test",
+        scheduleId: uuid,
         startTime: datesState[0].toISOString().split(".")[0].replace("T", " "),
         endTime: datesState[1].toISOString().split(".")[0].replace("T", " "),
         mode: "VALIDATION",
         sites: siteState,
         numNightsToSchedule: numNight,
         thesisFactor: thesis,
+        semesterVisibility: semesterVisibility,
         power: power,
       },
     });
@@ -139,10 +144,22 @@ export default function ControlPanel() {
           showButtonBar
           showIcon
         />
+        <div className="semester-visibility">
+          <label htmlFor="semesterVisibility" className="ml-2">
+            Semester Visibility
+          </label>
+          <Checkbox
+            inputId="semesterVisibility"
+            name="semesterVisibility"
+            onChange={() => setSemesterVisibility(!semesterVisibility)}
+            checked={semesterVisibility}
+          />
+        </div>
         <div>
           <label htmlFor="minmax">Num of Nights: </label>
           <InputNumber
             inputId="minmax"
+            disabled={semesterVisibility}
             value={numNight}
             onValueChange={(e: InputNumberValueChangeEvent) =>
               setNumNight(e.value)

@@ -2,16 +2,18 @@ import { Outlet } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { useSubscription } from "@apollo/client";
 import { subscriptionQueueSchedule } from "./components/GlobalState/scheduleSubscription";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { GlobalStateContext } from "./components/GlobalState/GlobalState";
+import { v4 } from "uuid";
 
 function App() {
-  const { setNightPlans, setPlansSummary, setLoadingPlan } =
+  const { setNightPlans, setPlansSummary, setLoadingPlan, uuid } =
     useContext(GlobalStateContext);
+
   const { data: scheduleData, loading: subscriptionLoading } = useSubscription(
     subscriptionQueueSchedule,
     {
-      variables: { scheduleId: "test" },
+      variables: { scheduleId: uuid },
     }
   );
 

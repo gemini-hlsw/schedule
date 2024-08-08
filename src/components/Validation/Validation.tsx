@@ -29,7 +29,7 @@ export default function Validation() {
         <SummaryTable summary={plansSummary} />
       )}
       <div className="bottom">
-        {nightPlans.length > 0 && (
+        {nightPlans && nightPlans.length > 0 && (
           <>
             <Divider />
             <Results plans={nightPlans} />
