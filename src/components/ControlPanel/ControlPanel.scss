@@ -13,13 +13,32 @@
     display: flex;
     align-items: center;
 
-  .p-checkbox {
-    position: relative;
-    margin-left: 5px;
+    label {
+      cursor: pointer;
+    }
+
+    .p-checkbox {
+      position: relative;
+      margin-left: 5px;
+
+      .p-checkbox-input {
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
       .p-checkbox-box {
+        z-index: 1;
         float: left;
         position: absolute;
         top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
