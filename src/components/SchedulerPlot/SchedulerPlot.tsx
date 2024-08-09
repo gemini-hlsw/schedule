@@ -92,35 +92,33 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
   const eveTwiDate = new Date(eveTwilight);
   const mornTwiDate = new Date(mornTwilight);
 
-  const seriesData: Array<SeriesArearangeOptions> = data.map(
-    (d: any, index: number) => {
-      const yMinArray = d.yPoints.map((y: number) => 0);
-      return {
-        name: d.instrument,
-        type: "arearange",
-        data: d.yPoints.map((y: any, i: number) => {
-          return {
-            x: getTzTime(d.startDate) + i * 60 * 1000,
-            low: yMinArray[i],
-            high: y,
-          };
-        }),
-        lineWidth: 1,
-        color: colorMap[d.instrument],
-        fillOpacity: 0.3,
-        zIndex: 0,
-        marker: {
-          enabled: false,
+  const seriesData: Array<SeriesArearangeOptions> = data.map((d: any) => {
+    const yMinArray = d.yPoints.map((y: number) => 0);
+    return {
+      name: d.instrument,
+      type: "arearange",
+      data: d.yPoints.map((y: any, i: number) => {
+        return {
+          x: getTzTime(d.startDate) + i * 60 * 1000,
+          low: yMinArray[i],
+          high: y,
+        };
+      }),
+      lineWidth: 1,
+      color: colorMap[d.instrument],
+      fillOpacity: 0.3,
+      zIndex: 0,
+      marker: {
+        enabled: false,
+      },
+      events: {
+        legendItemClick: function () {
+          return false; // Prevents the default action, which is toggling visibility
         },
-        events: {
-          legendItemClick: function () {
-            return false; // Prevents the default action, which is toggling visibility
-          },
-        },
-        showInLegend: true, // Hide this series in the legend
-      };
-    }
-  );
+      },
+      showInLegend: true, // Hide this series in the legend
+    };
+  });
 
   // Create a set to keep track of names we've seen
   let seenNames = new Set();
@@ -158,7 +156,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
         const yPos = chart.yAxis[0].toPixels(y, false);
 
         let lbl = chart.renderer
-          .text(d.label, xPos, yPos)
+          .text(d.label, xPos + 4.5, yPos)
           .attr({
             rotation: -90,
             textAlign: "center",
