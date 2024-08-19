@@ -22,6 +22,12 @@ export interface Plan {
   startTime: string;
   visits: Visit[];
   nightStats: NightStats;
+  nightConditions: NightConditions;
+}
+
+export interface NightConditions {
+  cc: string;
+  iq: string;
 }
 
 export interface Visit {
@@ -36,6 +42,7 @@ export interface Visit {
   completion: string;
   obsClass: string;
   peakScore: number;
+  requiredConditions: NightConditions;
 }
 
 export interface NightStats {
