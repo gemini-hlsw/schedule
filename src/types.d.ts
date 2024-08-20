@@ -22,7 +22,7 @@ export interface Plan {
   startTime: string;
   visits: Visit[];
   nightStats: NightStats;
-  nightConditions: NightConditions;
+  nightConditions?: NightConditions;
 }
 
 export interface NightConditions {
