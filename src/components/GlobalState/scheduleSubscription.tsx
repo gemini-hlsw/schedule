@@ -15,6 +15,10 @@ export const subscriptionQueueSchedule = graphql(`
               event
               plan {
                 startTime
+                nightConditions {
+                  iq
+                  cc
+                }
                 visits {
                   obsId
                   endTime
@@ -27,6 +31,10 @@ export const subscriptionQueueSchedule = graphql(`
                   obsClass
                   completion
                   peakScore
+                  requiredConditions {
+                    iq
+                    cc
+                  }
                 }
                 nightStats {
                   timeloss

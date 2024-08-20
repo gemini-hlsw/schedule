@@ -4,7 +4,6 @@ import { useSubscription } from "@apollo/client";
 import { subscriptionQueueSchedule } from "./components/GlobalState/scheduleSubscription";
 import { useContext, useEffect, useRef } from "react";
 import { GlobalStateContext } from "./components/GlobalState/GlobalState";
-import { v4 } from "uuid";
 
 function App() {
   const { setNightPlans, setPlansSummary, setLoadingPlan, uuid } =

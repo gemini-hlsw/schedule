@@ -56,6 +56,14 @@ export default function TimeEntry({
     return <Tag value={visit.obsClass} severity={getSeverity(visit)}></Tag>;
   };
 
+  const cloudCoverBodyTemplate = (visit: Visit) => {
+    return `${visit.requiredConditions.cc}`;
+  };
+
+  const imageQualityBodyTemplate = (visit: Visit) => {
+    return `${visit.requiredConditions.iq}`;
+  };
+
   const scoreBodyTemplate = (visit: Visit) => {
     return formatScore(visit.score);
   };
@@ -120,6 +128,7 @@ export default function TimeEntry({
               0,
               timeEntry.plan.startTime.indexOf("T")
             )}
+            nightConditions={timeEntry.plan.nightConditions}
           />
         }
       >
@@ -147,6 +156,11 @@ export default function TimeEntry({
           <Column field="atomEndIdx" header="Atom End">
             {" "}
           </Column>
+          <Column header="Cloud Cover" body={cloudCoverBodyTemplate}></Column>
+          <Column
+            header="Image Quality"
+            body={imageQualityBodyTemplate}
+          ></Column>
           <Column header="Obs Completion" body={obsCompletionBodyTemplate}>
             {" "}
           </Column>
