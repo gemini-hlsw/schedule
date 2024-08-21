@@ -38,6 +38,9 @@ export interface Visit {
   atomStartIdx: number;
   startTime: string;
   instrument: string;
+  fpu: string;
+  disperser: string;
+  filters: string[];
   score: number;
   completion: string;
   obsClass: string;

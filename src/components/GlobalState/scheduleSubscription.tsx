@@ -27,6 +27,9 @@ export const subscriptionQueueSchedule = graphql(`
                   atomStartIdx
                   startTime
                   instrument
+                  fpu
+                  disperser
+                  filters
                   score
                   obsClass
                   completion
