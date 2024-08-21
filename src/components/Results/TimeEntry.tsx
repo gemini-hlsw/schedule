@@ -56,14 +56,6 @@ export default function TimeEntry({
     return <Tag value={visit.obsClass} severity={getSeverity(visit)}></Tag>;
   };
 
-  const cloudCoverBodyTemplate = (visit: Visit) => {
-    return `${visit.requiredConditions.cc}`;
-  };
-
-  const imageQualityBodyTemplate = (visit: Visit) => {
-    return `${visit.requiredConditions.iq}`;
-  };
-
   const scoreBodyTemplate = (visit: Visit) => {
     return formatScore(visit.score);
   };
@@ -156,10 +148,28 @@ export default function TimeEntry({
           <Column field="atomEndIdx" header="Atom End">
             {" "}
           </Column>
-          <Column header="Cloud Cover" body={cloudCoverBodyTemplate}></Column>
+          <Column
+            header="Instrument"
+            body={(visit: Visit) => visit.instrument}
+          ></Column>
+          <Column header="FPU" body={(visit: Visit) => visit.fpu}></Column>
+          <Column
+            header="Grating"
+            body={(visit: Visit) => visit.disperser}
+          ></Column>
+          <Column
+            header="Filters"
+            body={(visit: Visit) =>
+              visit.filters.length > 0 ? visit.filters.join(", ") : "None"
+            }
+          ></Column>
+          <Column
+            header="Cloud Cover"
+            body={(visit: Visit) => visit.requiredConditions.cc}
+          ></Column>
           <Column
             header="Image Quality"
-            body={imageQualityBodyTemplate}
+            body={(visit: Visit) => visit.requiredConditions.iq}
           ></Column>
           <Column header="Obs Completion" body={obsCompletionBodyTemplate}>
             {" "}
