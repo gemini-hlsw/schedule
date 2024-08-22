@@ -15,7 +15,7 @@ export default function NightPlanSummary({
     <div className="summary">
       <h4 className="title">Night Plan {nightTitle}</h4>
       <div className="body">
-        <div>Timeloss: {nightState.timeloss}</div>
+        <div>Timeloss: {nightState.timeLoss}</div>
         <div>Cloud Cover: {nightConditions.cc}</div>
         <div>Image Quality: {nightConditions.iq}</div>
         {/* <Tag icon="pi pi-cloud">

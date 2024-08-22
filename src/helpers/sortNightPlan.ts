@@ -30,7 +30,7 @@ export function sortNightPlan(timeline: any) {
                 };
               }),
               nightStats: {
-                timeloss: timeline[n_idx][site][entry].plan.nightStats.timeloss,
+                timeLoss: timeline[n_idx][site][entry].plan.nightStats.timeLoss,
                 planScore: parseFloat(
                   timeline[n_idx][site][entry].plan.nightStats.planScore
                 ),
