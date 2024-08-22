@@ -49,9 +49,9 @@ export interface Visit {
 }
 
 export interface NightStats {
-  timeloss: string;
+  timeLoss: { faults: number; unschedule: number; weather: number };
   planScore: number;
   nToos: number;
-  completionFraction: string;
-  programCompletion: string;
+  completionFraction: number[];
+  programCompletion: { [key: string]: number };
 }

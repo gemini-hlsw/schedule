@@ -94,14 +94,13 @@ export default function TimeEntry({
     }
   };
 
-  const programCompletion = (programCompletion: string) => {
-    const jProgCompletion = JSON.parse(programCompletion);
+  const programCompletion = (programCompletion: { [key: string]: number }) => {
     var pc = [];
 
-    for (var p in jProgCompletion) {
+    for (var p in programCompletion) {
       pc.push({
         progId: p,
-        completion: jProgCompletion[p],
+        completion: programCompletion[p],
       });
     }
     return pc;

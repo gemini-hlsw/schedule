@@ -9,13 +9,12 @@ export default function NightPlanSummary({
   nightConditions: NightConditions;
   nightTitle: string;
 }) {
-  // const conditions = JSON.parse(planConditions)
-  const completion = JSON.parse(nightState.completionFraction);
+  const completion = nightState.completionFraction;
   return (
     <div className="summary">
       <h4 className="title">Night Plan {nightTitle}</h4>
       <div className="body">
-        <div>Timeloss: {nightState.timeloss}</div>
+        <div>Timeloss: {JSON.stringify(nightState.timeLoss)}</div>
         <div>Cloud Cover: {nightConditions.cc}</div>
         <div>Image Quality: {nightConditions.iq}</div>
         {/* <Tag icon="pi pi-cloud">
