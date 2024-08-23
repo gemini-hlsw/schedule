@@ -23,7 +23,7 @@ export const NIGHT_PLANS = [
               startTime: "2018-09-29T05:00:00.000013+00:00",
               visits: [],
               nightStats: {
-                timeloss: "625 min",
+                timeLoss: "625 min",
                 planScore: 0,
                 nToos: 0,
                 completionFraction: '{"1": 0, "2": 0, "3": 0, "4": 0}',
@@ -408,7 +408,7 @@ export const NIGHT_PLANS = [
                 },
               ],
               nightStats: {
-                timeloss: "28 min",
+                timeLoss: "28 min",
                 planScore: 0.04692387957314154,
                 nToos: 0,
                 completionFraction: '{"1": 11, "2": 0, "3": 0, "4": 0}',

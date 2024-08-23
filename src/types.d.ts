@@ -49,7 +49,7 @@ export interface Visit {
 }
 
 export interface NightStats {
-  timeloss: string;
+  timeLoss: string;
   planScore: number;
   nToos: number;
   completionFraction: string;

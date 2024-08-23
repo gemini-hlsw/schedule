@@ -40,9 +40,8 @@ export const subscriptionQueueSchedule = graphql(`
                   }
                 }
                 nightStats {
-                  timeloss
+                  timeLoss
                   planScore
-                  timeloss
                   nToos
                   completionFraction
                   programCompletion
