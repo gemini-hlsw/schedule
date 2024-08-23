@@ -35,13 +35,12 @@ export function sortNightPlan(timeline: any) {
                   timeline[n_idx][site][entry].plan.nightStats.planScore
                 ),
                 nToos: 0,
-                completionFraction: JSON.stringify(
+                completionFraction:
                   timeline[n_idx][site][entry].plan.nightStats
-                    .completionFraction
-                ),
-                programCompletion: JSON.stringify(
-                  timeline[n_idx][site][entry].plan.nightStats.programCompletion
-                ),
+                    .completionFraction,
+                programCompletion:
+                  timeline[n_idx][site][entry].plan.nightStats
+                    .programCompletion,
               },
             },
           });
