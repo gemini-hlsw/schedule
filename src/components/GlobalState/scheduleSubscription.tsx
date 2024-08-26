@@ -52,6 +52,7 @@ export const subscriptionQueueSchedule = graphql(`
         }
       }
       plansSummary
+      error
     }
   }
 `);

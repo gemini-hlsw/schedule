@@ -10,6 +10,20 @@ const wsLink = new GraphQLWsLink(
       import.meta.env.VITE_API_URL ??
       "https://gpp-schedule-staging.herokuapp.com/graphql"
     }`,
+    keepAlive: 10000,
+    retryAttempts: Infinity,
+    shouldRetry: () => true,
+    on: {
+      connected: () => {
+        console.log("Socket successfully connected");
+      },
+      error: (error) => {
+        console.log("Socket error", error);
+      },
+      closed: () => {
+        console.log("Socket closed");
+      },
+    },
   })
 );
 
