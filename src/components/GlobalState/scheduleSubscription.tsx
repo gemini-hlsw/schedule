@@ -3,55 +3,61 @@ import { graphql } from "../../gql";
 export const subscriptionQueueSchedule = graphql(`
   subscription queueSchedule($scheduleId: String!) {
     queueSchedule(scheduleId: $scheduleId) {
-      nightPlans {
-        nightTimeline {
-          nightIndex
-          timeEntriesBySite {
-            site
-            mornTwilight
-            eveTwilight
-            timeEntries {
-              startTimeSlots
-              event
-              plan {
-                startTime
-                nightConditions {
-                  iq
-                  cc
-                }
-                visits {
-                  obsId
-                  endTime
-                  altitude
-                  atomEndIdx
-                  atomStartIdx
+      __typename
+      ... on NewNightPlans {
+        nightPlans {
+          nightTimeline {
+            nightIndex
+            timeEntriesBySite {
+              site
+              mornTwilight
+              eveTwilight
+              timeEntries {
+                startTimeSlots
+                event
+                plan {
                   startTime
-                  instrument
-                  fpu
-                  disperser
-                  filters
-                  score
-                  obsClass
-                  completion
-                  peakScore
-                  requiredConditions {
+                  nightConditions {
                     iq
                     cc
                   }
-                }
-                nightStats {
-                  timeLoss
-                  planScore
-                  nToos
-                  completionFraction
-                  programCompletion
+                  visits {
+                    obsId
+                    endTime
+                    altitude
+                    atomEndIdx
+                    atomStartIdx
+                    startTime
+                    instrument
+                    fpu
+                    disperser
+                    filters
+                    score
+                    obsClass
+                    completion
+                    peakScore
+                    requiredConditions {
+                      iq
+                      cc
+                    }
+                  }
+                  nightStats {
+                    timeLoss
+                    planScore
+                    nToos
+                    completionFraction
+                    programCompletion
+                  }
                 }
               }
             }
           }
         }
+        plansSummary
       }
-      plansSummary
+      ... on NightPlansError {
+        error
+      }
     }
   }
 `);

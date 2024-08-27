@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { GlobalStateContext } from "../GlobalState/GlobalState";
 import "./ControlPanel.scss";
 
@@ -34,9 +34,13 @@ export default function ControlPanel() {
   ];
 
   const [numNight, setNumNight] = useState<number>(1);
-  // const { isReady, txMessage } = useContext(WebsocketContext);
-  const [schedule, { loading, error, data: scheduleData }] =
-    useLazyQuery(scheduleQuery);
+  const [validInputs, setValidInputs] = useState(false);
+  const [schedule, { loading, error, data: scheduleData }] = useLazyQuery(
+    scheduleQuery,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
 
   const {
     thesis,
@@ -50,6 +54,60 @@ export default function ControlPanel() {
     setLoadingPlan,
     uuid,
   } = useContext(GlobalStateContext);
+
+  function validateInputs() {
+    let valid = true;
+    if (numNight < 1) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Number of nights must be at least 1",
+        life: 3000,
+      });
+      valid = false;
+    }
+
+    let dateRange = 1;
+    if (datesState) {
+      if (datesState[0] && datesState[1]) {
+        dateRange =
+          1 +
+          Math.floor(
+            Math.abs(datesState[1].getTime() - datesState[0].getTime()) /
+              1000 /
+              60 /
+              60 /
+              24
+          );
+      }
+    }
+
+    if (dateRange < 2 && !semesterVisibility) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "A date range should be selected or use semester visibility",
+        life: 3000,
+      });
+      valid = false;
+    }
+
+    if (numNight > dateRange && !semesterVisibility) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Number of nights cannot be greater than date range",
+        life: 3000,
+      });
+      valid = false;
+    }
+    return valid;
+  }
+
+  useEffect(() => {
+    if (validateInputs()) setValidInputs(true);
+    else setValidInputs(false);
+  }, [numNight, datesState, semesterVisibility]);
 
   const customBase64Uploader = async (event: FileUploadHandlerEvent) => {
     // convert file to base64 encoded
@@ -83,7 +141,8 @@ export default function ControlPanel() {
     datesState !== null &&
     datesState.length >= 2 &&
     Array.isArray(datesState) &&
-    numNight
+    numNight &&
+    validInputs
   );
 
   const onRunClick = () => {
@@ -99,6 +158,9 @@ export default function ControlPanel() {
         thesisFactor: thesis,
         semesterVisibility: semesterVisibility,
         power: power,
+        whaPower: whaPower,
+        metPower: metPower,
+        visPower: visPower,
       },
     });
   };
