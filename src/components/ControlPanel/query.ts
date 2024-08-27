@@ -10,6 +10,9 @@ export const scheduleQuery = graphql(`
     $semesterVisibility: Boolean!
     $thesisFactor: Float
     $power: Int
+    $metPower: Float
+    $whaPower: Float
+    $visPower: Float
   ) {
     testSubQuery(
       scheduleId: $scheduleId
@@ -20,6 +23,9 @@ export const scheduleQuery = graphql(`
         endTime: $endTime
         thesisFactor: $thesisFactor
         power: $power
+        metPower: $metPower
+        whaPower: $whaPower
+        visPower: $visPower
         semesterVisibility: $semesterVisibility
         numNightsToSchedule: $numNightsToSchedule
       }
