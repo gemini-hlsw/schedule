@@ -104,10 +104,9 @@ export default function ControlPanel() {
     return valid;
   }
 
-  useEffect(() => {
-    if (validateInputs()) setValidInputs(true);
-    else setValidInputs(false);
-  }, [numNight, datesState, semesterVisibility]);
+  // useEffect(() => {
+  //   setValidInputs(validateInputs());
+  // }, [numNight, semesterVisibility]);
 
   const customBase64Uploader = async (event: FileUploadHandlerEvent) => {
     // convert file to base64 encoded
@@ -201,6 +200,7 @@ export default function ControlPanel() {
           id="range"
           value={datesState}
           onChange={(e) => setDates(e.value)}
+          onBlur={() => setValidInputs(validateInputs())}
           selectionMode="range"
           readOnlyInput
           showButtonBar
@@ -214,6 +214,7 @@ export default function ControlPanel() {
             inputId="semesterVisibility"
             name="semesterVisibility"
             onChange={() => setSemesterVisibility(!semesterVisibility)}
+            onBlur={() => setValidInputs(validateInputs())}
             checked={semesterVisibility}
           />
         </div>
@@ -226,6 +227,7 @@ export default function ControlPanel() {
             onValueChange={(e: InputNumberValueChangeEvent) =>
               setNumNight(e.value)
             }
+            onBlur={() => setValidInputs(validateInputs())}
             min={1}
             max={365}
           />

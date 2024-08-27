@@ -29,6 +29,7 @@ function App() {
           severity: "error",
           summary: "Error",
           detail: scheduleData.queueSchedule.error,
+          sticky: true,
         });
         setNightPlans([]);
         setPlansSummary({} as any);
