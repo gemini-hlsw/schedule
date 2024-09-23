@@ -33,6 +33,15 @@ function App() {
         });
         setNightPlans([]);
         setPlansSummary({} as any);
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: scheduleData.errors[0].message,
+          sticky: true,
+        });
+        setNightPlans([]);
+        setPlansSummary({} as any);
       }
       setLoadingPlan(false);
     }
