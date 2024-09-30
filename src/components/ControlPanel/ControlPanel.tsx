@@ -160,6 +160,7 @@ export default function ControlPanel() {
         whaPower: whaPower,
         metPower: metPower,
         visPower: visPower,
+        programFile: fileData
       },
     });
   };

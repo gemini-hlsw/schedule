@@ -12,7 +12,7 @@ function App() {
 
   const toast = useRef<Toast>(null);
 
-  const { data: scheduleData, loading: subscriptionLoading } = useSubscription(
+  const { data: scheduleData, loading: subscriptionLoading, error } = useSubscription(
     subscriptionQueueSchedule,
     {
       variables: { scheduleId: uuid },
@@ -29,6 +29,15 @@ function App() {
           severity: "error",
           summary: "Error",
           detail: scheduleData.queueSchedule.error,
+          sticky: true,
+        });
+        setNightPlans([]);
+        setPlansSummary({} as any);
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
           sticky: true,
         });
         setNightPlans([]);

@@ -13,6 +13,7 @@ export const scheduleQuery = graphql(`
     $metPower: Float
     $whaPower: Float
     $visPower: Float
+    $programFile: Upload
   ) {
     testSubQuery(
       scheduleId: $scheduleId
@@ -28,6 +29,7 @@ export const scheduleQuery = graphql(`
         visPower: $visPower
         semesterVisibility: $semesterVisibility
         numNightsToSchedule: $numNightsToSchedule
+        programFile: $programFile
       }
     )
   }
