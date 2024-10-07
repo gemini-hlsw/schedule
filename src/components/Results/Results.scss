@@ -90,37 +90,25 @@
           border-color: var(--primary-color);
         }
   
-        >.event-bullet {
-          display: block;
-          margin-bottom: 10px;
+        >.bullet {
+          margin: 0 auto;
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          border: 1px solid var(--gray-500);
+          background-color: var(--surface-b);
+          transform: translateX(-50%);
+          position: absolute;
+          transition: background-color 0.2s, border-color 0.2s;
           cursor: pointer;
-  
-          >.bullet {
-            margin: 0 auto;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            border: 1px solid var(--gray-500);
-            background-color: var(--surface-b);
-            transform: translateX(-50%);
-            position: absolute;
-            transition: background-color 0.2s, border-color 0.2s;
-          }
-  
+
           &:hover {
-            >.bullet {
-              border-color: var(--primary-color);
-            }
-  
-            >.text {
-              color: var(--primary-color);
-            }
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
           }
-  
+
           &.active {
-            >.bullet {
-              background-color: var(--primary-color);
-            }
+            background-color: var(--primary-color);
           }
         }
       }

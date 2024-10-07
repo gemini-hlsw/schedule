@@ -27,14 +27,15 @@ export default function EntryBySite({
       100;
     timeLine.push(
       <div
-        className={`${
-          JSON.stringify(en) === JSON.stringify(selectedEntry) ? "active" : ""
-        } event-bullet`}
         key={en.startTimeSlots}
         onClick={() => setSelectedEntry(en)}
-      >
-        <div className="bullet" style={{ left: `${pos}%` }} />
-      </div>
+        className={
+          JSON.stringify(en) === JSON.stringify(selectedEntry)
+            ? "active bullet"
+            : "bullet"
+        }
+        style={{ left: `${pos}%` }}
+      />
     );
   }
 
