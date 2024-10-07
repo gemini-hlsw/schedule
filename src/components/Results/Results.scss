@@ -63,35 +63,33 @@
 
     >.title {
       margin-top: 0;
+      margin-bottom: 10px
     }
 
     >.timeline {
+      height: 10px;
       width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      position: relative;
-      z-index: 0;
+      padding: 0 10px;
 
-      &::before {
-        border-top: 1px solid var(--surface-border);
+      >.timeline-container {
+        position: relative;
+        z-index: 0;
         width: 100%;
-        position: absolute;
-        top: 9px;
-        content: "";
-        z-index: -1;
-        transition: border-color 0.2s;
-      }
 
-      &:hover::before {
-        border-color: var(--primary-color);
-      }
-
-      >.event-bullet {
-        display: block;
-        margin-bottom: 10px;
-        cursor: pointer;
-
+        &::before {
+          border-top: 1px solid var(--surface-border);
+          width: 100%;
+          position: absolute;
+          top: 9px;
+          content: "";
+          z-index: -1;
+          transition: border-color 0.2s;
+        }
+  
+        &:hover::before {
+          border-color: var(--primary-color);
+        }
+  
         >.bullet {
           margin: 0 auto;
           height: 20px;
@@ -99,30 +97,17 @@
           border-radius: 50%;
           border: 1px solid var(--gray-500);
           background-color: var(--surface-b);
-          position: relative;
+          transform: translateX(-50%);
+          position: absolute;
           transition: background-color 0.2s, border-color 0.2s;
-        }
+          cursor: pointer;
 
-        >.text {
-          display: inline-block;
-          text-align: center;
-          margin-top: 5px;
-          max-width: 100px;
-          transition: color 0.2s;
-        }
-
-        &:hover {
-          >.bullet {
+          &:hover {
             border-color: var(--primary-color);
+            background-color: var(--primary-color);
           }
 
-          >.text {
-            color: var(--primary-color);
-          }
-        }
-
-        &.active {
-          >.bullet {
+          &.active {
             background-color: var(--primary-color);
           }
         }

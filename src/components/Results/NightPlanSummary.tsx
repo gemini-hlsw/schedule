@@ -14,12 +14,11 @@ export default function NightPlanSummary({
     <div className="summary">
       <h4 className="title">Night Plan {nightTitle}</h4>
       <div className="body">
-        <div>Timeloss: {JSON.stringify(nightState.timeLoss)}</div>
+        <div>Faults time: {nightState.timeLoss.faults.toFixed(2)}</div>
+        <div>Weather time: {nightState.timeLoss.weather.toFixed(2)}</div>
+        <div>Unscheduled time: {nightState.timeLoss.unschedule.toFixed(2)}</div>
         <div>Cloud Cover: {nightConditions.cc}</div>
         <div>Image Quality: {nightConditions.iq}</div>
-        {/* <Tag icon="pi pi-cloud">
-          CC: {conditions.cc} WV: {conditions.wv}
-        </Tag> */}
         <div>ToOs: {nightState.nToos}</div>
         <div>Score: {nightState.planScore.toFixed(2)}</div>
         {completion[1] > 0 && <div>Band 1: {completion[1]}</div>}

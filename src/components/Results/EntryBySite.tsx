@@ -15,26 +15,39 @@ export default function EntryBySite({
     setSelectedEntry(entryBySite.timeEntries[0] ?? ({} as TimeEntryType));
   }, [entryBySite]);
 
+  let w =
+    entryBySite.timeEntries.at(-1).startTimeSlots -
+    entryBySite.timeEntries.at(0).startTimeSlots;
+  if (w === 0) w = 1;
+
   let timeLine: React.ReactElement[] = [];
-  entryBySite.timeEntries.map((en: TimeEntryType, idx: number) => {
+  for (let en of entryBySite.timeEntries) {
+    let pos =
+      ((en.startTimeSlots - entryBySite.timeEntries.at(0).startTimeSlots) / w) *
+      100;
     timeLine.push(
       <div
-        className={`${JSON.stringify(en) === JSON.stringify(selectedEntry) ? "active" : ""
-          } event-bullet`}
-        key={`timeEntry${idx}`}
+        key={en.startTimeSlots}
         onClick={() => setSelectedEntry(en)}
-      >
-        <div className="bullet" />
-        <span className="text">{en.event}</span>
-      </div>
+        className={
+          JSON.stringify(en) === JSON.stringify(selectedEntry)
+            ? "active bullet"
+            : "bullet"
+        }
+        style={{ left: `${pos}%` }}
+      />
     );
-  });
+  }
 
   return (
     <div className="site-entry">
       <h4 className="title">Timeline</h4>
-      <div className="timeline">{timeLine}</div>
-      <TimeEntry timeEntry={selectedEntry}
+      <div className="timeline">
+        <div className="timeline-container">{timeLine}</div>
+      </div>
+      <h4>{selectedEntry.event}</h4>
+      <TimeEntry
+        timeEntry={selectedEntry}
         eveTwilight={entryBySite.eveTwilight}
         mornTwilight={entryBySite.mornTwilight}
         site={entryBySite.site}
