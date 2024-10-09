@@ -12,19 +12,26 @@ function App() {
 
   const toast = useRef<Toast>(null);
 
-  const { data: scheduleData, loading: subscriptionLoading, error } = useSubscription(
-    subscriptionQueueSchedule,
-    {
-      variables: { scheduleId: uuid },
-    }
-  );
+  const {
+    data: scheduleData,
+    loading: subscriptionLoading,
+    error,
+  } = useSubscription(subscriptionQueueSchedule, {
+    variables: { scheduleId: uuid },
+  });
 
   useEffect(() => {
     if (!subscriptionLoading) {
-      if (scheduleData.queueSchedule.__typename === "NewNightPlans") {
+      if (
+        scheduleData &&
+        scheduleData.queueSchedule.__typename === "NewNightPlans"
+      ) {
         setNightPlans(scheduleData.queueSchedule.nightPlans.nightTimeline);
         setPlansSummary(scheduleData.queueSchedule.plansSummary);
-      } else if (scheduleData.queueSchedule.__typename === "NightPlansError") {
+      } else if (
+        scheduleData &&
+        scheduleData.queueSchedule.__typename === "NightPlansError"
+      ) {
         toast.current?.show({
           severity: "error",
           summary: "Error",
