@@ -15,10 +15,12 @@ export default function EntryBySite({
     setSelectedEntry(entryBySite.timeEntries[0] ?? ({} as TimeEntryType));
   }, [entryBySite]);
 
-  let w =
-    entryBySite.timeEntries.at(-1).startTimeSlots -
-    entryBySite.timeEntries.at(0).startTimeSlots;
-  if (w === 0) w = 1;
+  let w = 1;
+  if (entryBySite && entryBySite.timeEntries.length > 1) {
+    w =
+      entryBySite.timeEntries.at(-1).startTimeSlots -
+      entryBySite.timeEntries.at(0).startTimeSlots;
+  }
 
   let timeLine: React.ReactElement[] = [];
   for (let en of entryBySite.timeEntries) {
