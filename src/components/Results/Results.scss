@@ -2,6 +2,9 @@
   .p-panel-content {
     padding: 0 !important;
     .p-carousel {
+      .p-carousel-item.p-carousel-item-active {
+        width: 100%;
+      }
       .p-carousel-indicators {
         padding: 10px;
       }
