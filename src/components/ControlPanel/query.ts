@@ -1,6 +1,6 @@
 import { graphql } from "../../gql";
 export const scheduleQuery = graphql(`
-  query testSubQuery(
+  query schedule(
     $scheduleId: String!
     $startTime: String!
     $endTime: String!
@@ -15,7 +15,7 @@ export const scheduleQuery = graphql(`
     $visPower: Float
     $programFile: Upload
   ) {
-    testSubQuery(
+    schedule(
       scheduleId: $scheduleId
       newScheduleInput: {
         startTime: $startTime
