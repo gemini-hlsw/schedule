@@ -12,7 +12,7 @@ export default function NightPlanSummary({
   const completion = nightState.completionFraction;
   return (
     <div className="summary">
-      <h4 className="title">Night Plan {nightTitle}</h4>
+      <h4 className="title">{nightTitle}</h4>
       <div className="body">
         <div>Faults time: {nightState.timeLoss.faults.toFixed(2)}</div>
         <div>Weather time: {nightState.timeLoss.weather.toFixed(2)}</div>

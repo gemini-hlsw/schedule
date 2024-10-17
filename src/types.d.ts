@@ -10,6 +10,7 @@ export interface TimeEntriesBySite {
   eveTwilight: string;
   mornTwilight: string;
   timeEntries: TimeEntryType[];
+  timeLosses: { faults: number, weather: number };
 }
 
 export interface TimeEntryType {

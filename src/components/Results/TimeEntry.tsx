@@ -115,10 +115,7 @@ export default function TimeEntry({
         header={
           <NightPlanSummary
             nightState={timeEntry.plan.nightStats}
-            nightTitle={timeEntry.plan.startTime.substring(
-              0,
-              timeEntry.plan.startTime.indexOf("T")
-            )}
+            nightTitle={timeEntry.event}
             nightConditions={timeEntry.plan.nightConditions}
           />
         }
