@@ -5,3 +5,14 @@
     gap: 4px;
   }
 }
+
+.light {
+  .p-disabled {
+    .p-button-icon.p-c.pi.pi-fw {
+      color: #333;
+    }
+  }
+  .p-button-icon.p-c.pi.pi-fw {
+    color: #FFF;
+  }
+}

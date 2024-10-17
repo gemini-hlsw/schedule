@@ -40,24 +40,17 @@
   }
 }
 
-// @media (max-width: 700px) {
-//   .navbar {
-//     width: 100%;
-//     text-align: left;
+.light {
+  .navbar {
+    .button-group {
+      >a {
+        color: #000;
+        background-color: #EEE;
+      }
 
-//     > .button-group {
-//       margin-top: 0;
-//       margin-left: 20px;
-//       display: block;
-//       float: left;
-
-//       > a {
-//         display: block;
-//         float: left;
-//         writing-mode: inherit;
-//         scale: 1;
-//         padding: 10px 10px;
-//       }
-//     }
-//   }
-// }
+      >.active {
+        background-color: #FFF;
+      }
+    }
+  }
+}
