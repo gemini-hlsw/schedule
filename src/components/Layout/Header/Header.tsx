@@ -12,18 +12,18 @@ interface HeaderProps {
 export default function Header({ title, children }: HeaderProps) {
   const { theme, toggleTheme } = useContext(ThemeContext)
 
-  return(
+  return (
     <div className="header">
       <div className="left">
-        <MainTitle title={title}/>
+        <MainTitle title={title} />
       </div>
       <div className='middle'>
-        { children }
+        {children}
       </div>
       <div className="right">
         <button className="button" onClick={toggleTheme}>
-          <span className="label">{theme}</span>
           <i className={`icon pi pi-${(theme === "dark") ? "moon" : "sun"}`} />
+          <span className="label">{theme}</span>
         </button>
       </div>
     </div>

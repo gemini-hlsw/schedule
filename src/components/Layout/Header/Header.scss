@@ -16,20 +16,21 @@
   }
 
   > .right {
-    text-align: right;
+    display: flex;
+    justify-content: end;
+    
     > .button {
-      position: relative;
+      display: flex;
+      align-items: center;
+      
       > .label {
         display: block;
         font-size: 1rem;
         float: right;
-        margin-left: 25px;
         padding: 2px 5px;
       }
 
       > .icon {
-        position: absolute;
-        top: 3px;
       }
     }
   }
