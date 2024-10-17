@@ -2,26 +2,46 @@
   .p-panel-content {
     padding: 0 !important;
     .p-carousel {
+      .p-carousel-content {
+        .p-carousel-container {
+          >button {
+            margin: 0;
+          }
+          .p-carousel-items-container {
+            padding-top: 10px;
+          }
+        }
+      }
       .p-carousel-item.p-carousel-item-active {
         width: 100%;
       }
       .p-carousel-indicators {
         padding: 10px;
+        .p-carousel-indicator {
+          width: 16px;
+          height: 10px;
+          margin-bottom: 0;
+          button {
+            width: 16px;
+            height: 10px;
+            border-radius: 5px;
+          }
+        }
       }
       .p-tabview {
-        padding-top: 15px;
+        padding-top: 10px;
         .p-tabview-nav {
           margin: 0;
           padding: 0;
           display: flex;
           flex-direction: row;
-          height: 30px;
+          height: 24px;
 
           li {
             display: block;
             // flex-grow: 1;
             > .p-tabview-nav-link {
-              padding: 10px;
+              padding: 4px 60px;
               border: 1px solid var(--surface-border);
               border-bottom: 0;
             }
@@ -69,10 +89,20 @@
       margin-bottom: 10px
     }
 
+    >.timeline-tilte {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    >.timeloss {
+      margin-bottom: 15px;
+    }
+
     >.timeline {
       height: 10px;
       width: 100%;
       padding: 0 10px;
+      margin-bottom: 24px;
 
       >.timeline-container {
         position: relative;
