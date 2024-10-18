@@ -74,10 +74,10 @@ export default function ControlPanel() {
           1 +
           Math.floor(
             Math.abs(datesState[1].getTime() - datesState[0].getTime()) /
-              1000 /
-              60 /
-              60 /
-              24
+            1000 /
+            60 /
+            60 /
+            24
           );
       }
     }
@@ -169,27 +169,29 @@ export default function ControlPanel() {
     <>
       <Toast ref={toast}></Toast>
       <Panel className="control-panel">
-        <Button
-          label="RUN"
-          icon="pi pi-play"
-          className="p-button-success"
-          loading={loadingPlan}
-          onClick={onRunClick}
-          disabled={isRunDisabled || loadingPlan}
-          loadingIcon="pi pi-spin pi-spinner"
-        />
-        <Button
-          label="SAVE"
-          icon="pi pi-save"
-          loading={saveState}
-          onClick={onSaveClick}
-        />
-        <Button
-          label="LOAD"
-          icon="pi pi-arrow-circle-up"
-          loading={saveState}
-          onClick={onLoadClick}
-        />
+        <div className="btn-group">
+          <Button
+            label="RUN"
+            icon="pi pi-play"
+            className="p-button-success"
+            loading={loadingPlan}
+            onClick={onRunClick}
+            disabled={isRunDisabled || loadingPlan}
+            loadingIcon="pi pi-spin pi-spinner"
+          />
+          <Button
+            label="SAVE"
+            icon="pi pi-save"
+            loading={saveState}
+            onClick={onSaveClick}
+          />
+          <Button
+            label="LOAD"
+            icon="pi pi-arrow-circle-up"
+            loading={saveState}
+            onClick={onLoadClick}
+          />
+        </div>
         <SelectButton
           value={siteState}
           options={sites}
@@ -219,8 +221,8 @@ export default function ControlPanel() {
             checked={semesterVisibility}
           />
         </div>
-        <div>
-          <label htmlFor="minmax">Num of Nights: </label>
+        <div className="semester-visibility">
+          <label htmlFor="minmax" className="ml-2">Nights: </label>
           <InputNumber
             inputId="minmax"
             disabled={semesterVisibility}
@@ -234,6 +236,7 @@ export default function ControlPanel() {
           />
         </div>
         <FileUpload
+          className="file-upload"
           mode="basic"
           name="demo[]"
           accept="text/*"
