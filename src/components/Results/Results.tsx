@@ -9,8 +9,6 @@ export default function Results({ plans }: { plans: NightPlanType[] }) {
     return <NightPlan nightPlan={night} />;
   }
 
-  console.log(plans)
-
   return (
     <Panel className="results" header="Results">
       <Carousel
