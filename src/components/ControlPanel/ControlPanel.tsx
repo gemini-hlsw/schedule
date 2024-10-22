@@ -8,7 +8,7 @@ import { Panel } from "primereact/panel";
 import { Calendar } from "primereact/calendar";
 import { SelectButton } from "primereact/selectbutton";
 import { Toast } from "primereact/toast";
-import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
+import { FileUpload } from "primereact/fileupload";
 import {
   InputNumber,
   InputNumberValueChangeEvent,
@@ -26,7 +26,8 @@ export default function ControlPanel() {
     defaultDate,
   ]);
   const [siteState, setSite] = useState(undefined);
-  const [fileData, setFileData] = useState<any | null>(null);
+  const [programs, setPrograms] = useState<string[]>([]);
+  const [loadingFile, setLoadingFile] = useState(false);
   const sites = [
     { label: "GN", value: "GN" },
     { label: "GS", value: "GS" },
@@ -35,12 +36,9 @@ export default function ControlPanel() {
 
   const [numNight, setNumNight] = useState<number>(1);
   const [validInputs, setValidInputs] = useState(false);
-  const [schedule, { loading, error, data: scheduleData }] = useLazyQuery(
-    scheduleQuery,
-    {
-      fetchPolicy: "no-cache",
-    }
-  );
+  const [schedule] = useLazyQuery(scheduleQuery, {
+    fetchPolicy: "no-cache",
+  });
 
   const {
     thesis,
@@ -74,10 +72,10 @@ export default function ControlPanel() {
           1 +
           Math.floor(
             Math.abs(datesState[1].getTime() - datesState[0].getTime()) /
-            1000 /
-            60 /
-            60 /
-            24
+              1000 /
+              60 /
+              60 /
+              24
           );
       }
     }
@@ -104,19 +102,21 @@ export default function ControlPanel() {
     return valid;
   }
 
-  // useEffect(() => {
-  //   setValidInputs(validateInputs());
-  // }, [numNight, semesterVisibility]);
-
-  const customBase64Uploader = async (event: FileUploadHandlerEvent) => {
+  async function fileUpload(event: any) {
+    setLoadingFile(true);
     // convert file to base64 encoded
     const file = event.files[0];
     const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
+    let blob = await fetch(file.objectURL).then((r) => r.blob());
+    reader.readAsText(blob);
+
     reader.onloadend = function () {
-      setFileData(reader.result);
+      const text = reader.result;
+      const list = (text as string).split("\n").filter((e) => e);
+      setPrograms(list);
+      setLoadingFile(false);
     };
-  };
+  }
 
   const onSaveClick = () => {
     // Creates a json file with all the
@@ -160,7 +160,7 @@ export default function ControlPanel() {
         whaPower: whaPower,
         metPower: metPower,
         visPower: visPower,
-        programFile: fileData
+        programs: programs,
       },
     });
   };
@@ -176,7 +176,7 @@ export default function ControlPanel() {
             className="p-button-success"
             loading={loadingPlan}
             onClick={onRunClick}
-            disabled={isRunDisabled || loadingPlan}
+            disabled={isRunDisabled || loadingPlan || loadingFile}
             loadingIcon="pi pi-spin pi-spinner"
           />
           <Button
@@ -222,7 +222,9 @@ export default function ControlPanel() {
           />
         </div>
         <div className="semester-visibility">
-          <label htmlFor="minmax" className="ml-2">Nights: </label>
+          <label htmlFor="minmax" className="ml-2">
+            Nights:{" "}
+          </label>
           <InputNumber
             inputId="minmax"
             disabled={semesterVisibility}
@@ -238,11 +240,10 @@ export default function ControlPanel() {
         <FileUpload
           className="file-upload"
           mode="basic"
-          name="demo[]"
           accept="text/*"
           maxFileSize={1000000}
-          customUpload
-          uploadHandler={customBase64Uploader}
+          onUpload={() => {}}
+          onSelect={fileUpload}
           chooseLabel="Programs Selection"
         />
       </Panel>
