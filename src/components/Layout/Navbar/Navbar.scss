@@ -54,3 +54,33 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .navbar {
+    width: 100%;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    >.button-group {
+      margin-top: 0;
+      margin-right: 10px;
+      height: 100%;
+      display: flex;
+      >a {
+        height: 100%;
+        scale: 1;
+        writing-mode: initial;
+      }
+      >a:first-child {
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+  
+      >a:last-child {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+      }
+    }
+  }
+}
