@@ -17,20 +17,19 @@
 
   > .right {
     display: flex;
+    gap: 5px;
     justify-content: end;
     
     > .button {
       display: flex;
       align-items: center;
+      cursor: pointer;
       
       > .label {
         display: block;
         font-size: 1rem;
         float: right;
         padding: 2px 5px;
-      }
-
-      > .icon {
       }
     }
   }
@@ -39,10 +38,52 @@
     text-align: center;
   }
 }
-  
+
+.about-modal {
+  width: 50vw;
+
+  .p-dialog-header {
+    padding: 16px !important;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: row;
+
+    .column {
+      width: 50%;
+
+      .version {
+        margin: 0;
+      }
+
+      .changelog {
+        margin: 10px 0 0 0;
+      }
+
+      .changelog-list {
+        margin: 5px 0 20px 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .about-modal {
+    width: 70vw;
+  }
+}
+
 @media (max-width: 700px) {
-  .header {
-    .header-title {
+  .about-modal {
+    width: 90vw;
+    
+    .body {
+      flex-direction: column;
+
+      .column {
+        width: 100%;
+      }
     }
   }
 }
