@@ -36,6 +36,13 @@
 
   > .middle {
     text-align: center;
+    align-content: center;
+    > .online {
+      color: green;
+    }
+    > .offline {
+      color: red;
+    }
   }
 }
 

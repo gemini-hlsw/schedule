@@ -3,14 +3,14 @@ import { v4 } from "uuid";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed
-import { NightPlanType } from "../../types";
+import { NightPlanType, RunSummary } from "../../types";
 // ------------------------------------------------------------
 
 interface GlobalStateContextType {
   nightPlans: NightPlanType[];
   setNightPlans: React.Dispatch<React.SetStateAction<NightPlanType[]>>;
-  plansSummary: object;
-  setPlansSummary: React.Dispatch<React.SetStateAction<[]>>;
+  plansSummary: RunSummary;
+  setPlansSummary: React.Dispatch<React.SetStateAction<RunSummary>>;
   thesis: number;
   setThesis: React.Dispatch<React.SetStateAction<number>>;
   power: number;
@@ -36,7 +36,10 @@ export default function GlobalStateProvider({
   children: ReactNode;
 }) {
   const [nightPlans, setNightPlans] = useState<NightPlanType[]>([]);
-  const [plansSummary, setPlansSummary] = useState<object>({});
+  const [plansSummary, setPlansSummary] = useState<RunSummary>({
+    summary: {},
+    metricsPerBand: {},
+  });
   const [thesis, setThesis] = useState(1.1);
   const [power, setPower] = useState(2);
   const [metPower, setMetPower] = useState(1.0);

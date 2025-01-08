@@ -10,7 +10,7 @@ export interface TimeEntriesBySite {
   eveTwilight: string;
   mornTwilight: string;
   timeEntries: TimeEntryType[];
-  timeLosses: { faults: number, weather: number };
+  timeLosses: { faults: number; weather: number };
 }
 
 export interface TimeEntryType {
@@ -55,4 +55,9 @@ export interface NightStats {
   nToos: number;
   completionFraction: number[];
   programCompletion: { [key: string]: number };
+}
+
+export interface RunSummary {
+  summary: object;
+  metricsPerBand: object;
 }

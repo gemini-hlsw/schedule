@@ -54,7 +54,10 @@ export const subscriptionQueueSchedule = graphql(`
             }
           }
         }
-        plansSummary
+        plansSummary {
+          summary
+          metricsPerBand
+        }
       }
       ... on NightPlansError {
         error

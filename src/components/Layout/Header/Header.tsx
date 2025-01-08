@@ -6,10 +6,10 @@ import "./Header.scss";
 
 interface HeaderProps {
   title: string;
-  children?: JSX.Element | JSX.Element[];
+  isOnline: boolean;
 }
 
-export default function Header({ title, children }: HeaderProps) {
+export default function Header({ title, isOnline }: HeaderProps) {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
@@ -17,7 +17,11 @@ export default function Header({ title, children }: HeaderProps) {
       <div className="left">
         <MainTitle title={title} />
       </div>
-      <div className="middle">{children}</div>
+      <div className="middle">
+        <span className={isOnline ? "online" : "offline"}>
+          {isOnline ? "Connected" : "Disconnected"}
+        </span>
+      </div>
       <div className="right">
         <About />
         <button className="button" onClick={toggleTheme}>

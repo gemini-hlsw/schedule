@@ -4,7 +4,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { createClient } from "graphql-ws";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 
-const wsLink = new GraphQLWsLink(
+export const wsLink = new GraphQLWsLink(
   createClient({
     url: `${
       import.meta.env.VITE_API_URL ??
