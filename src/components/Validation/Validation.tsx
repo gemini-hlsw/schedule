@@ -25,8 +25,8 @@ export default function Validation() {
         <RankerTweaker />
       </Panel>
       <Divider />
-      {plansSummary && Object.keys(plansSummary).length > 0 && (
-        <SummaryTable summary={plansSummary} />
+      {plansSummary && Object.keys(plansSummary.summary).length > 0 && (
+        <SummaryTable plansSummary={plansSummary} />
       )}
       <div className="bottom">
         {nightPlans && nightPlans.length > 0 && (
