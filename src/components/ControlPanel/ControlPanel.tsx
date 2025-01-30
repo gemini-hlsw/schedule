@@ -8,7 +8,6 @@ import { Panel } from "primereact/panel";
 import { Calendar } from "primereact/calendar";
 import { SelectButton } from "primereact/selectbutton";
 import { Toast } from "primereact/toast";
-import { FileUpload } from "primereact/fileupload";
 import {
   InputNumber,
   InputNumberValueChangeEvent,
@@ -17,6 +16,9 @@ import { Nullable } from "primereact/ts-helpers";
 import { useLazyQuery } from "@apollo/client";
 import { scheduleQuery } from "./query";
 import { Checkbox } from "primereact/checkbox";
+import { Dialog } from "primereact/dialog";
+import { ProgramSelector } from "../ProgramSelector/ProgramSelector";
+import { PROGRAM_LIST } from "../ProgramSelector/ProgramList";
 
 export default function ControlPanel() {
   const defaultDate: Date = new Date("2018-10-01");
@@ -26,8 +28,8 @@ export default function ControlPanel() {
     defaultDate,
   ]);
   const [siteState, setSite] = useState(undefined);
-  const [programs, setPrograms] = useState<string[]>([]);
-  const [loadingFile, setLoadingFile] = useState(false);
+  const [programs, updatePrograms] = useState(structuredClone(PROGRAM_LIST));
+  const [programSelectorVisible, setProgramSelectorVisible] = useState(false);
   const sites = [
     { label: "GN", value: "GN" },
     { label: "GS", value: "GS" },
@@ -52,6 +54,30 @@ export default function ControlPanel() {
     setLoadingPlan,
     uuid,
   } = useContext(GlobalStateContext);
+
+  function setProgram(program: string, state: boolean) {
+    const auxProgramList = [...programs];
+    auxProgramList.find((p) => p.name === program).checked = state;
+    updatePrograms(auxProgramList);
+  }
+
+  function setProgramList(list: string[]) {
+    const auxProgramList = [...programs];
+    for (let p in auxProgramList) {
+      if (!auxProgramList[p].disabled) {
+        if (list.includes(auxProgramList[p].name)) {
+          auxProgramList[p].checked = true;
+        } else {
+          auxProgramList[p].checked = false;
+        }
+      }
+    }
+    updatePrograms(auxProgramList);
+  }
+
+  function resetPrograms() {
+    updatePrograms(structuredClone(PROGRAM_LIST));
+  }
 
   function validateInputs() {
     let valid = true;
@@ -102,22 +128,6 @@ export default function ControlPanel() {
     return valid;
   }
 
-  async function fileUpload(event: any) {
-    setLoadingFile(true);
-    // convert file to base64 encoded
-    const file = event.files[0];
-    const reader = new FileReader();
-    let blob = await fetch(file.objectURL).then((r) => r.blob());
-    reader.readAsText(blob);
-
-    reader.onloadend = function () {
-      const text = reader.result;
-      const list = (text as string).split("\n").filter((e) => e);
-      setPrograms(list);
-      setLoadingFile(false);
-    };
-  }
-
   const onSaveClick = () => {
     // Creates a json file with all the
     setSaveState(true);
@@ -160,7 +170,7 @@ export default function ControlPanel() {
         whaPower: whaPower,
         metPower: metPower,
         visPower: visPower,
-        programs: programs,
+        programs: programs.filter((p) => p.checked).map((p) => p.name),
       },
     });
   };
@@ -176,7 +186,7 @@ export default function ControlPanel() {
             className="p-button-success"
             loading={loadingPlan}
             onClick={onRunClick}
-            disabled={isRunDisabled || loadingPlan || loadingFile}
+            disabled={isRunDisabled || loadingPlan}
             loadingIcon="pi pi-spin pi-spinner"
           />
           <Button
@@ -237,16 +247,27 @@ export default function ControlPanel() {
             max={365}
           />
         </div>
-        <FileUpload
-          className="file-upload"
-          mode="basic"
-          accept="text/*"
-          maxFileSize={1000000}
-          onUpload={() => {}}
-          onSelect={fileUpload}
-          chooseLabel="Programs Selection"
+        <Button
+          label="Programs Selection"
+          onClick={() => setProgramSelectorVisible(true)}
         />
       </Panel>
+      <Dialog
+        header="Programs Selection"
+        visible={programSelectorVisible}
+        style={{ width: "80vw", height: "80vh" }}
+        onHide={() => {
+          if (!programSelectorVisible) return;
+          setProgramSelectorVisible(false);
+        }}
+      >
+        <ProgramSelector
+          programs={programs}
+          setProgram={setProgram}
+          setProgramList={setProgramList}
+          resetPrograms={resetPrograms}
+        />
+      </Dialog>
     </>
   );
 }
