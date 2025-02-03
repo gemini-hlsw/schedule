@@ -1,3 +1,9 @@
+.program-selector-modal {
+  .p-dialog-header {
+    padding: 10px 1.5rem !important;
+  }
+}
+
 .program-selector {
   display: flex;
   flex-direction: column;
@@ -35,7 +41,7 @@
   .program-selector-column {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-basis: 50%;
     gap: 5px;
     padding: 5px;
     border: 1px solid var(--surface-border);
@@ -43,6 +49,34 @@
 
     h3 {
       margin: 0;
+    }
+
+    .semester-select-buttons {
+      > div {
+        display: flex;
+        flex-direction: row;
+        height: 24px;
+        
+        > .p-button {
+          border-radius: 0;
+          flex-grow: 1;
+          justify-content: center;
+
+          &:last-child {
+            border-radius: 0 4px 4px 0;
+          }
+
+          &:first-child {
+            border-radius: 4px 0 0 4px;
+          }
+
+          > span {
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+          }
+        }
+      }
     }
 
     .program-selector-div {
@@ -97,7 +131,7 @@
 
   .programs-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 5px;
     overflow-y: auto;
   }

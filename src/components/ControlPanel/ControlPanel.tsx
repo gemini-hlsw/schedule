@@ -256,6 +256,7 @@ export default function ControlPanel() {
         header="Programs Selection"
         visible={programSelectorVisible}
         style={{ width: "80vw", height: "80vh" }}
+        className="program-selector-modal"
         onHide={() => {
           if (!programSelectorVisible) return;
           setProgramSelectorVisible(false);

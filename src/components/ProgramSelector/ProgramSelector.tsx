@@ -4,6 +4,8 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { FileUpload } from "primereact/fileupload";
+import { SelectButton } from "primereact/selectbutton";
+import { SEMESTER_OPTIONS } from "./ProgramList";
 
 export function ProgramSelector({
   programs,
@@ -20,6 +22,9 @@ export function ProgramSelector({
   const [gsFilter, setGsFilter] = useState("");
   const [loadingFile, setLoadingFile] = useState(false);
 
+  const [gnSemesterValue, setGnSemesterValue] = useState("2018B");
+  const [gsSemesterValue, setGsSemesterValue] = useState("2018B");
+
   async function fileUpload(event: any) {
     setLoadingFile(true);
     const file = event.files[0];
@@ -34,6 +39,10 @@ export function ProgramSelector({
       setLoadingFile(false);
     };
   }
+
+  const semesterTemplate = (option: typeof SEMESTER_OPTIONS[0]) => {
+    return <span>{option.value}</span>;
+  };
 
   return (
     <div className="program-selector">
@@ -72,6 +81,15 @@ export function ProgramSelector({
       <div className="program-columns">
         <div className="program-selector-column">
           <h3>Gemini North</h3>
+          <div className="semester-select-buttons">
+            <SelectButton
+              value={gnSemesterValue}
+              onChange={(e) => setGnSemesterValue(e.value)}
+              itemTemplate={semesterTemplate}
+              optionLabel="value"
+              options={SEMESTER_OPTIONS}
+            />
+          </div>
           <InputText
             type="text"
             placeholder="Filter Programs"
@@ -86,6 +104,7 @@ export function ProgramSelector({
                     (p) =>
                       p.name.startsWith("GN") &&
                       p.name.includes(gnFilter) &&
+                      p.name.includes(gnSemesterValue) &&
                       !p.disabled
                   )
                   .forEach((program) => {
@@ -101,6 +120,7 @@ export function ProgramSelector({
                     (p) =>
                       p.name.startsWith("GN") &&
                       p.name.includes(gnFilter) &&
+                      p.name.includes(gnSemesterValue) &&
                       !p.disabled
                   )
                   .forEach((program) => {
@@ -111,8 +131,12 @@ export function ProgramSelector({
           </div>
           <div className="programs-grid">
             {programs
-              .filter((p) => p.name.startsWith("GN"))
-              .filter((p) => p.name.includes(gnFilter))
+              .filter(
+                (p) =>
+                  p.name.startsWith("GN") &&
+                  p.name.includes(gnFilter) &&
+                  p.name.includes(gnSemesterValue)
+              )
               .map((program) => (
                 <div className="program-selector-div" key={program.name}>
                   <Checkbox
@@ -127,7 +151,7 @@ export function ProgramSelector({
                     htmlFor={program.name}
                     className={program.disabled ? "disabled" : ""}
                   >
-                    {program.name}
+                    {program.name.replace(`GN-${gnSemesterValue}-`, "")}
                   </label>
                 </div>
               ))}
@@ -135,6 +159,15 @@ export function ProgramSelector({
         </div>
         <div className="program-selector-column">
           <h3>Gemini South</h3>
+          <div className="semester-select-buttons">
+            <SelectButton
+              value={gsSemesterValue}
+              onChange={(e) => setGsSemesterValue(e.value)}
+              itemTemplate={semesterTemplate}
+              optionLabel="value"
+              options={SEMESTER_OPTIONS}
+            />
+          </div>
           <InputText
             type="text"
             placeholder="Filter Programs"
@@ -149,6 +182,7 @@ export function ProgramSelector({
                     (p) =>
                       p.name.startsWith("GS") &&
                       p.name.includes(gsFilter) &&
+                      p.name.includes(gsSemesterValue) &&
                       !p.disabled
                   )
                   .forEach((program) => {
@@ -164,6 +198,7 @@ export function ProgramSelector({
                     (p) =>
                       p.name.startsWith("GS") &&
                       p.name.includes(gsFilter) &&
+                      p.name.includes(gsSemesterValue) &&
                       !p.disabled
                   )
                   .forEach((program) => {
@@ -174,8 +209,12 @@ export function ProgramSelector({
           </div>
           <div className="programs-grid">
             {programs
-              .filter((p) => p.name.startsWith("GS"))
-              .filter((p) => p.name.includes(gsFilter))
+              .filter(
+                (p) =>
+                  p.name.startsWith("GS") &&
+                  p.name.includes(gsFilter) &&
+                  p.name.includes(gsSemesterValue)
+              )
               .map((program) => (
                 <div className="program-selector-div" key={program.name}>
                   <Checkbox
@@ -190,7 +229,7 @@ export function ProgramSelector({
                     htmlFor={program.name}
                     className={program.disabled ? "disabled" : ""}
                   >
-                    {program.name}
+                    {program.name.replace(`GS-${gsSemesterValue}-`, "")}
                   </label>
                 </div>
               ))}
