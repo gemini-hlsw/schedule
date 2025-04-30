@@ -43,6 +43,16 @@
     > .offline {
       color: red;
     }
+    > .id-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-left: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: small;
+      border-radius: 15px;
+      background: var(--surface-border);
+      color: white;
+    }
   }
 }
 

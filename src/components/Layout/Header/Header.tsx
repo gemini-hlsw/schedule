@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../../../theme/ThemeProvider";
 import { About } from "./About";
 import "./Header.scss";
+import { GlobalStateContext } from "../../GlobalState/GlobalState";
 
 interface HeaderProps {
   title: string;
@@ -11,6 +12,7 @@ interface HeaderProps {
 
 export default function Header({ title, isOnline }: HeaderProps) {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { uuid } = useContext(GlobalStateContext);
 
   return (
     <div className="header">
@@ -21,6 +23,7 @@ export default function Header({ title, isOnline }: HeaderProps) {
         <span className={isOnline ? "online" : "offline"}>
           {isOnline ? "Connected" : "Disconnected"}
         </span>
+        <span className="id-badge">ID: {uuid}</span>
       </div>
       <div className="right">
         <About />

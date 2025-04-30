@@ -1,5 +1,4 @@
 import React, { createContext, useState, ReactNode } from "react";
-import { v4 } from "uuid";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed
@@ -47,7 +46,13 @@ export default function GlobalStateProvider({
   const [whaPower, setWhaPower] = useState(1.0);
   const [semesterVisibility, setSemesterVisibility] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState(false);
-  const [uuid] = useState(v4());
+  const [uuid] = useState(
+    new Date()
+      .toISOString()
+      .substring(0, 16)
+      .replaceAll("-", "")
+      .replace(":", "")
+  );
 
   return (
     <GlobalStateContext.Provider
