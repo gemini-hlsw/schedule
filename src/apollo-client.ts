@@ -4,13 +4,13 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { createClient } from "graphql-ws";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 
+const SCHEDULER_BACKEND_URL =
+  import.meta.env.VITE_API_URL ??
+  "https://gpp-schedule-staging.herokuapp.com/graphql";
+
 export const wsLink = new GraphQLWsLink(
   createClient({
-    url: `${
-      import.meta.env.VITE_API_URL ??
-      "https://gpp-schedule-staging.herokuapp.com/graphql"
-    }`,
-
+    url: SCHEDULER_BACKEND_URL,
     keepAlive: 10000,
     retryAttempts: Infinity,
     shouldRetry: () => true,
@@ -29,10 +29,7 @@ export const wsLink = new GraphQLWsLink(
 );
 
 const httpLink = new HttpLink({
-  uri: `${
-    import.meta.env.VITE_API_URL ??
-    "https://gpp-schedule-staging.herokuapp.com/graphql"
-  }`,
+  uri: SCHEDULER_BACKEND_URL,
 });
 
 const splitLink = split(
