@@ -1,4 +1,4 @@
-name: Deploy to Heroku
+name: Staging deploy to Heroku
 on:
   push:
     branches:
@@ -6,7 +6,8 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-24.04
+    name: Schedule UI Staging Deploy
+    runs-on: ubuntu-latest
     steps:
       # Check-out your repository.
       - name: Checkout

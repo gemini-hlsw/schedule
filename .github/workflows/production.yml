@@ -1,4 +1,4 @@
-name: Deploy to Heroku
+name: Production deploy to Heroku
 on:
   push:
     tags:
@@ -9,6 +9,8 @@ jobs:
     name: Schedule UI Production Deploy
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    env:
+      VITE_API_URL: "https://gpp-schedule-prod.herokuapp.com/graphql"
     steps:
       # Check-out your repository.
       - name: Checkout
