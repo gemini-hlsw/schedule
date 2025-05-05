@@ -9,8 +9,6 @@ jobs:
     name: Schedule UI Production Deploy
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
-    env:
-      VITE_API_URL: "https://gpp-schedule-prod.herokuapp.com/graphql"
     steps:
       # Check-out your repository.
       - name: Checkout
@@ -37,3 +35,5 @@ jobs:
           # Name of the heroku application to which the build is to be sent.
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME_PROD }}
           buildpack: heroku-community/nginx
+        env:
+          VITE_API_URL: "https://gpp-schedule-prod.herokuapp.com/graphql"
