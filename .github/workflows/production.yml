@@ -16,8 +16,8 @@ jobs:
       # Update the version in src/version.json
       - name: Set version tag
         run: sed -i "s/development/$(date +'%Y%m%d')_$(echo $GITHUB_SHA | cut -c1-7)/" src/version.json
-      - name: Replace schedule url
-        run: sed -i "s/SCHEDULER_BACKEND_URL,/\"https\:\/\/gpp-schedule-prod.herokuapp.com\/graphql\",/g" src/apollo-client.ts
+      # - name: Replace schedule url
+      #   run: sed -i "s/SCHEDULER_BACKEND_URL,/\"https\:\/\/gpp-schedule-prod.herokuapp.com\/graphql\",/g" src/apollo-client.ts
       - name: Install Heroku CLI
         run: curl https://cli-assets.heroku.com/install.sh | sh
       - name: Build, Push and Release a Docker container to Heroku.
@@ -37,5 +37,3 @@ jobs:
           # Name of the heroku application to which the build is to be sent.
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME_PROD }}
           buildpack: heroku-community/nginx
-        env:
-          VITE_API_URL: "https://gpp-schedule-prod.herokuapp.com/graphql"
