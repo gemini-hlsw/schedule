@@ -209,20 +209,23 @@ export default function ControlPanel() {
           onChange={(e) => setSite(e.value)}
           allowEmpty={false}
         />
-        <Calendar
-          id="range"
-          value={datesState}
-          onChange={(e) => setDates(e.value)}
-          onBlur={() => setValidInputs(validateInputs())}
-          selectionMode="range"
-          readOnlyInput
-          showButtonBar
-          showIcon
-        />
-        <div className="semester-visibility">
-          <label htmlFor="semesterVisibility" className="ml-2">
-            Semester Visibility
+        <div>
+          <label htmlFor="range" className="mr-2">
+            UT Date Range
           </label>
+          <Calendar
+            id="range"
+            value={datesState}
+            onChange={(e) => setDates(e.value)}
+            onBlur={() => setValidInputs(validateInputs())}
+            selectionMode="range"
+            readOnlyInput
+            showButtonBar
+            showIcon
+          />
+        </div>
+        <div className="semester-visibility">
+          <label htmlFor="semesterVisibility">Semester Visibility</label>
           <Checkbox
             inputId="semesterVisibility"
             name="semesterVisibility"
@@ -232,9 +235,7 @@ export default function ControlPanel() {
           />
         </div>
         <div className="semester-visibility">
-          <label htmlFor="minmax" className="ml-2">
-            Nights:{" "}
-          </label>
+          <label htmlFor="minmax">Nights: </label>
           <InputNumber
             inputId="minmax"
             disabled={semesterVisibility}
