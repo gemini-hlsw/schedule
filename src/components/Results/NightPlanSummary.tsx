@@ -14,7 +14,7 @@ export default function NightPlanSummary({
     <div className="summary">
       <h4 className="title">{nightTitle}</h4>
       <div className="body">
-        <div>Faults time: {nightState.timeLoss.faults.toFixed(2)}</div>
+        <div>Faults time: {nightState.timeLoss.fault.toFixed(2)}</div>
         <div>Weather time: {nightState.timeLoss.weather.toFixed(2)}</div>
         <div>Unscheduled time: {nightState.timeLoss.unschedule.toFixed(2)}</div>
         <div>Cloud Cover: {nightConditions.cc}</div>
