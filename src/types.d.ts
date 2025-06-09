@@ -10,7 +10,7 @@ export interface TimeEntriesBySite {
   eveTwilight: string;
   mornTwilight: string;
   timeEntries: TimeEntryType[];
-  timeLosses: { faults: number; weather: number };
+  timeLosses: { fault: number; weather: number; unschedule: number };
 }
 
 export interface TimeEntryType {
@@ -50,7 +50,7 @@ export interface Visit {
 }
 
 export interface NightStats {
-  timeLoss: { faults: number; unschedule: number; weather: number };
+  timeLoss: { fault: number; unschedule: number; weather: number };
   planScore: number;
   nToos: number;
   completionFraction: number[];

@@ -41,17 +41,27 @@ export default function EntryBySite({
     );
   }
 
-  const timelineDate = entryBySite.mornTwilight.substring(
-    0,
-    entryBySite.mornTwilight.indexOf("T")
-  ) ?? ""
+  const timelineDate =
+    entryBySite.mornTwilight.substring(
+      0,
+      entryBySite.mornTwilight.indexOf("T")
+    ) ?? "";
 
   return (
     <div className="site-entry">
       <h4 className="timeline-title">Timeline {timelineDate}</h4>
       <div className="timeloss">
-        <span>Night faults time: {entryBySite.timeLosses.faults.toFixed(2)}</span>
-        <span> - Night weather time: {entryBySite.timeLosses.weather.toFixed(2)}</span>
+        <span>
+          Night faults time: {entryBySite.timeLosses.fault.toFixed(2)}
+        </span>
+        <span>
+          {" "}
+          - Night weather time: {entryBySite.timeLosses.weather.toFixed(2)}
+        </span>
+        <span>
+          {" "}
+          - Unscheduled time: {entryBySite.timeLosses.unschedule.toFixed(2)}
+        </span>
       </div>
       <div className="timeline">
         <div className="timeline-container">{timeLine}</div>
