@@ -839,19 +839,19 @@ export const PROGRAM_LIST = [
   { name: "GS-2018B-Q-118", checked: false, disabled: false },
   { name: "GS-2018B-Q-119", checked: false, disabled: false },
   { name: "GS-2018B-Q-120", checked: true, disabled: false }, // Default program
-  { name: "GS-2018B-Q-121", checked: false, disabled: false },
+  { name: "GS-2018B-Q-121", checked: true, disabled: false }, // ToO Program
   { name: "GS-2018B-Q-122", checked: false, disabled: false },
   { name: "GS-2018B-Q-123", checked: false, disabled: false },
   { name: "GS-2018B-Q-124", checked: false, disabled: false },
   { name: "GS-2018B-Q-125", checked: false, disabled: false },
   { name: "GS-2018B-Q-126", checked: false, disabled: false },
-  { name: "GS-2018B-Q-127", checked: false, disabled: false },
-  { name: "GS-2018B-Q-128", checked: true, disabled: false }, // Default program
+  { name: "GS-2018B-Q-127", checked: true, disabled: false }, // ToO Program
+  { name: "GS-2018B-Q-128", checked: true, disabled: false }, // Default program + ToO
   { name: "GS-2018B-Q-129", checked: false, disabled: false },
   { name: "GS-2018B-Q-130", checked: false, disabled: false },
   { name: "GS-2018B-Q-131", checked: false, disabled: false },
   { name: "GS-2018B-Q-132", checked: false, disabled: false },
-  { name: "GS-2018B-Q-133", checked: false, disabled: false },
+  { name: "GS-2018B-Q-133", checked: true, disabled: false }, // ToO Program
   { name: "GS-2018B-Q-134", checked: false, disabled: false },
   { name: "GS-2018B-Q-135", checked: false, disabled: false },
   { name: "GS-2018B-Q-201", checked: false, disabled: false },
@@ -877,7 +877,7 @@ export const PROGRAM_LIST = [
   { name: "GS-2018B-Q-221", checked: false, disabled: false },
   { name: "GS-2018B-Q-222", checked: false, disabled: false },
   { name: "GS-2018B-Q-223", checked: true, disabled: false }, // Default program
-  { name: "GS-2018B-Q-224", checked: false, disabled: false },
+  { name: "GS-2018B-Q-224", checked: true, disabled: false }, // ToO Program
   { name: "GS-2018B-Q-225", checked: false, disabled: false },
   { name: "GS-2018B-Q-226", checked: false, disabled: false },
   { name: "GS-2018B-Q-227", checked: false, disabled: false },
