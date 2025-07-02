@@ -80,3 +80,9 @@ If everything goes well you should be able to see something similar to the follo
 ```
 
 This mean now you should be able to connect to http://localhost:5173 web and see the UI running.
+
+### Python scheduler server
+
+If the UI is configured to connect to a local running python instance, please make sure you have a started instance of the scheduler.
+
+You can check this link https://github.com/gemini-hlsw/scheduler?tab=readme-ov-file#service to start a local instance.
