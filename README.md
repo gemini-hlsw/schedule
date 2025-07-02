@@ -59,8 +59,24 @@ pnpm install
 
 ### Start web server
 
-As the previous step, in the root directory of the repository run
+The web server can be started using the following command in the root directory of this repository
 
 ```bash
 pnpm dev
 ```
+
+If everything goes well you should be able to see something similar to the following messages in your terminal
+
+```bash
+  VITE v4.5.9  ready in 366 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://172.28.71.166:5173/
+  ➜  Network: http://172.20.0.1:5173/
+  ➜  Network: http://172.19.0.1:5173/
+  ➜  Network: http://10.91.2.1:5173/
+  ➜  Network: http://10.91.8.1:5173/
+  ➜  press h to show help
+```
+
+This mean now you should be able to connect to http://localhost:5173 web and see the UI running.
