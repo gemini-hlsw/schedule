@@ -86,3 +86,17 @@ This mean now you should be able to connect to http://localhost:5173 web and see
 If the UI is configured to connect to a local running python instance, please make sure you have a started instance of the scheduler.
 
 You can check this link https://github.com/gemini-hlsw/scheduler?tab=readme-ov-file#service to start a local instance.
+
+### Possible Issues
+
+#### CORS
+
+To check if CORS is being an issue, in the web browser you are using open the `Developer Tools` > `Console` and refresh the website. If the console displays an error message like this
+
+```
+Access to fetch at 'http://localhost:8000/graphql' from origin 'http://localhost:5173' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+```
+
+The UI will try to connect to the scheduler server using the origin provided in its configuration, by default it should be http://localhost:5173, so the server should be configured to allow this origin, it should be done by default in the latest version, this can be checked in the scheduler repository, `app.py` file, `origins` should list `http://localhost:5173` among the possible options, if it is not there pull the latest version of the repository or just add it.
+
+Also make sure the `.env` file was created in the UI root directory using the right value for `VITE_API_URL`.
