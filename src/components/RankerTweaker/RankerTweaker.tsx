@@ -18,6 +18,8 @@ export default function RankerTweaker() {
     setVisPower,
     whaPower,
     setWhaPower,
+    airPower,
+    setAirPower
   } = useContext(GlobalStateContext);
 
   return (
@@ -85,6 +87,21 @@ export default function RankerTweaker() {
           value={whaPower}
           onValueChange={(e: InputNumberValueChangeEvent) =>
             setWhaPower(e.value)
+          }
+          useGrouping={false}
+          minFractionDigits={2}
+          maxFractionDigits={5}
+        />
+      </div>
+      <div className="flex-auto">
+        <label htmlFor="airPower" className="font-bold block mb-2">
+          Air power
+        </label>
+        <InputNumber
+          inputId="airPower"
+          value={airPower}
+          onValueChange={(e: InputNumberValueChangeEvent) =>
+            setAirPower(e.value)
           }
           useGrouping={false}
           minFractionDigits={2}
