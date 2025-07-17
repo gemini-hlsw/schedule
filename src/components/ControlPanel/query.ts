@@ -12,6 +12,7 @@ export const scheduleQuery = graphql(`
     $power: Int
     $metPower: Float
     $whaPower: Float
+    $airPower: Float
     $visPower: Float
     $programs: [String!]!
   ) {
@@ -26,6 +27,7 @@ export const scheduleQuery = graphql(`
         power: $power
         metPower: $metPower
         whaPower: $whaPower
+        airPower: $airPower
         visPower: $visPower
         semesterVisibility: $semesterVisibility
         numNightsToSchedule: $numNightsToSchedule

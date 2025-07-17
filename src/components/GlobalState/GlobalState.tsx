@@ -44,6 +44,7 @@ export default function GlobalStateProvider({
   const [metPower, setMetPower] = useState(1.0);
   const [visPower, setVisPower] = useState(1.0);
   const [whaPower, setWhaPower] = useState(1.0);
+  const [airPower, setAirPower] = useState(0.0);
   const [semesterVisibility, setSemesterVisibility] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState(false);
   const [uuid] = useState(
@@ -71,6 +72,8 @@ export default function GlobalStateProvider({
         setVisPower,
         whaPower,
         setWhaPower,
+        airPower,
+        setAirPower,
         semesterVisibility,
         setSemesterVisibility,
         loadingPlan,
