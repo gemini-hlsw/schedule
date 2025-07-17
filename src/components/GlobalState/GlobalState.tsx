@@ -20,6 +20,8 @@ interface GlobalStateContextType {
   setVisPower: React.Dispatch<React.SetStateAction<number>>;
   whaPower: number;
   setWhaPower: React.Dispatch<React.SetStateAction<number>>;
+  airPower: number;
+  setAirPower: React.Dispatch<React.SetStateAction<number>>;
   semesterVisibility: boolean;
   setSemesterVisibility: React.Dispatch<React.SetStateAction<boolean>>;
   loadingPlan: boolean;
