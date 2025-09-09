@@ -19,7 +19,7 @@ export default function RankerTweaker() {
     whaPower,
     setWhaPower,
     airPower,
-    setAirPower
+    setAirPower,
   } = useContext(GlobalStateContext);
 
   return (
@@ -50,7 +50,7 @@ export default function RankerTweaker() {
       </div>
       <div className="flex-auto">
         <label htmlFor="metPower" className="font-bold block mb-2">
-          MAT power
+          MET power
         </label>
         <InputNumber
           inputId="metPower"
