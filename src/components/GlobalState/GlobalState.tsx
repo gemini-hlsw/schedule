@@ -30,6 +30,10 @@ interface GlobalStateContextType {
   setImageQuality: React.Dispatch<React.SetStateAction<number>>;
   cloudCover: number;
   setCloudCover: React.Dispatch<React.SetStateAction<number>>;
+  windDirection: number;
+  setWindDirection: React.Dispatch<React.SetStateAction<number>>;
+  windSpeed: number;
+  setWindSpeed: React.Dispatch<React.SetStateAction<number>>;
   uuid: string;
 }
 
@@ -53,6 +57,8 @@ export default function GlobalStateProvider({
   const [airPower, setAirPower] = useState(0.0);
   const [imageQuality, setImageQuality] = useState(0.7);
   const [cloudCover, setCloudCover] = useState(0.7);
+  const [windDirection, setWindDirection] = useState(20);
+  const [windSpeed, setWindSpeed] = useState(10);
   const [semesterVisibility, setSemesterVisibility] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState(false);
   const [uuid] = useState(
@@ -91,6 +97,10 @@ export default function GlobalStateProvider({
         setImageQuality,
         cloudCover,
         setCloudCover,
+        windDirection,
+        setWindDirection,
+        windSpeed,
+        setWindSpeed,
       }}
     >
       {children}
