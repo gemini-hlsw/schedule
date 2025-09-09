@@ -1,0 +1,11 @@
+.weather-conditions {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .weather-conditions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
