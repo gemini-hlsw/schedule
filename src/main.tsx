@@ -14,6 +14,7 @@ import "primeicons/primeicons.css";
 import "primereact/resources/primereact.min.css";
 import "./index.scss";
 import GlobalStateProvider from "./components/GlobalState/GlobalState";
+import Operation from "./components/Operation/Operation";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -24,7 +25,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             <Routes>
               <Route path="/" element={<App />}>
                 <Route index element={<Home />} />
-                <Route path="operation" element={<h1>Operation</h1>} />
+                <Route path="operation" element={<Operation />} />
                 <Route path="validation" element={<Validation />} />
                 <Route path="simulation" element={<h1>Simulation</h1>} />
                 <Route path="link1" element={<h1>link1</h1>} />
