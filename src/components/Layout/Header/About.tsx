@@ -38,9 +38,11 @@ export function About() {
               <>
                 <h4 className="changelog">Changelog</h4>
                 <ul className="changelog-list">
-                  {scheduleVersion?.version?.changelog.map((l, idx) => (
-                    <li key={idx}>{l}</li>
-                  ))}
+                  {scheduleVersion?.version?.changelog.map(
+                    (l: string, idx: number) => (
+                      <li key={idx}>{l}</li>
+                    )
+                  )}
                 </ul>
               </>
             )}
