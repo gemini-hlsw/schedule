@@ -8,9 +8,13 @@ const SCHEDULER_BACKEND_URL =
   import.meta.env.VITE_API_URL ??
   "https://gpp-schedule-staging.herokuapp.com/graphql";
 
+const API_URL = new URL(SCHEDULER_BACKEND_URL);
+
 export const wsLink = new GraphQLWsLink(
   createClient({
-    url: SCHEDULER_BACKEND_URL,
+    url: `${API_URL.protocol === "https:" ? "wss" : "ws"}://${API_URL.host}${
+      API_URL.pathname
+    }`,
     keepAlive: 10000,
     retryAttempts: Infinity,
     shouldRetry: () => true,
