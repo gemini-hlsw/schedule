@@ -2,12 +2,14 @@ import React, { createContext, useState, ReactNode } from "react";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed
-import { NightPlanType, RunSummary } from "../../types";
+import { NightPlanType, RtPlanType, RunSummary } from "../../types";
 // ------------------------------------------------------------
 
 interface GlobalStateContextType {
   nightPlans: NightPlanType[];
   setNightPlans: React.Dispatch<React.SetStateAction<NightPlanType[]>>;
+  rtPlan: RtPlanType;
+  setRtPlan: React.Dispatch<React.SetStateAction<RtPlanType>>;
   plansSummary: RunSummary;
   setPlansSummary: React.Dispatch<React.SetStateAction<RunSummary>>;
   thesis: number;
@@ -45,6 +47,7 @@ export default function GlobalStateProvider({
   children: ReactNode;
 }) {
   const [nightPlans, setNightPlans] = useState<NightPlanType[]>([]);
+  const [rtPlan, setRtPlan] = useState<RtPlanType>({} as RtPlanType);
   const [plansSummary, setPlansSummary] = useState<RunSummary>({
     summary: {},
     metricsPerBand: {},
@@ -74,6 +77,8 @@ export default function GlobalStateProvider({
       value={{
         nightPlans,
         setNightPlans,
+        rtPlan,
+        setRtPlan,
         plansSummary,
         setPlansSummary,
         thesis,

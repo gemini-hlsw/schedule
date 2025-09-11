@@ -10,7 +10,7 @@ import { SelectButton } from "primereact/selectbutton";
 import { Toast } from "primereact/toast";
 import { Nullable } from "primereact/ts-helpers";
 import { useLazyQuery } from "@apollo/client";
-import { scheduleQuery } from "./query";
+import { scheduleRtQuery } from "./query";
 import { Dialog } from "primereact/dialog";
 import { ProgramSelector } from "../ProgramSelector/ProgramSelector";
 import { PROGRAM_LIST } from "../ProgramSelector/ProgramList";
@@ -29,7 +29,7 @@ export default function OperationPanel() {
   const sites = [
     { label: "GN", value: "GN" },
     { label: "GS", value: "GS" },
-    { label: "BOTH", value: "ALL_SITES" },
+    // { label: "BOTH", value: "ALL_SITES" },
   ];
 
   const DEFAULT_NIGHT_LENGTH_HOURS = 10;
@@ -39,7 +39,7 @@ export default function OperationPanel() {
   defaultEnd.setHours(defaultEnd.getHours() + DEFAULT_NIGHT_LENGTH_HOURS);
   const [endTime, setEndTime] = useState<Date | null>(defaultEnd);
 
-  const [schedule] = useLazyQuery(scheduleQuery, {
+  const [scheduleRt] = useLazyQuery(scheduleRtQuery, {
     fetchPolicy: "no-cache",
   });
 
@@ -52,6 +52,10 @@ export default function OperationPanel() {
     visPower,
     loadingPlan,
     setLoadingPlan,
+    imageQuality,
+    cloudCover,
+    windDirection,
+    windSpeed,
     uuid,
   } = useContext(GlobalStateContext);
 
@@ -79,23 +83,6 @@ export default function OperationPanel() {
     updatePrograms(structuredClone(PROGRAM_LIST));
   }
 
-  const onSaveClick = () => {
-    // Creates a json file with all the
-    setSaveState(true);
-    const output_run = {
-      site: siteState,
-      date: datesState,
-    };
-    setTimeout(() => {
-      setSaveState(false);
-    }, 2000);
-  };
-
-  const onLoadClick = () => {
-    // TODO: Idealistcally shows a list of saved runs.
-    console.log("Load Clicked");
-  };
-
   const isRunDisabled = !(
     siteState &&
     datesState !== null &&
@@ -104,25 +91,28 @@ export default function OperationPanel() {
   );
 
   const onRunClick = () => {
-    // setLoadingPlan(true);
-    // schedule({
-    //   variables: {
-    //     scheduleId: uuid,
-    //     startTime: datesState[0].toISOString().split(".")[0].replace("T", " "),
-    //     endTime: datesState[1].toISOString().split(".")[0].replace("T", " "),
-    //     mode: "VALIDATION",
-    //     sites: siteState,
-    //     numNightsToSchedule: 1,
-    //     thesisFactor: thesis,
-    //     semesterVisibility: false,
-    //     power: power,
-    //     whaPower: whaPower,
-    //     airPower: airPower,
-    //     metPower: metPower,
-    //     visPower: visPower,
-    //     programs: programs.filter((p) => p.checked).map((p) => p.name),
-    //   },
-    // });
+    setLoadingPlan(true);
+    scheduleRt({
+      variables: {
+        scheduleId: uuid,
+        startTime: toUtcIsoString(datesState[0]),
+        endTime: toUtcIsoString(datesState[1]),
+        nightStartTime: toUtcIsoString(startTime),
+        nightEndTime: toUtcIsoString(endTime),
+        imageQuality: imageQuality,
+        cloudCover: cloudCover,
+        windSpeed: windSpeed,
+        windDirection: windDirection,
+        sites: siteState,
+        thesisFactor: thesis,
+        power: power,
+        whaPower: whaPower,
+        airPower: airPower,
+        metPower: metPower,
+        visPower: visPower,
+        programs: programs.filter((p) => p.checked).map((p) => p.name),
+      },
+    });
   };
 
   return (

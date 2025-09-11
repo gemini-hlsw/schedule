@@ -1,13 +1,16 @@
 import { graphql } from "../../gql";
-export const scheduleQuery = graphql(`
-  query schedule(
+export const scheduleRtQuery = graphql(`
+  query scheduleRt(
     $scheduleId: String!
     $startTime: String!
     $endTime: String!
+    $nightStartTime: String!
+    $nightEndTime: String!
     $sites: Sites!
-    $mode: SchedulerModes!
-    $numNightsToSchedule: Int!
-    $semesterVisibility: Boolean!
+    $imageQuality: Float!
+    $cloudCover: Float!
+    $windSpeed: Float!
+    $windDirection: Float!
     $thesisFactor: Float
     $power: Int
     $metPower: Float
@@ -16,21 +19,24 @@ export const scheduleQuery = graphql(`
     $visPower: Float
     $programs: [String!]!
   ) {
-    schedule(
+    scheduleRt(
       scheduleId: $scheduleId
-      newScheduleInput: {
+      newScheduleRtInput: {
         startTime: $startTime
-        sites: $sites
-        mode: $mode
         endTime: $endTime
+        nightStartTime: $nightStartTime
+        nightEndTime: $nightEndTime
+        sites: $sites
+        imageQuality: $imageQuality
+        cloudCover: $cloudCover
+        windSpeed: $windSpeed
+        windDirection: $windDirection
         thesisFactor: $thesisFactor
         power: $power
         metPower: $metPower
         whaPower: $whaPower
         airPower: $airPower
         visPower: $visPower
-        semesterVisibility: $semesterVisibility
-        numNightsToSchedule: $numNightsToSchedule
         programs: $programs
       }
     )

@@ -6,16 +6,15 @@ import { GlobalStateContext } from "../GlobalState/GlobalState";
 import "./Operation.scss";
 
 // For testing
-import SummaryTable from "../SummaryTable/SummaryTable";
 import RankerTweaker from "../RankerTweaker/RankerTweaker";
 
 import { Panel } from "primereact/panel";
-import Results from "../Results/Results";
 import OperationPanel from "../OperationPanel/OperationPanel";
 import WeatherConditions from "../WeatherConditions/WeatherConditions";
+import RtPlan from "./RtPlan";
 
 export default function Operation() {
-  const { nightPlans, plansSummary } = useContext(GlobalStateContext);
+  const { rtPlan } = useContext(GlobalStateContext);
 
   return (
     <div className="operation">
@@ -27,16 +26,11 @@ export default function Operation() {
         <WeatherConditions />
       </Panel>
       <Divider />
-      {plansSummary &&
-        plansSummary.summary &&
-        Object.keys(plansSummary.summary).length > 0 && (
-          <SummaryTable plansSummary={plansSummary} />
-        )}
       <div className="bottom">
-        {nightPlans && nightPlans.length > 0 && (
+        {rtPlan && rtPlan.plansPerSite && rtPlan.plansPerSite.length > 0 && (
           <>
             <Divider />
-            <Results plans={nightPlans} />
+            <RtPlan rtPlan={rtPlan} />
           </>
         )}
       </div>

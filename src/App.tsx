@@ -7,7 +7,7 @@ import { GlobalStateContext } from "./components/GlobalState/GlobalState";
 import { Toast } from "primereact/toast";
 
 function App() {
-  const { setNightPlans, setPlansSummary, setLoadingPlan, uuid } =
+  const { setNightPlans, setPlansSummary, setLoadingPlan, setRtPlan, uuid } =
     useContext(GlobalStateContext);
 
   const toast = useRef<Toast>(null);
@@ -40,6 +40,11 @@ function App() {
         });
         setNightPlans([]);
         setPlansSummary({} as any);
+      } else if (
+        scheduleData &&
+        scheduleData.queueSchedule.__typename === "NewPlansRT"
+      ) {
+        setRtPlan(scheduleData.queueSchedule.nightPlans);
       } else {
         toast.current?.show({
           severity: "error",

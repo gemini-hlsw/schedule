@@ -5,6 +5,20 @@ export interface NightPlanType {
   timeEntriesBySite: TimeEntriesBySite[];
 }
 
+export interface RtPlanType {
+  nightIdx: number;
+  plansPerSite: PlanPerSite[];
+}
+
+export interface PlanPerSite {
+  endTime: string;
+  site: string;
+  startTime: string;
+  visits: Visit[];
+  nightConditions: NightConditions;
+  nightStats: NightStats;
+}
+
 export interface TimeEntriesBySite {
   site: string;
   eveTwilight: string;

@@ -1,5 +1,3 @@
-import React from "react";
-import moment from "moment-timezone";
 import { TimeEntryType, Visit } from "../../types";
 import NightPlanSummary from "./NightPlanSummary";
 import AltAzPlot from "../SchedulerPlot/SchedulerPlot";
@@ -7,7 +5,6 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
-import { ProgressBar } from "primereact/progressbar";
 
 export default function TimeEntry({
   timeEntry,
