@@ -17,9 +17,12 @@ import { PROGRAM_LIST } from "../ProgramSelector/ProgramList";
 import { toUtcIsoString } from "../../helpers/utcTime";
 
 export default function OperationPanel() {
-  const defaultDate: Date = new Date("2018-10-01");
+  const defaultDate: Date = new Date();
+  defaultDate.setDate(defaultDate.getDate() + 1);
+  defaultDate.setHours(0);
+  defaultDate.setMinutes(0);
+  defaultDate.setSeconds(0);
   const toast = useRef<Toast>(null);
-  const [saveState, setSaveState] = useState(false);
   const [datesState, setDates] = useState<Nullable<(Date | null)[]>>([
     defaultDate,
   ]);
