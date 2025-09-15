@@ -62,6 +62,12 @@ export default function OperationPanel() {
     uuid,
   } = useContext(GlobalStateContext);
 
+  function setToNow() {
+    const now = new Date();
+    now.setHours(now.getHours() + now.getTimezoneOffset() / 60);
+    setStartTime(new Date(toUtcIsoString(now)));
+  }
+
   function setProgram(program: string, state: boolean) {
     const auxProgramList = [...programs];
     auxProgramList.find((p) => p.name === program).checked = state;
@@ -113,7 +119,7 @@ export default function OperationPanel() {
         airPower: airPower,
         metPower: metPower,
         visPower: visPower,
-        programs: programs.filter((p) => p.checked).map((p) => p.name),
+        programs: ["p-d5d"],
       },
     });
   };
@@ -154,6 +160,12 @@ export default function OperationPanel() {
             hourFormat="24"
           />
         </div>
+        <Button
+          label="Set night start to now"
+          className="p-button-success"
+          onClick={setToNow}
+          loadingIcon="pi pi-spin pi-spinner"
+        />
         <div>
           <label htmlFor="night-end" className="mr-2">
             UT Night End
