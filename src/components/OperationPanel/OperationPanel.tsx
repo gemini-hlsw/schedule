@@ -114,6 +114,17 @@ export default function OperationPanel() {
     <>
       <Toast ref={toast}></Toast>
       <Panel className="control-panel">
+        <div className="btn-group">
+          <Button
+            label="RUN"
+            icon="pi pi-play"
+            className="p-button-success"
+            loading={loadingPlan}
+            onClick={onRunClick}
+            disabled={isRunDisabled || loadingPlan}
+            loadingIcon="pi pi-spin pi-spinner"
+          />
+        </div>
         <SelectButton
           value={siteState}
           options={sites}
@@ -136,7 +147,7 @@ export default function OperationPanel() {
         </div>
         <div>
           <label htmlFor="night-start" className="mr-2">
-            UT Night Start
+            UT Plan Start
           </label>
           <Calendar
             id="night-start"
@@ -147,14 +158,14 @@ export default function OperationPanel() {
           />
         </div>
         <Button
-          label="Set night start to now"
+          label="Set plan start to now"
           className="p-button-success"
           onClick={setToNow}
           loadingIcon="pi pi-spin pi-spinner"
         />
         <div>
           <label htmlFor="night-end" className="mr-2">
-            UT Night End
+            UT Plan End
           </label>
           <Calendar
             id="night-end"
@@ -168,17 +179,6 @@ export default function OperationPanel() {
           label="Programs Selection"
           onClick={() => setProgramSelectorVisible(true)}
         />
-        <div className="btn-group">
-          <Button
-            label="RUN"
-            icon="pi pi-play"
-            className="p-button-success"
-            loading={loadingPlan}
-            onClick={onRunClick}
-            disabled={isRunDisabled || loadingPlan}
-            loadingIcon="pi pi-spin pi-spinner"
-          />
-        </div>
       </Panel>
       <Dialog
         header="Programs Selection"
