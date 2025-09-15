@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef, useContext } from "react";
 import { GlobalStateContext } from "../GlobalState/GlobalState";
 import "./OperationPanel.scss";
 
@@ -12,8 +12,8 @@ import { Nullable } from "primereact/ts-helpers";
 import { useLazyQuery } from "@apollo/client";
 import { scheduleRtQuery } from "./query";
 import { Dialog } from "primereact/dialog";
-import { ProgramSelector } from "../ProgramSelector/ProgramSelector";
-import { PROGRAM_LIST } from "../ProgramSelector/ProgramList";
+import { ProgramSelector } from "../OperationProgramSelection/ProgramSelector";
+import { PROGRAM_LIST } from "../OperationProgramSelection/ProgramList";
 import { toUtcIsoString } from "../../helpers/utcTime";
 
 export default function OperationPanel() {
@@ -74,20 +74,6 @@ export default function OperationPanel() {
     updatePrograms(auxProgramList);
   }
 
-  function setProgramList(list: string[]) {
-    const auxProgramList = [...programs];
-    for (let p in auxProgramList) {
-      if (!auxProgramList[p].disabled) {
-        if (list.includes(auxProgramList[p].name)) {
-          auxProgramList[p].checked = true;
-        } else {
-          auxProgramList[p].checked = false;
-        }
-      }
-    }
-    updatePrograms(auxProgramList);
-  }
-
   function resetPrograms() {
     updatePrograms(structuredClone(PROGRAM_LIST));
   }
@@ -119,7 +105,7 @@ export default function OperationPanel() {
         airPower: airPower,
         metPower: metPower,
         visPower: visPower,
-        programs: ["p-d5d"],
+        programs: programs.filter((p) => p.checked).map((p) => p.name),
       },
     });
   };
@@ -178,10 +164,10 @@ export default function OperationPanel() {
             hourFormat="24"
           />
         </div>
-        {/* <Button
+        <Button
           label="Programs Selection"
           onClick={() => setProgramSelectorVisible(true)}
-        /> */}
+        />
         <div className="btn-group">
           <Button
             label="RUN"
@@ -207,7 +193,6 @@ export default function OperationPanel() {
         <ProgramSelector
           programs={programs}
           setProgram={setProgram}
-          setProgramList={setProgramList}
           resetPrograms={resetPrograms}
         />
       </Dialog>
