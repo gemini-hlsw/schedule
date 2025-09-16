@@ -70,7 +70,7 @@ export default function OperationPanel() {
 
   function setProgram(program: string, state: boolean) {
     const auxProgramList = [...programs];
-    auxProgramList.find((p) => p.name === program).checked = state;
+    auxProgramList.find((p) => p.id === program).checked = state;
     updatePrograms(auxProgramList);
   }
 
@@ -105,7 +105,7 @@ export default function OperationPanel() {
         airPower: airPower,
         metPower: metPower,
         visPower: visPower,
-        programs: programs.filter((p) => p.checked).map((p) => p.name),
+        programs: programs.filter((p) => p.checked).map((p) => p.id),
       },
     });
   };
@@ -152,7 +152,7 @@ export default function OperationPanel() {
           <Calendar
             id="night-start"
             value={startTime}
-            onChange={(e) => setStartTime(e.value)}
+            onChange={(e: { value: Date | null }) => setStartTime(e.value)}
             showTime
             hourFormat="24"
           />
@@ -170,7 +170,7 @@ export default function OperationPanel() {
           <Calendar
             id="night-end"
             value={endTime}
-            onChange={(e) => setEndTime(e.value)}
+            onChange={(e: { value: Date | null }) => setEndTime(e.value)}
             showTime
             hourFormat="24"
           />
