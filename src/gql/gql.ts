@@ -18,6 +18,7 @@ const documents = {
     "\n  query version {\n    version {\n      version\n      changelog\n    }\n  }\n": types.VersionDocument,
     "\n  query scheduleRt(\n    $scheduleId: String!\n    $startTime: String!\n    $endTime: String!\n    $nightStartTime: String!\n    $nightEndTime: String!\n    $sites: Sites!\n    $imageQuality: Float!\n    $cloudCover: Float!\n    $windSpeed: Float!\n    $windDirection: Float!\n    $thesisFactor: Float\n    $power: Int\n    $metPower: Float\n    $whaPower: Float\n    $airPower: Float\n    $visPower: Float\n    $programs: [String!]!\n  ) {\n    scheduleRt(\n      scheduleId: $scheduleId\n      newScheduleRtInput: {\n        startTime: $startTime\n        endTime: $endTime\n        nightStartTime: $nightStartTime\n        nightEndTime: $nightEndTime\n        sites: $sites\n        imageQuality: $imageQuality\n        cloudCover: $cloudCover\n        windSpeed: $windSpeed\n        windDirection: $windDirection\n        thesisFactor: $thesisFactor\n        power: $power\n        metPower: $metPower\n        whaPower: $whaPower\n        airPower: $airPower\n        visPower: $visPower\n        programs: $programs\n      }\n    )\n  }\n": types.ScheduleRtDocument,
     "\n  mutation updateWeather($weatherInput: WeatherInput) {\n    updateWeather(weatherInput: $weatherInput) {\n      imageQuality\n      cloudCover\n      windDirection\n      windSpeed\n    }\n  }\n": types.UpdateWeatherDocument,
+    "\n  subscription weatherUpdates($site: String!) {\n    weatherUpdates(site: $site) {\n      imageQuality\n      cloudCover\n      windDirection\n      windSpeed\n    }\n  }\n": types.WeatherUpdatesDocument,
 };
 
 /**
@@ -40,6 +41,10 @@ export function graphql(source: "\n  query scheduleRt(\n    $scheduleId: String!
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation updateWeather($weatherInput: WeatherInput) {\n    updateWeather(weatherInput: $weatherInput) {\n      imageQuality\n      cloudCover\n      windDirection\n      windSpeed\n    }\n  }\n"): (typeof documents)["\n  mutation updateWeather($weatherInput: WeatherInput) {\n    updateWeather(weatherInput: $weatherInput) {\n      imageQuality\n      cloudCover\n      windDirection\n      windSpeed\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription weatherUpdates($site: String!) {\n    weatherUpdates(site: $site) {\n      imageQuality\n      cloudCover\n      windDirection\n      windSpeed\n    }\n  }\n"): (typeof documents)["\n  subscription weatherUpdates($site: String!) {\n    weatherUpdates(site: $site) {\n      imageQuality\n      cloudCover\n      windDirection\n      windSpeed\n    }\n  }\n"];
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.

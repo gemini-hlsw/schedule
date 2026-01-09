@@ -8,10 +8,31 @@ const SCHEDULER_BACKEND_URL =
   import.meta.env.VITE_API_URL ??
   "https://gpp-schedule-staging.herokuapp.com/graphql";
 
+const wssWeatherUrl = new GraphQLWsLink(
+  createClient({
+    url: "wss://weather-graphql-ec26c2063b75.herokuapp.com/",
+    keepAlive: 10000,
+    retryAttempts: Infinity,
+    shouldRetry: () => true,
+    on: {
+      connected: () => {
+        console.log("Socket successfully connected");
+      },
+      error: (error) => {
+        console.log("Socket error", error);
+      },
+      closed: () => {
+        console.log("Socket closed");
+      },
+    },
+  })
+);
+
 const API_URL = new URL(SCHEDULER_BACKEND_URL);
 
 const WEATHER_BACKEND_URL =
-  import.meta.env.VITE_WEATHER_URL ?? "http://localhost:4000";
+  import.meta.env.VITE_WEATHER_URL ??
+  "https://weather-graphql-ec26c2063b75.herokuapp.com/";
 
 export const wsLink = new GraphQLWsLink(
   createClient({
@@ -51,7 +72,11 @@ const splitLink = split(
       definition.operation === "subscription"
     );
   },
-  wsLink,
+  split(
+    (op) => op.getContext().clientName === "weatherClient",
+    wssWeatherUrl,
+    wsLink
+  ),
   split(
     (op) => op.getContext().clientName === "weatherClient",
     httpWeatherLink,
