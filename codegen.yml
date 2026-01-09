@@ -1,5 +1,7 @@
 overwrite: true
-schema: "https://gpp-schedule-staging.herokuapp.com/graphql"
+schema:
+  - "http://localhost:8000/graphql"
+  - "http://localhost:4000"
 documents: "src/**/*.{ts,tsx}"
 generates:
   ./src/gql/:

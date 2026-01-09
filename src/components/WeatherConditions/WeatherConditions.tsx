@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   InputNumber,
   InputNumberValueChangeEvent,
@@ -6,6 +6,9 @@ import {
 import { GlobalStateContext } from "../GlobalState/GlobalState";
 import "./WeatherConditions.scss";
 import { Dropdown } from "primereact/dropdown";
+import { Button } from "primereact/button";
+import { updateWeatherMutation } from "./query";
+import { useMutation } from "@apollo/client";
 
 const IQ_OPTIONS = [
   { label: "IQ20", value: 0.2 },
@@ -21,7 +24,7 @@ const CC_OPTIONS = [
   { label: "CCANY", value: 1.0 },
 ];
 
-export default function WeatherConditions() {
+export default function WeatherConditions({ updateButton = false }) {
   const {
     imageQuality,
     setImageQuality,
@@ -32,6 +35,30 @@ export default function WeatherConditions() {
     windSpeed,
     setWindSpeed,
   } = useContext(GlobalStateContext);
+
+  const [siteState, setSite] = useState(undefined);
+  const sites = [
+    { label: "GN", value: "GN" },
+    { label: "GS", value: "GS" },
+  ];
+
+  const [updateWeather] = useMutation(updateWeatherMutation, {
+    context: { clientName: "weatherClient" },
+  });
+
+  function sendWeatherUpdate() {
+    updateWeather({
+      variables: {
+        weatherInput: {
+          imageQuality,
+          cloudCover,
+          windDirection,
+          windSpeed,
+          site: siteState,
+        },
+      },
+    });
+  }
 
   return (
     <div className="card flex flex-wrap gap-3 p-fluid weather-conditions">
@@ -92,6 +119,27 @@ export default function WeatherConditions() {
           min={0}
         />
       </div>
+      {updateButton && (
+        <div className="flex-auto">
+          <label htmlFor="wind-speed" className="font-bold block mb-2">
+            Site
+          </label>
+          <Dropdown
+            placeholder="Select Site"
+            value={siteState}
+            options={sites}
+            className="toggle-btn p-selectbutton p-component"
+            onChange={(e) => setSite(e.value)}
+          />
+        </div>
+      )}
+      {updateButton && (
+        <Button
+          label="Send Weather Update"
+          disabled={!siteState}
+          onClick={sendWeatherUpdate}
+        />
+      )}
     </div>
   );
 }

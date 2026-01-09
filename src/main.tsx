@@ -15,6 +15,7 @@ import "primereact/resources/primereact.min.css";
 import "./index.scss";
 import GlobalStateProvider from "./components/GlobalState/GlobalState";
 import Operation from "./components/Operation/Operation";
+import { Simulation } from "./components/Simulation/Simulation";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -27,7 +28,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                 <Route index element={<Home />} />
                 <Route path="operation" element={<Operation />} />
                 <Route path="validation" element={<Validation />} />
-                <Route path="simulation" element={<h1>Simulation</h1>} />
+                <Route path="simulation" element={<Simulation />} />
                 <Route path="link1" element={<h1>link1</h1>} />
                 <Route path="link2" element={<h1>link2</h1>} />
                 <Route path="link3" element={<h1>link3</h1>} />

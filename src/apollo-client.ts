@@ -10,6 +10,9 @@ const SCHEDULER_BACKEND_URL =
 
 const API_URL = new URL(SCHEDULER_BACKEND_URL);
 
+const WEATHER_BACKEND_URL =
+  import.meta.env.VITE_WEATHER_URL ?? "http://localhost:4000";
+
 export const wsLink = new GraphQLWsLink(
   createClient({
     url: `${API_URL.protocol === "https:" ? "wss" : "ws"}://${API_URL.host}${
@@ -36,16 +39,24 @@ const httpLink = new HttpLink({
   uri: SCHEDULER_BACKEND_URL,
 });
 
+const httpWeatherLink = new HttpLink({
+  uri: WEATHER_BACKEND_URL,
+});
+
 const splitLink = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query);
+  (operation) => {
+    const definition = getMainDefinition(operation.query);
     return (
       definition.kind === "OperationDefinition" &&
       definition.operation === "subscription"
     );
   },
   wsLink,
-  httpLink
+  split(
+    (op) => op.getContext().clientName === "weatherClient",
+    httpWeatherLink,
+    httpLink
+  )
 );
 
 export const client = new ApolloClient({
