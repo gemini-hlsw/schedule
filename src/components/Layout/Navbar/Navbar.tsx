@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "./Navbar.scss";
 
+import type { JSX } from "react";
+
 interface CustomLink {
   to: string;
   name: string;
