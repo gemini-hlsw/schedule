@@ -6,7 +6,7 @@ import {
 import { GlobalStateContext } from "../GlobalState/GlobalState";
 import "./RankerTweaker.scss";
 
-export default function RankerTweaker({ vertical }: { vertical: boolean }) {
+export default function RankerTweaker() {
   const {
     thesis,
     setThesis,
