@@ -45,5 +45,5 @@ export default function Navbar() {
     );
   });
 
-  return <nav className="navbar">{groups}</nav>;
+  return <nav className="navbar order-2 md:order-1">{groups}</nav>;
 }

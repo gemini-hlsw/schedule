@@ -17,6 +17,7 @@
   "dependencies": {
     "@apollo/client": "^3.10.8",
     "@types/react-router-dom": "^5.3.3",
+    "clsx": "^2.1.1",
     "graphql": "^16.6.0",
     "graphql-ws": "^5.16.0",
     "highcharts": "^11.0.0",
@@ -28,7 +29,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-router-dom": "^6.5.0",
-    "storybook-addon-apollo-client": "^4.0.13"
+    "storybook-addon-apollo-client": "^4.0.13",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

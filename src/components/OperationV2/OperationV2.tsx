@@ -1,32 +1,29 @@
 import { useContext } from "react";
-// import NightPlansList from "../NightPlansList/NightPlansList"
 import { Divider } from "primereact/divider";
 import { GlobalStateContext } from "../GlobalState/GlobalState";
 
 import "./Operation.scss";
 
-// For testing
-import RankerTweaker from "../RankerTweaker/RankerTweaker";
-
 import { Panel } from "primereact/panel";
-import OperationPanel from "../OperationPanel/OperationPanel";
-import WeatherConditions from "../WeatherConditions/WeatherConditions";
+import WeatherConditionsTW from "../WeatherConditions/WeatherConditionsTW";
 import RtPlan from "./RtPlan";
-import { ManualTrigger } from "./ManualTrigger";
+import { TriggerControls } from "./TriggerControls";
+import RankerTweakerTW from "../RankerTweaker/RankerTweakerTW";
 
 export default function OperationV2() {
   const { rtPlan } = useContext(GlobalStateContext);
 
   return (
-    <div className="operation">
-      {/* <OperationPanel /> */}
-      <ManualTrigger />
-      <Panel header="Ranker Tweaker">
-        <RankerTweaker />
-      </Panel>
-      <Panel header="Weather Conditions">
-        <WeatherConditions updateButton={true} />
-      </Panel>
+    <div>
+      <TriggerControls />
+      <div className="flex flex-col md:flex-row w-full gap-2 mt-2">
+        <Panel header="Ranker Tweaker" className="grow">
+          <RankerTweakerTW />
+        </Panel>
+        <Panel header="Weather Conditions" className="grow">
+          <WeatherConditionsTW updateButton={true} />
+        </Panel>
+      </div>
       <Divider />
       <div className="bottom">
         {rtPlan && rtPlan.plansPerSite && rtPlan.plansPerSite.length > 0 && (

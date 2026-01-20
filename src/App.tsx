@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { useSubscription } from "@apollo/client";
 import { subscriptionQueueSchedule } from "./components/GlobalState/scheduleSubscription";
-import { subscriptionRTSchedule } from "./components/GlobalState/rtSubscription";
 import { useContext, useEffect, useRef } from "react";
 import { GlobalStateContext } from "./components/GlobalState/GlobalState";
 import { Toast } from "primereact/toast";

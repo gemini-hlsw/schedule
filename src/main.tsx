@@ -12,6 +12,7 @@ import Validation from "./components/Validation/Validation";
 
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.min.css";
+import "./global.css";
 import "./index.scss";
 import GlobalStateProvider from "./components/GlobalState/GlobalState";
 import Operation from "./components/Operation/Operation";
