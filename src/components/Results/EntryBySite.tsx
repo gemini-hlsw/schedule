@@ -22,7 +22,7 @@ export default function EntryBySite({
       entryBySite.timeEntries.at(0).startTimeSlots;
   }
 
-  let timeLine: React.ReactElement[] = [];
+  let timeLine: React.ReactElement<any>[] = [];
   for (let en of entryBySite.timeEntries) {
     let pos =
       ((en.startTimeSlots - entryBySite.timeEntries.at(0).startTimeSlots) / w) *

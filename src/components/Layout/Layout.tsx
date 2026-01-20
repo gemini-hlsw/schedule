@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useState } from "react";
 import Header from "./Header/Header";
 import Navbar from "./Navbar/Navbar";
-import "./Layout.scss";
 import { wsLink } from "../../apollo-client";
+import { cn } from "../../lib/utils";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isOnline, setIsOnline] = useState(false);
@@ -11,10 +11,12 @@ export default function Layout({ children }: { children: ReactNode }) {
   wsLink.client.on("connected", () => setIsOnline(true));
 
   return (
-    <div className="layout">
+    <div className={cn("flex flex-col min-h-dvh")}>
       <Header title="schedule" isOnline={isOnline} />
-      <Navbar />
-      <main className="main">{children}</main>
+      <div className={"flex flex-col md:flex-row w-full grow"}>
+        <Navbar />
+        <main className="p-3 w-full order-1 md:order-1 grow">{children}</main>
+      </div>
     </div>
   );
 }

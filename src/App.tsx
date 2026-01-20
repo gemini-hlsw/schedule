@@ -20,6 +20,14 @@ function App() {
     variables: { scheduleId: uuid },
   });
 
+  const {
+    data: rtData,
+    loading: rtLoading,
+    error: rtError,
+  } = useSubscription(subscriptionQueueSchedule, {
+    variables: { scheduleId: "operation" },
+  });
+
   useEffect(() => {
     if (!subscriptionLoading) {
       if (
@@ -58,6 +66,39 @@ function App() {
       setLoadingPlan(false);
     }
   }, [scheduleData, subscriptionLoading]);
+
+  useEffect(() => {
+    if (!rtLoading) {
+      if (rtData && rtData.queueSchedule.__typename === "NewNightPlans") {
+        setNightPlans(rtData.queueSchedule.nightPlans.nightTimeline);
+        setPlansSummary(rtData.queueSchedule.plansSummary);
+      } else if (
+        rtData &&
+        rtData.queueSchedule.__typename === "NightPlansError"
+      ) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: rtData.queueSchedule.error,
+          sticky: true,
+        });
+        setNightPlans([]);
+        setPlansSummary({} as any);
+      } else if (rtData && rtData.queueSchedule.__typename === "NewPlansRT") {
+        setRtPlan(rtData.queueSchedule.nightPlans);
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+          sticky: true,
+        });
+        setNightPlans([]);
+        setPlansSummary({} as any);
+      }
+      setLoadingPlan(false);
+    }
+  }, [rtData, rtLoading]);
 
   return (
     <Layout>

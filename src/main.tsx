@@ -12,9 +12,11 @@ import Validation from "./components/Validation/Validation";
 
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.min.css";
+import "./global.css";
 import "./index.scss";
 import GlobalStateProvider from "./components/GlobalState/GlobalState";
 import Operation from "./components/Operation/Operation";
+import OperationV2 from "./components/OperationV2/OperationV2";
 import { Simulation } from "./components/Simulation/Simulation";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
@@ -27,6 +29,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
               <Route path="/" element={<App />}>
                 <Route index element={<Home />} />
                 <Route path="operation" element={<Operation />} />
+                <Route path="operation-v2" element={<OperationV2 />} />
                 <Route path="validation" element={<Validation />} />
                 <Route path="simulation" element={<Simulation />} />
                 <Route path="link1" element={<h1>link1</h1>} />

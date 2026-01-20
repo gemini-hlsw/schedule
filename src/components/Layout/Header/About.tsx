@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { Dialog } from "primereact/dialog";
 import { useState } from "react";
 import uiVersion from "../../../version.json";
+import { cn } from "../../../lib/utils";
 
 export function About() {
   const {
@@ -17,7 +18,15 @@ export function About() {
 
   return (
     <>
-      <button className="button" onClick={() => setVisible(true)}>
+      <button
+        className={cn(
+          "text-white bg-gray-600 hover:bg-gray-700",
+          "focus:ring-4 focus:ring-gray-300 font-medium rounded-sm",
+          "text-sm px-3 py-0.5 dark:bg-gray-600 dark:hover:bg-gray-700",
+          "dark:focus:ring-gray-800 cursor-pointer"
+        )}
+        onClick={() => setVisible(true)}
+      >
         <span className="label">About</span>
       </button>
       <Dialog
