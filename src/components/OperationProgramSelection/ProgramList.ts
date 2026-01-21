@@ -12,6 +12,21 @@ export const PROGRAM_LIST = [
   { label: "G-2025B-0503", id: "p-597", checked: true, disabled: false },
   { label: "G-2025B-0504", id: "p-577", checked: true, disabled: false },
   { label: "G-2025B-0505", id: "p-572", checked: true, disabled: false },
-  { label: "G-2025B-ENG-GMOSS-01", id: "p-5c0", checked: true, disabled: false },
-  { label: "G-2025B-ENG-GMOSN-01", id: "p-5c8", checked: true, disabled: false },
-]
+  {
+    label: "G-2025B-ENG-GMOSS-01",
+    id: "p-5c0",
+    checked: true,
+    disabled: false,
+  },
+  {
+    label: "G-2025B-ENG-GMOSN-01",
+    id: "p-5c8",
+    checked: true,
+    disabled: false,
+  },
+];
+
+export const PROGRAM_LIST_XT2 = [
+  { label: "p-cc9", id: "p-cc9", checked: true, disabled: false },
+  { label: "p-113", id: "p-113", checked: true, disabled: false },
+];
