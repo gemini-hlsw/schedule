@@ -11,11 +11,11 @@ export default function Layout({ children }: { children: ReactNode }) {
   wsLink.client.on("connected", () => setIsOnline(true));
 
   return (
-    <div className={cn("flex flex-col min-h-dvh")}>
+    <div className={cn("flex flex-col h-screen overflow-y-auto w-full")}>
       <Header title="schedule" isOnline={isOnline} />
-      <div className={"flex flex-col md:flex-row w-full grow"}>
+      <div className={"flex flex-col md:flex-row grow"}>
         <Navbar />
-        <main className="p-3 w-full order-1 md:order-1 grow">{children}</main>
+        <main className="p-3 order-1 md:order-1 grow">{children}</main>
       </div>
     </div>
   );

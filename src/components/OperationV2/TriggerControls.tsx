@@ -12,7 +12,7 @@ import { useLazyQuery } from "@apollo/client";
 import { scheduleV2Query } from "./query";
 import { Dialog } from "primereact/dialog";
 import { ProgramSelector } from "../OperationProgramSelection/ProgramSelector";
-import { PROGRAM_LIST } from "../OperationProgramSelection/ProgramList";
+import { PROGRAM_LIST_XT2 } from "../OperationProgramSelection/ProgramList";
 import { toUtcIsoString } from "../../helpers/utcTime";
 
 export function TriggerControls() {
@@ -26,7 +26,9 @@ export function TriggerControls() {
     defaultDate,
   ]);
   const [siteState, setSite] = useState(undefined);
-  const [programs, updatePrograms] = useState(structuredClone(PROGRAM_LIST));
+  const [programs, updatePrograms] = useState(
+    structuredClone(PROGRAM_LIST_XT2)
+  );
   const [programSelectorVisible, setProgramSelectorVisible] = useState(false);
   const sites = [
     { label: "GN", value: "GN" },
@@ -74,7 +76,7 @@ export function TriggerControls() {
   }
 
   function resetPrograms() {
-    updatePrograms(structuredClone(PROGRAM_LIST));
+    updatePrograms(structuredClone(PROGRAM_LIST_XT2));
   }
 
   const isRunDisabled = !(
