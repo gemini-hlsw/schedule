@@ -226,7 +226,7 @@ export const PROGRAM_LIST = [
   { name: "GN-2018B-Q-128", checked: false, disabled: false },
   { name: "GN-2018B-Q-129", checked: false, disabled: false },
   { name: "GN-2018B-Q-130", checked: true, disabled: true }, // ToO program
-  { name: "GN-2018B-Q-131", checked: false, disabled: true }, // Commented in redis
+  { name: "GN-2018B-Q-131", checked: false, disabled: false }, // Commented in redis
   { name: "GN-2018B-Q-132", checked: true, disabled: true }, // ToO program
   { name: "GN-2018B-Q-133", checked: true, disabled: false }, // Default program
   { name: "GN-2018B-Q-134", checked: false, disabled: false },
