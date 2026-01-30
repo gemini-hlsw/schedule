@@ -123,53 +123,55 @@ export default function TimeEntry({
           mornTwilight={mornTwilight}
           site={site}
         />
-        <DataTable
-          value={timeEntry.plan.visits}
-          tableStyle={{ minWidth: "50rem" }}
-        >
-          <Column field="obsId" header="Observation ID">
-            {" "}
-          </Column>
-          <Column
-            header="Observation Class"
-            body={obsClassBodyTemplate}
-          ></Column>
-          <Column header="Start Time" body={startTimeBodyTemplate}></Column>
-          <Column field="atomStartIdx" header="Atom Start">
-            {" "}
-          </Column>
-          <Column field="atomEndIdx" header="Atom End">
-            {" "}
-          </Column>
-          <Column
-            header="Instrument"
-            body={(visit: Visit) => visit.instrument}
-          ></Column>
-          <Column header="FPU" body={(visit: Visit) => visit.fpu}></Column>
-          <Column
-            header="Grating"
-            body={(visit: Visit) => visit.disperser}
-          ></Column>
-          <Column
-            header="Filters"
-            body={(visit: Visit) =>
-              visit.filters.length > 0 ? visit.filters.join(", ") : "None"
-            }
-          ></Column>
-          <Column
-            header="Cloud Cover"
-            body={(visit: Visit) => visit.requiredConditions.cc}
-          ></Column>
-          <Column
-            header="Image Quality"
-            body={(visit: Visit) => visit.requiredConditions.iq}
-          ></Column>
-          <Column header="Obs Completion" body={obsCompletionBodyTemplate}>
-            {" "}
-          </Column>
-          <Column header="peakScore" body={peakScoreBodyTemplate}></Column>
-          <Column header="Score" body={scoreBodyTemplate}></Column>
-        </DataTable>
+        <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
+          <DataTable
+            value={timeEntry.plan.visits}
+            tableStyle={{ minWidth: "50rem" }}
+          >
+            <Column field="obsId" header="Observation ID">
+              {" "}
+            </Column>
+            <Column
+              header="Observation Class"
+              body={obsClassBodyTemplate}
+            ></Column>
+            <Column header="Start Time" body={startTimeBodyTemplate}></Column>
+            <Column field="atomStartIdx" header="Atom Start">
+              {" "}
+            </Column>
+            <Column field="atomEndIdx" header="Atom End">
+              {" "}
+            </Column>
+            <Column
+              header="Instrument"
+              body={(visit: Visit) => visit.instrument}
+            ></Column>
+            <Column header="FPU" body={(visit: Visit) => visit.fpu}></Column>
+            <Column
+              header="Grating"
+              body={(visit: Visit) => visit.disperser}
+            ></Column>
+            <Column
+              header="Filters"
+              body={(visit: Visit) =>
+                visit.filters.length > 0 ? visit.filters.join(", ") : "None"
+              }
+            ></Column>
+            <Column
+              header="Cloud Cover"
+              body={(visit: Visit) => visit.requiredConditions.cc}
+            ></Column>
+            <Column
+              header="Image Quality"
+              body={(visit: Visit) => visit.requiredConditions.iq}
+            ></Column>
+            <Column header="Obs Completion" body={obsCompletionBodyTemplate}>
+              {" "}
+            </Column>
+            <Column header="peakScore" body={peakScoreBodyTemplate}></Column>
+            <Column header="Score" body={scoreBodyTemplate}></Column>
+          </DataTable>
+        </div>
         <DataTable
           value={programCompletion(timeEntry.plan.nightStats.programCompletion)}
         >
