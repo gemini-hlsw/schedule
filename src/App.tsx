@@ -5,6 +5,7 @@ import { subscriptionQueueSchedule } from "./components/GlobalState/scheduleSubs
 import { useContext, useEffect, useRef } from "react";
 import { GlobalStateContext } from "./components/GlobalState/GlobalState";
 import { Toast } from "primereact/toast";
+import { realtimeClient } from "./apollo-client";
 
 function App() {
   const { setNightPlans, setPlansSummary, setLoadingPlan, setRtPlan, uuid } =
@@ -26,6 +27,7 @@ function App() {
     error: rtError,
   } = useSubscription(subscriptionQueueSchedule, {
     variables: { scheduleId: "operation" },
+    client: realtimeClient,
   });
 
   useEffect(() => {
