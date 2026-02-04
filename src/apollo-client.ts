@@ -8,6 +8,10 @@ const SCHEDULER_BACKEND_URL =
   import.meta.env.VITE_API_URL ??
   "https://gpp-schedule-staging.herokuapp.com/graphql";
 
+const REALTIME_BACKEND_URL =
+  import.meta.env.VITE_REALTIME_API_URL ??
+  "https://scheduler-realtime-b0b01f965ef5.herokuapp.com/graphql";
+
 const wssWeatherUrl = new GraphQLWsLink(
   createClient({
     url: "wss://weather-graphql-ec26c2063b75.herokuapp.com/",
@@ -29,6 +33,7 @@ const wssWeatherUrl = new GraphQLWsLink(
 );
 
 const API_URL = new URL(SCHEDULER_BACKEND_URL);
+const REALTIME_API_URL = new URL(REALTIME_BACKEND_URL);
 
 const WEATHER_BACKEND_URL =
   import.meta.env.VITE_WEATHER_URL ??
@@ -36,9 +41,8 @@ const WEATHER_BACKEND_URL =
 
 export const wsLink = new GraphQLWsLink(
   createClient({
-    url: `${API_URL.protocol === "https:" ? "wss" : "ws"}://${API_URL.host}${
-      API_URL.pathname
-    }`,
+    url: `${API_URL.protocol === "https:" ? "wss" : "ws"}://${API_URL.host}${API_URL.pathname
+      }`,
     keepAlive: 10000,
     retryAttempts: Infinity,
     shouldRetry: () => true,
@@ -56,8 +60,33 @@ export const wsLink = new GraphQLWsLink(
   })
 );
 
+export const realtimeWsLink = new GraphQLWsLink(
+  createClient({
+    url: `${REALTIME_API_URL.protocol === "https:" ? "wss" : "ws"}://${REALTIME_API_URL.host}${REALTIME_API_URL.pathname
+      }`,
+    keepAlive: 10000,
+    retryAttempts: Infinity,
+    shouldRetry: () => true,
+    on: {
+      connected: () => {
+        console.log("Realtime socket successfully connected");
+      },
+      error: (error) => {
+        console.log("Realtime socket error", error);
+      },
+      closed: () => {
+        console.log("Realtime socket closed");
+      },
+    },
+  })
+);
+
 const httpLink = new HttpLink({
   uri: SCHEDULER_BACKEND_URL,
+});
+
+const realtimeHttpLink = new HttpLink({
+  uri: REALTIME_BACKEND_URL,
 });
 
 const httpWeatherLink = new HttpLink({
@@ -84,7 +113,24 @@ const splitLink = split(
   )
 );
 
+const realtimeSplitLink = split(
+  (operation) => {
+    const definition = getMainDefinition(operation.query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  realtimeWsLink,
+  realtimeHttpLink
+);
+
 export const client = new ApolloClient({
   link: splitLink,
+  cache: new InMemoryCache(),
+});
+
+export const realtimeClient = new ApolloClient({
+  link: realtimeSplitLink,
   cache: new InMemoryCache(),
 });
