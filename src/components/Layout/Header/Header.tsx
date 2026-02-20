@@ -22,7 +22,7 @@ export default function Header({ title, isOnline }: HeaderProps) {
     <div
       className={cn(
         "flex flex-row items-center justify-between",
-        "px-4 h-8 dark:bg-white/10 dark:text-white",
+        "px-4 h-8 shrink-0 dark:bg-white/10 dark:text-white",
         "light:bg-black/10 light:text-black",
         "border-b border-gray-200 dark:border-gray-700"
       )}
@@ -35,13 +35,6 @@ export default function Header({ title, isOnline }: HeaderProps) {
           <span className={isOnline ? "text-green-500" : "text-red-500"}>
             {isOnline ? "Connected" : "Disconnected"}
           </span>
-          {/* <span
-            className={cn(
-              "light:bg-black/10 dark:bg-white/10 text-sm font-mono px-2 rounded-full"
-            )}
-          >
-            ID: {uuid}
-          </span> */}
           <Badge
             variant="default"
             className={cn(
