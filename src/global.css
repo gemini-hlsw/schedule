@@ -134,7 +134,7 @@
 .highcharts-background {
   fill: transparent !important;
 }
-.highcharts-container text {
+.dark.highcharts-container text {
   fill: white !important;
 }
 

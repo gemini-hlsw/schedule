@@ -67,9 +67,10 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
     <div
       className={cn(
         "border rounded-md flex flex-col gap-2 p-3 flex-wrap",
-        "dark:border-white/50 border-black/50"
+        "bg-transparent"
       )}
     >
+      <h1 className="font-bold w-full">Plan result</h1>
       <AltAzPlot
         data={parseToVisitForPlot(rtPlan.plansPerSite[0].visits)}
         eveTwilight={rtPlan.plansPerSite[0].startTime}
@@ -78,7 +79,7 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
       />
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className={cn("*:h-6 *:font-bold")}>
             <TableHead>Observation Id</TableHead>
             <TableHead>Observation Class</TableHead>
             <TableHead>Start Time</TableHead>
@@ -97,7 +98,13 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
         </TableHeader>
         <TableBody>
           {rtPlan.plansPerSite[0].visits.map((visit: Visit) => (
-            <TableRow key={visit.obsId}>
+            <TableRow
+              key={visit.obsId}
+              className={cn(
+                "odd:bg-muted/50 *:p-0 *:px-2",
+                "dark:hover:bg-white/30 hover:bg-black/30"
+              )}
+            >
               <TableCell>{visit.obsId}</TableCell>
               <TableCell>
                 <ObsClassBadge obsClass={visit.obsClass} />

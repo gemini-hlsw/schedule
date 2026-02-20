@@ -26,18 +26,26 @@ function Summary({ summary }: { summary: { [key: string]: number[] } }) {
   return (
     <Table>
       <TableHeader>
-        <TableRow className="dark:bg-white/20 bg-black/20">
-          <TableHead className="h-6 font-bold">Program</TableHead>
-          <TableHead className="h-6 font-bold">Completed</TableHead>
-          <TableHead className="h-6 font-bold">Metric</TableHead>
+        <TableRow
+          className={cn("dark:bg-white/20 bg-black/20", "*:h-6 *:font-bold")}
+        >
+          <TableHead>Program</TableHead>
+          <TableHead>Completed</TableHead>
+          <TableHead>Metric</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {summaries.map((summary) => (
-          <TableRow key={summary.program}>
-            <TableCell className="p-0 px-2">{summary.program}</TableCell>
-            <TableCell className="p-0 px-2">{summary.completed}</TableCell>
-            <TableCell className="p-0 px-2">{summary.metric}</TableCell>
+          <TableRow
+            key={summary.program}
+            className={cn(
+              "odd:bg-muted/50 *:p-0 *:px-2",
+              "dark:hover:bg-white/30 hover:bg-black/30"
+            )}
+          >
+            <TableCell>{summary.program}</TableCell>
+            <TableCell>{summary.completed}</TableCell>
+            <TableCell>{summary.metric}</TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -58,16 +66,24 @@ function Metrics({ metrics }: { metrics: { [key: string]: number } }) {
   return (
     <Table>
       <TableHeader>
-        <TableRow className="dark:bg-white/20 bg-black/20">
-          <TableHead className="h-6 font-bold">Band</TableHead>
-          <TableHead className="h-6 font-bold">Metric</TableHead>
+        <TableRow
+          className={cn("dark:bg-white/20 bg-black/20", "*:h-6 *:font-bold")}
+        >
+          <TableHead>Band</TableHead>
+          <TableHead>Metric</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {tableMetrics.map((metric) => (
-          <TableRow key={metric.metric}>
-            <TableCell className="p-0 px-2">{metric.metric}</TableCell>
-            <TableCell className="p-0 px-2">{metric.value}</TableCell>
+          <TableRow
+            key={metric.metric}
+            className={cn(
+              "odd:bg-muted/50 *:p-0 *:px-2",
+              "dark:hover:bg-white/30 hover:bg-black/30"
+            )}
+          >
+            <TableCell>{metric.metric}</TableCell>
+            <TableCell>{metric.value}</TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -96,69 +96,71 @@ export default function TimeEntry({
           />
           <Table>
             <TableHeader>
-              <TableRow className="dark:bg-white/20 bg-black/20">
-                <TableHead className="h-6 font-bold">Observation Id</TableHead>
-                <TableHead className="h-6 font-bold">
-                  Observation Class
-                </TableHead>
-                <TableHead className="h-6 font-bold">Start Time</TableHead>
-                <TableHead className="h-6 font-bold">Atom Start</TableHead>
-                <TableHead className="h-6 font-bold">Atom End</TableHead>
-                <TableHead className="h-6 font-bold">Instrument</TableHead>
-                <TableHead className="h-6 font-bold">FPU</TableHead>
-                <TableHead className="h-6 font-bold">Grating</TableHead>
-                <TableHead className="h-6 font-bold">Filters</TableHead>
-                <TableHead className="h-6 font-bold">Cloud Cover</TableHead>
-                <TableHead className="h-6 font-bold">Image Quality</TableHead>
-                <TableHead className="h-6 font-bold">Obs Completion</TableHead>
-                <TableHead className="h-6 font-bold">Peak Score</TableHead>
-                <TableHead className="h-6 font-bold">Score</TableHead>
+              <TableRow
+                className={cn(
+                  "dark:bg-white/20 bg-black/20",
+                  "*:h-6 *:font-bold"
+                )}
+              >
+                <TableHead>Observation Id</TableHead>
+                <TableHead>Observation Class</TableHead>
+                <TableHead>Start Time</TableHead>
+                <TableHead>Atom Start</TableHead>
+                <TableHead>Atom End</TableHead>
+                <TableHead>Instrument</TableHead>
+                <TableHead>FPU</TableHead>
+                <TableHead>Grating</TableHead>
+                <TableHead>Filters</TableHead>
+                <TableHead>Cloud Cover</TableHead>
+                <TableHead>Image Quality</TableHead>
+                <TableHead>Obs Completion</TableHead>
+                <TableHead>Peak Score</TableHead>
+                <TableHead>Score</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {timeEntry.plan.visits.map((visit: Visit) => (
-                <TableRow key={visit.obsId}>
-                  <TableCell className="p-0 px-2">{visit.obsId}</TableCell>
-                  <TableCell className="p-0 px-2">
+                <TableRow
+                  key={visit.obsId}
+                  className={cn(
+                    "odd:bg-black/10 dark:odd:bg-white/10 *:p-0 *:px-2",
+                    "dark:hover:bg-white/30 hover:bg-black/30"
+                  )}
+                >
+                  <TableCell>{visit.obsId}</TableCell>
+                  <TableCell>
                     <ObsClassBadge obsClass={visit.obsClass} />
                   </TableCell>
-                  <TableCell className="p-0 px-2">
+                  <TableCell>
                     {new Date(visit.startTime).toLocaleString("en-UK", {
                       timeZone: tz,
                     })}
                   </TableCell>
-                  <TableCell className="p-0 px-2">
-                    {visit.atomStartIdx}
-                  </TableCell>
-                  <TableCell className="p-0 px-2">{visit.atomEndIdx}</TableCell>
-                  <TableCell className="p-0 px-2">{visit.instrument}</TableCell>
-                  <TableCell className="p-0 px-2">{visit.fpu}</TableCell>
-                  <TableCell className="p-0 px-2">{visit.disperser}</TableCell>
-                  <TableCell className="p-0 px-2">{visit.filters}</TableCell>
-                  <TableCell className="p-0 px-2">
-                    {visit.requiredConditions.cc}
-                  </TableCell>
-                  <TableCell className="p-0 px-2">
-                    {visit.requiredConditions.iq}
-                  </TableCell>
-                  <TableCell className="p-0 px-2">
-                    {obsCompletionBodyTemplate(visit)}
-                  </TableCell>
-                  <TableCell className="p-0 px-2">
-                    {peakScoreBodyTemplate(visit)}
-                  </TableCell>
-                  <TableCell className="p-0 px-2">
-                    {scoreBodyTemplate(visit)}
-                  </TableCell>
+                  <TableCell>{visit.atomStartIdx}</TableCell>
+                  <TableCell>{visit.atomEndIdx}</TableCell>
+                  <TableCell>{visit.instrument}</TableCell>
+                  <TableCell>{visit.fpu}</TableCell>
+                  <TableCell>{visit.disperser}</TableCell>
+                  <TableCell>{visit.filters}</TableCell>
+                  <TableCell>{visit.requiredConditions.cc}</TableCell>
+                  <TableCell>{visit.requiredConditions.iq}</TableCell>
+                  <TableCell>{obsCompletionBodyTemplate(visit)}</TableCell>
+                  <TableCell>{peakScoreBodyTemplate(visit)}</TableCell>
+                  <TableCell>{scoreBodyTemplate(visit)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
           <Table>
             <TableHeader>
-              <TableRow className="dark:bg-white/20 bg-black/20">
-                <TableHead className="h-6 font-bold">Program Id</TableHead>
-                <TableHead className="h-6 font-bold">Completition</TableHead>
+              <TableRow
+                className={cn(
+                  "dark:bg-white/20 bg-black/20",
+                  "*:h-6 *:font-bold"
+                )}
+              >
+                <TableHead>Program Id</TableHead>
+                <TableHead>Completition</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -166,20 +168,29 @@ export default function TimeEntry({
               0 ? (
                 Object.keys(timeEntry.plan.nightStats.programCompletion).map(
                   (progId: string) => (
-                    <TableRow key={progId}>
-                      <TableCell className="p-0 px-2">{progId}</TableCell>
-                      <TableCell className="p-0 px-2">
+                    <TableRow
+                      key={progId}
+                      className={cn(
+                        "odd:bg-muted/50 *:p-0 *:px-2",
+                        "dark:hover:bg-white/30 hover:bg-black/30"
+                      )}
+                    >
+                      <TableCell>{progId}</TableCell>
+                      <TableCell>
                         {timeEntry.plan.nightStats.programCompletion[progId]}
                       </TableCell>
                     </TableRow>
                   )
                 )
               ) : (
-                <TableRow>
-                  <TableCell className="p-0 px-2">
-                    No available options
-                  </TableCell>
-                  <TableCell className="p-0 px-2"></TableCell>
+                <TableRow
+                  className={cn(
+                    "odd:bg-muted/50 *:p-0 *:px-2",
+                    "dark:hover:bg-white/30 hover:bg-black/30"
+                  )}
+                >
+                  <TableCell>No available options</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               )}
             </TableBody>
