@@ -72,6 +72,6 @@ export interface NightStats {
 }
 
 export interface RunSummary {
-  summary: object;
-  metricsPerBand: object;
+  summary: { [key: string]: number[] };
+  metricsPerBand: { [key: string]: number };
 }

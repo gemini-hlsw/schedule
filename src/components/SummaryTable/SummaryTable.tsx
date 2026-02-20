@@ -1,15 +1,20 @@
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { Panel } from "primereact/panel";
+import { cn } from "@/lib/utils";
+import { type RunSummary } from "../../types";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-import "./SummaryTable.scss";
-import { RunSummary } from "../../types";
-
-function Summary({ summary }: { summary: any }) {
-  var programs = Object.keys(summary);
-  var final_metric = 0;
-  var summaries = [];
-  for (var p of programs) {
+function Summary({ summary }: { summary: { [key: string]: number[] } }) {
+  const programs = Object.keys(summary);
+  let final_metric = 0;
+  const summaries = [];
+  for (const p of programs) {
     summaries.push({
       program: p,
       completed: summary[p][0],
@@ -18,30 +23,55 @@ function Summary({ summary }: { summary: any }) {
     final_metric += summary[p][1];
   }
 
-  const footer = `Final Metric: ${final_metric.toFixed(2)}`;
   return (
-    <DataTable value={summaries} stripedRows footer={footer}>
-      <Column field="program" header="Program"></Column>
-      <Column field="completed" header="% Completed"></Column>
-      <Column field="metric" header="Metric"></Column>
-    </DataTable>
+    <Table>
+      <TableHeader>
+        <TableRow className="dark:bg-white/20 bg-black/20">
+          <TableHead className="h-6 font-bold">Program</TableHead>
+          <TableHead className="h-6 font-bold">Completed</TableHead>
+          <TableHead className="h-6 font-bold">Metric</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {summaries.map((summary) => (
+          <TableRow key={summary.program}>
+            <TableCell className="p-0 px-2">{summary.program}</TableCell>
+            <TableCell className="p-0 px-2">{summary.completed}</TableCell>
+            <TableCell className="p-0 px-2">{summary.metric}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      <TableCaption>Final Metric: {final_metric.toFixed(2)}</TableCaption>
+    </Table>
   );
 }
 
-function Metrics({ metrics }: { metrics: any }) {
-  var bands = Object.keys(metrics);
-  var tableMetrics = [];
-  for (var b of bands) {
+function Metrics({ metrics }: { metrics: { [key: string]: number } }) {
+  const bands = Object.keys(metrics);
+  const tableMetrics = [];
+  for (const b of bands) {
     tableMetrics.push({
       metric: b,
       value: metrics[b].toFixed(3),
     });
   }
   return (
-    <DataTable value={tableMetrics} stripedRows>
-      <Column field="metric" header="Band"></Column>
-      <Column field="value" header="Metric"></Column>
-    </DataTable>
+    <Table>
+      <TableHeader>
+        <TableRow className="dark:bg-white/20 bg-black/20">
+          <TableHead className="h-6 font-bold">Band</TableHead>
+          <TableHead className="h-6 font-bold">Metric</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {tableMetrics.map((metric) => (
+          <TableRow key={metric.metric}>
+            <TableCell className="p-0 px-2">{metric.metric}</TableCell>
+            <TableCell className="p-0 px-2">{metric.value}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 
@@ -50,10 +80,24 @@ export default function SummaryTable({
 }: {
   plansSummary: RunSummary;
 }) {
+  if (
+    !plansSummary ||
+    !plansSummary.summary ||
+    Object.keys(plansSummary.summary).length === 0
+  ) {
+    return null;
+  }
+
   return (
-    <Panel header="Summary">
+    <div
+      className={cn(
+        "border rounded-md flex flex-col gap-2 p-3 flex-wrap",
+        "dark:bg-white/20 bg-black/10"
+      )}
+    >
+      <h1 className="font-bold">Summary</h1>
       <Summary summary={plansSummary.summary} />
       <Metrics metrics={plansSummary.metricsPerBand} />
-    </Panel>
+    </div>
   );
 }

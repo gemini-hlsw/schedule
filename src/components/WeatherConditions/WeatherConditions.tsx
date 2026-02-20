@@ -1,16 +1,26 @@
 import { useContext, useState } from "react";
-import {
-  InputNumber,
-  InputNumberValueChangeEvent,
-} from "primereact/inputnumber";
 import { GlobalStateContext } from "../GlobalState/GlobalState";
-import "./WeatherConditions.scss";
-import { Dropdown } from "primereact/dropdown";
-import { Button } from "primereact/button";
+import { Button } from "@/components/ui/button";
 import { updateWeatherMutation } from "./query";
 import { useMutation } from "@apollo/client";
+import { Field, FieldLabel } from "@/components/ui/field";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
-const IQ_OPTIONS = [
+interface OptionType {
+  label: string;
+  value: number;
+}
+
+const IQ_OPTIONS: OptionType[] = [
   { label: "IQ20", value: 0.2 },
   { label: "IQ70", value: 0.7 },
   { label: "IQ85", value: 0.85 },
@@ -24,7 +34,13 @@ const CC_OPTIONS = [
   { label: "CCANY", value: 1.0 },
 ];
 
-export default function WeatherConditions({ updateButton = false }) {
+export default function WeatherConditions({
+  vertical = false,
+  updateButton = false,
+}: {
+  vertical?: boolean;
+  updateButton?: boolean;
+}) {
   const {
     imageQuality,
     setImageQuality,
@@ -61,85 +77,161 @@ export default function WeatherConditions({ updateButton = false }) {
   }
 
   return (
-    <div className="card flex flex-wrap gap-3 p-fluid weather-conditions">
-      <div className="flex-auto">
-        <label htmlFor="image-quality" className="font-bold block mb-2">
-          Image quality
-        </label>
-        <Dropdown
-          value={imageQuality}
-          onChange={(e) => setImageQuality(e.value)}
-          inputId="image-quality"
-          options={IQ_OPTIONS}
-          optionLabel="label"
-          placeholder="Select IQ"
-          className="w-full md:w-14rem"
-        />
-      </div>
-      <div className="flex-auto">
-        <label htmlFor="cloud-cover" className="font-bold block mb-2">
-          Cloud cover
-        </label>
-        <Dropdown
-          value={cloudCover}
-          onChange={(e) => setCloudCover(e.value)}
-          inputId="cloud-cover"
-          options={CC_OPTIONS}
-          optionLabel="label"
-          placeholder="Select CC"
-          className="w-full md:w-14rem"
-        />
-      </div>
-      <div className="flex-auto">
-        <label htmlFor="wind-dir" className="font-bold block mb-2">
-          Wind direction (degrees)
-        </label>
-        <InputNumber
-          inputId="wind-dir"
-          value={windDirection}
-          onValueChange={(e: InputNumberValueChangeEvent) =>
-            setWindDirection(e.value)
-          }
-          useGrouping={false}
-          max={360}
-          min={0}
-        />
-      </div>
-      <div className="flex-auto">
-        <label htmlFor="wind-speed" className="font-bold block mb-2">
-          Wind speed (m/s)
-        </label>
-        <InputNumber
-          inputId="wind-speed"
-          value={windSpeed}
-          onValueChange={(e: InputNumberValueChangeEvent) =>
-            setWindSpeed(e.value)
-          }
-          useGrouping={false}
-          min={0}
-        />
-      </div>
-      {updateButton && (
-        <div className="flex-auto">
-          <label htmlFor="wind-speed" className="font-bold block mb-2">
-            Site
-          </label>
-          <Dropdown
-            placeholder="Select Site"
-            value={siteState}
-            options={sites}
-            className="toggle-btn p-selectbutton p-component"
-            onChange={(e) => setSite(e.value)}
+    <div
+      className={cn(
+        "border rounded-md flex flex-col gap-2 p-3 flex-wrap",
+        "dark:bg-white/20 bg-black/10"
+      )}
+    >
+      <h1 className="font-bold">Weather Conditions</h1>
+      <div
+        className={cn(
+          "flex gap-1 items-center",
+          vertical ? "flex-col" : "flex-row"
+        )}
+      >
+        <Field orientation={vertical ? "horizontal" : "vertical"}>
+          <FieldLabel
+            className={vertical ? "w-1/2" : "w-fit"}
+            htmlFor="image-quality"
+          >
+            Image quality
+          </FieldLabel>
+          <Combobox
+            items={IQ_OPTIONS}
+            itemToStringValue={(item: OptionType) => item.label}
+            onValueChange={(e) => setImageQuality(e.value)}
+          >
+            <ComboboxInput
+              className={vertical ? "w-1/2" : "w-fit"}
+              placeholder="Select IQ"
+              value={
+                imageQuality
+                  ? IQ_OPTIONS.find((i) => i.value === imageQuality)?.label
+                  : undefined
+              }
+            />
+            <ComboboxContent>
+              <ComboboxEmpty>No items found.</ComboboxEmpty>
+              <ComboboxList>
+                {(item) => (
+                  <ComboboxItem key={item.value} value={item}>
+                    {item.label}
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        </Field>
+        <Field orientation={vertical ? "horizontal" : "vertical"}>
+          <FieldLabel
+            className={vertical ? "w-1/2" : "w-fit"}
+            htmlFor="cloud-cover"
+          >
+            Cloud cover
+          </FieldLabel>
+          <Combobox
+            items={CC_OPTIONS}
+            itemToStringValue={(item: OptionType) => item.label}
+            onValueChange={(e) => setCloudCover(e.value)}
+          >
+            <ComboboxInput
+              className={vertical ? "w-1/2" : "w-fit"}
+              placeholder="Select CC"
+              value={
+                cloudCover
+                  ? CC_OPTIONS.find((i) => i.value === cloudCover)?.label
+                  : undefined
+              }
+            />
+            <ComboboxContent>
+              <ComboboxEmpty>No items found.</ComboboxEmpty>
+              <ComboboxList>
+                {(item) => (
+                  <ComboboxItem key={item.value} value={item}>
+                    {item.label}
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        </Field>
+        <Field orientation={vertical ? "horizontal" : "vertical"}>
+          <FieldLabel
+            className={vertical ? "w-1/2" : "w-fit"}
+            htmlFor="wind-dir"
+          >
+            Wind direction (deg)
+          </FieldLabel>
+          <Input
+            className={vertical ? "w-1/2" : "w-fit"}
+            id="wind-dir"
+            onChange={(e) => setWindDirection(parseFloat(e.target.value) || 0)}
+            value={windDirection}
+            type="number"
+            step={0.1}
+            aria-invalid={windDirection < 0 || windDirection > 360}
           />
-        </div>
-      )}
-      {updateButton && (
-        <Button
-          label="Send Weather Update"
-          disabled={!siteState}
-          onClick={sendWeatherUpdate}
-        />
-      )}
+        </Field>
+        <Field orientation={vertical ? "horizontal" : "vertical"}>
+          <FieldLabel
+            className={vertical ? "w-1/2" : "w-fit"}
+            htmlFor="wind-speed"
+          >
+            Wind speed (m/s)
+          </FieldLabel>
+          <Input
+            className={vertical ? "w-1/2" : "w-fit"}
+            id="wind-speed"
+            onChange={(e) => setWindSpeed(parseFloat(e.target.value) || 0)}
+            value={windSpeed}
+            type="number"
+            step={0.1}
+            aria-invalid={windSpeed < 0 || windSpeed > 100}
+          />
+        </Field>
+        {updateButton && (
+          <Field orientation={vertical ? "horizontal" : "vertical"}>
+            <FieldLabel className={vertical ? "w-1/2" : "w-fit"} htmlFor="site">
+              Site
+            </FieldLabel>
+            <Combobox
+              items={sites}
+              itemToStringValue={(item: OptionType) => item.label}
+              onValueChange={(e) => setSite(e.value)}
+            >
+              <ComboboxInput
+                className={vertical ? "w-1/2" : "w-fit"}
+                placeholder="Select Site"
+                value={
+                  siteState
+                    ? sites.find((i) => i.value === siteState)?.label
+                    : ""
+                }
+              />
+              <ComboboxContent>
+                <ComboboxEmpty>No items found.</ComboboxEmpty>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item.value} value={item}>
+                      {item.label}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </Field>
+        )}
+        {updateButton && (
+          <Button
+            className={cn(vertical ? "w-full" : "w-fit mt-8")}
+            disabled={!siteState}
+            onClick={sendWeatherUpdate}
+          >
+            Send weather update
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

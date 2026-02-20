@@ -1,8 +1,9 @@
 import { graphql } from "../../gql";
 
 export const weatherUpdatesSubscription = graphql(`
-  subscription weatherUpdates($site: String!) {
-    weatherUpdates(site: $site) {
+  subscription weatherUpdates {
+    weatherUpdates {
+      site
       imageQuality
       cloudCover
       windDirection

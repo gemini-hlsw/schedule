@@ -8,22 +8,20 @@ interface ThemeContextType {
 
 export const ThemeContext = createContext<ThemeContextType>(null!);
 
-export default function ThemeProvider ({ children }: { children: ReactNode }) {
-  let [theme, setTheme] = useState<Theme>('dark');
+export default function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("dark");
 
   function toggleTheme() {
-    setTheme((theme === "dark") ? "light" : "dark")
+    setTheme(theme === "dark" ? "light" : "dark");
   }
 
-  let value = { theme, toggleTheme };
+  const value = { theme, toggleTheme };
 
   useEffect(() => {
     document.body.classList.value = theme;
-  }, [theme])
+  }, [theme]);
 
   return (
-    <ThemeContext.Provider value={value}>
-      { children }
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }

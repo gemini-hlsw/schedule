@@ -2,16 +2,16 @@ import { Outlet } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { useSubscription } from "@apollo/client";
 import { subscriptionQueueSchedule } from "./components/GlobalState/scheduleSubscription";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalStateContext } from "./components/GlobalState/GlobalState";
-import { Toast } from "primereact/toast";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { realtimeClient } from "./apollo-client";
+import { type RunSummary } from "./types";
 
 function App() {
   const { setNightPlans, setPlansSummary, setLoadingPlan, setRtPlan, uuid } =
     useContext(GlobalStateContext);
-
-  const toast = useRef<Toast>(null);
 
   const {
     data: scheduleData,
@@ -42,28 +42,24 @@ function App() {
         scheduleData &&
         scheduleData.queueSchedule.__typename === "NightPlansError"
       ) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: scheduleData.queueSchedule.error,
-          sticky: true,
+        toast.error(scheduleData.queueSchedule.error, {
+          closeButton: true,
+          duration: Infinity,
         });
         setNightPlans([]);
-        setPlansSummary({} as any);
+        setPlansSummary({} as RunSummary);
       } else if (
         scheduleData &&
         scheduleData.queueSchedule.__typename === "NewPlansRT"
       ) {
         setRtPlan(scheduleData.queueSchedule.nightPlans);
       } else {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: error.message,
-          sticky: true,
+        toast.error(error.message, {
+          closeButton: true,
+          duration: Infinity,
         });
         setNightPlans([]);
-        setPlansSummary({} as any);
+        setPlansSummary({} as RunSummary);
       }
       setLoadingPlan(false);
     }
@@ -78,25 +74,21 @@ function App() {
         rtData &&
         rtData.queueSchedule.__typename === "NightPlansError"
       ) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: rtData.queueSchedule.error,
-          sticky: true,
+        toast.error(rtData.queueSchedule.error, {
+          closeButton: true,
+          duration: Infinity,
         });
         setNightPlans([]);
-        setPlansSummary({} as any);
+        setPlansSummary({} as RunSummary);
       } else if (rtData && rtData.queueSchedule.__typename === "NewPlansRT") {
         setRtPlan(rtData.queueSchedule.nightPlans);
       } else {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: error.message,
-          sticky: true,
+        toast.error(rtError.message, {
+          closeButton: true,
+          duration: Infinity,
         });
         setNightPlans([]);
-        setPlansSummary({} as any);
+        setPlansSummary({} as RunSummary);
       }
       setLoadingPlan(false);
     }
@@ -105,7 +97,7 @@ function App() {
   return (
     <Layout>
       <Outlet />
-      <Toast ref={toast} />
+      <Toaster />
     </Layout>
   );
 }
