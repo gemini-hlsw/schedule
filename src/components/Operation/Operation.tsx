@@ -3,7 +3,7 @@ import { GlobalStateContext } from "../GlobalState/GlobalState";
 import RankerTweaker from "../RankerTweaker/RankerTweaker";
 import ControlPanel from "../ControlPanel/ControlPanel";
 import WeatherConditions from "../WeatherConditions/WeatherConditions";
-import RtPlan from "./RtPlan";
+import { Result } from "./Result";
 import { cn } from "@/lib/utils";
 import { useLazyQuery } from "@apollo/client";
 import { scheduleRtQuery } from "./query";
@@ -14,6 +14,8 @@ import {
   PROGRAM_LIST_XT2,
   ProgramListType,
 } from "../ControlPanel/ProgramSelection/ProgramList";
+import { DisplayWeather } from "../WeatherConditions/DisplayWeather";
+import OnDemandControl from "../ControlPanel/OnDemandControl";
 
 export default function Operation({ v2 = false }: { v2?: boolean }) {
   const [scheduleRt] = useLazyQuery(scheduleRtQuery, {
@@ -82,17 +84,27 @@ export default function Operation({ v2 = false }: { v2?: boolean }) {
     <div className="flex flex-col gap-2">
       <div className="flex flex-row md:flex-row w-full gap-2 py-2">
         <div className={cn("grow flex gap-2", v2 ? "flex-row" : "flex-col")}>
-          <ControlPanel
-            vertical={v2}
-            runPlan={runPlan}
-            programList={v2 ? PROGRAM_LIST_XT2 : PROGRAM_LIST}
-            loadingPlan={loadingPlan}
-          />
+          {v2 ? (
+            <OnDemandControl
+              vertical={v2}
+              runPlan={runPlan}
+              programList={v2 ? PROGRAM_LIST_XT2 : PROGRAM_LIST}
+              loadingPlan={loadingPlan}
+            />
+          ) : (
+            <ControlPanel
+              vertical={v2}
+              runPlan={runPlan}
+              programList={v2 ? PROGRAM_LIST_XT2 : PROGRAM_LIST}
+              loadingPlan={loadingPlan}
+            />
+          )}
           <RankerTweaker vertical={v2} />
           <WeatherConditions vertical={v2} updateButton={v2} />
+          {v2 && <DisplayWeather />}
         </div>
       </div>
-      <RtPlan rtPlan={rtPlan} />
+      <Result rtPlan={rtPlan} />
     </div>
   );
 }
