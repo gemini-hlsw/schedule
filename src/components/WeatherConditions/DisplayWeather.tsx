@@ -3,16 +3,15 @@ import { weatherUpdatesSubscription } from "./subscription";
 import { cn } from "@/lib/utils";
 import { getWeather } from "./query";
 import { useEffect, useState } from "react";
-import { GetWeatherQuery } from "@/gql/graphql";
 
 export function DisplayWeather() {
-  const { data: weatherData, loading: weatherLoading } = useQuery(getWeather, {
+  const { data: weatherData } = useQuery(getWeather, {
     fetchPolicy: "no-cache",
     context: { clientName: "weatherClient" },
   });
 
   // Use the useSubscription hook to subscribe to weather updates
-  const { data, loading, error } = useSubscription(weatherUpdatesSubscription, {
+  const { data, error } = useSubscription(weatherUpdatesSubscription, {
     context: { clientName: "weatherClient" },
   });
 
