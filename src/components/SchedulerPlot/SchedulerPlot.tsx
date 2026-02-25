@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Highcharts, { SVGRenderer, SeriesArearangeOptions } from "highcharts";
 import HighchartsReact, {
   HighchartsReactRefObject,
@@ -6,7 +6,6 @@ import HighchartsReact, {
 import HighchartMore from "highcharts/highcharts-more";
 HighchartMore(Highcharts);
 
-import "./SchedulerPlot.scss";
 import { ThemeContext } from "../../theme/ThemeProvider";
 
 interface Visit {
@@ -80,7 +79,7 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
     keys: string[],
     colors: Highcharts.ColorString[]
   ): ColorMap => {
-    let map: ColorMap = {};
+    const map: ColorMap = {};
 
     for (let i = 0; i < keys.length; i++) {
       map[keys[i]] = colors[i];
@@ -92,12 +91,12 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
   const eveTwiDate = new Date(eveTwilight);
   const mornTwiDate = new Date(mornTwilight);
 
-  const seriesData: Array<SeriesArearangeOptions> = data.map((d: any) => {
-    const yMinArray = d.yPoints.map((y: number) => 0);
+  const seriesData: Array<SeriesArearangeOptions> = data.map((d: Visit) => {
+    const yMinArray = d.yPoints.map(() => 0);
     return {
       name: d.instrument,
       type: "arearange",
-      data: d.yPoints.map((y: any, i: number) => {
+      data: d.yPoints.map((y: number, i: number) => {
         return {
           x: getTzTime(d.startDate) + i * 60 * 1000,
           low: yMinArray[i],
@@ -121,10 +120,10 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
   });
 
   // Create a set to keep track of names we've seen
-  let seenNames = new Set();
+  const seenNames = new Set();
 
   // Modify the series to set showInLegend to false for duplicates
-  for (let serie of seriesData) {
+  for (const serie of seriesData) {
     if (seenNames.has(serie.name)) {
       serie.showInLegend = false; // Don't show in legend if it's a duplicate
     } else {
@@ -148,14 +147,14 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
       labelRef.current.forEach((lbl: SVGRenderer) => lbl.destroy());
 
       // Render custom labels for each section
-      data.forEach((d, index) => {
+      data.forEach((d) => {
         const x = (getTzTime(d.startDate) + getTzTime(d.endDate)) / 2;
         const y = Math.max(...d.yPoints) / 2;
 
         const xPos = chart.xAxis[0].toPixels(x, false);
         const yPos = chart.yAxis[0].toPixels(y, false);
 
-        let lbl = chart.renderer
+        const lbl = chart.renderer
           .text(d.label, xPos + 4.5, yPos)
           .attr({
             rotation: -90,
@@ -185,9 +184,8 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
       shared: true,
       formatter: function () {
         if (this.points) {
-          var points = this.points;
           // Assuming the first point is representative for the area
-          var point = this.series.name;
+          const point = this.series.name;
           return point;
         }
         return false; // No tooltip for individual points
@@ -209,11 +207,11 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
       min: getTzTime(eveTwiDate),
       max: getTzTime(mornTwiDate),
       tickPositioner: function () {
-        var positions = [];
-        var interval = 1 * 60 * 60 * 1000;
+        const positions = [];
+        const interval = 1 * 60 * 60 * 1000;
 
         for (
-          var i = getTzTime(eveTwiDate);
+          let i = getTzTime(eveTwiDate);
           i <= getTzTime(mornTwiDate);
           i += interval
         ) {

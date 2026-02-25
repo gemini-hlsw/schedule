@@ -1,19 +1,22 @@
-import { useNavigate } from 'react-router-dom'
-import './MainTitle.scss'
+import { useNavigate } from "react-router-dom";
+import { cn } from "../../../lib/utils";
 
 interface MainTitleProps {
-  title: string
+  title: string;
 }
 
-export default function MainTitle({title}: MainTitleProps) {
-  var splited_title = title.split("")
-  const navigate = useNavigate()
+export default function MainTitle({ title }: MainTitleProps) {
+  const splited_title = title.split("");
+  const navigate = useNavigate();
 
   return (
-    <div className="header-title" onClick={() => navigate("/")}>
+    <div
+      className={cn("cursor-pointer uppercase text-sm flex flex-row gap-1")}
+      onClick={() => navigate("/")}
+    >
       {splited_title.map((letter, index) => (
         <span key={index}>{letter}</span>
       ))}
     </div>
-  )
+  );
 }

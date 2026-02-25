@@ -1,76 +1,46 @@
 import { scheduleVersionQuery } from "./query";
 import { useQuery } from "@apollo/client";
-import { Dialog } from "primereact/dialog";
-import { useState } from "react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import uiVersion from "../../../version.json";
 import { cn } from "../../../lib/utils";
+import { Button } from "@/components/ui/button";
+import { ImSpinner9 } from "react-icons/im";
 
 export function About() {
-  const {
-    loading,
-    error,
-    data: scheduleVersion,
-  } = useQuery(scheduleVersionQuery, {
+  const { loading, data: scheduleVersion } = useQuery(scheduleVersionQuery, {
     fetchPolicy: "no-cache",
   });
 
-  const [visible, setVisible] = useState(false);
-
   return (
-    <>
-      <button
-        className={cn(
-          "text-white bg-gray-600 hover:bg-gray-700",
-          "focus:ring-4 focus:ring-gray-300 font-medium rounded-sm",
-          "text-sm px-3 py-0.5 dark:bg-gray-600 dark:hover:bg-gray-700",
-          "dark:focus:ring-gray-800 cursor-pointer"
-        )}
-        onClick={() => setVisible(true)}
-      >
-        <span className="label">About</span>
-      </button>
-      <Dialog
-        className="about-modal"
-        header="About"
-        visible={visible}
-        onHide={() => {
-          if (!visible) return;
-          setVisible(false);
-        }}
-      >
-        <div className="body">
-          <div className="column">
-            <h4 className="version">
-              Server version {scheduleVersion?.version?.version}
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="xs">
+          <span className="label">About</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogTitle className="text-center">About</DialogTitle>
+        <div className={cn("flex flex-col md:flex-row gap-6 pb-4")}>
+          <div>
+            <h4 className="font-bold">
+              Server version{" "}
+              {loading ? (
+                <ImSpinner9 className="animate-spin" />
+              ) : (
+                scheduleVersion?.version?.version
+              )}
             </h4>
-            {scheduleVersion?.version?.changelog.length && (
-              <>
-                <h4 className="changelog">Changelog</h4>
-                <ul className="changelog-list">
-                  {scheduleVersion?.version?.changelog.map(
-                    (l: string, idx: number) => (
-                      <li key={idx}>{l}</li>
-                    )
-                  )}
-                </ul>
-              </>
-            )}
           </div>
-          <div className="column">
-            <h4 className="version">UI version {uiVersion.version}</h4>
-            {uiVersion.changelog.length && (
-              <>
-                <h4 className="changelog">Changelog</h4>
-                <ul className="changelog-list">
-                  {uiVersion.changelog.map((l, idx) => (
-                    <li key={idx}>{l}</li>
-                  ))}
-                </ul>
-              </>
-            )}
+          <div>
+            <h4 className="font-bold">UI version {uiVersion.version}</h4>
           </div>
         </div>
-      </Dialog>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 }

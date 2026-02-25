@@ -1,277 +1,132 @@
-import { useState, useRef, useContext, useEffect } from "react";
-import { GlobalStateContext } from "../GlobalState/GlobalState";
-import "./ControlPanel.scss";
+import { useEffect, useState } from "react";
+import { ProgramSelectorDialog } from "./ProgramSelectorDialog";
+import { ProgramListType } from "./ProgramSelection/ProgramList";
+import { toUtcIsoString } from "../../helpers/utcTime";
+import { cn } from "@/lib/utils";
+import { addDays } from "date-fns/addDays";
+import { DateRange } from "react-day-picker";
+import { SiteSelector } from "./SiteSelector";
+import { VisibilityRange } from "./VisibilityRange";
+import { DateTimeSelector } from "./DateTimeSelector";
+import { RunButton } from "./RunButton";
+import { getDefaultDate } from "@/helpers/defaultDate";
+import { SemesterVisibility } from "./SemesterVisibility";
+import { NightsNumber } from "./NightsNumber";
 
-//PrimeReact components
-import { Button } from "primereact/button";
-import { Panel } from "primereact/panel";
-import { Calendar } from "primereact/calendar";
-import { SelectButton } from "primereact/selectbutton";
-import { Toast } from "primereact/toast";
-import {
-  InputNumber,
-  InputNumberValueChangeEvent,
-} from "primereact/inputnumber";
-import { Nullable } from "primereact/ts-helpers";
-import { useLazyQuery } from "@apollo/client";
-import { scheduleQuery } from "./query";
-import { Checkbox } from "primereact/checkbox";
-import { Dialog } from "primereact/dialog";
-import { ProgramSelector } from "../ProgramSelector/ProgramSelector";
-import { PROGRAM_LIST } from "../ProgramSelector/ProgramList";
-
-export default function ControlPanel() {
-  const defaultDate: Date = new Date("2018-10-01");
-  const toast = useRef<Toast>(null);
-  const [saveState, setSaveState] = useState(false);
-  const [datesState, setDates] = useState<Nullable<(Date | null)[]>>([
-    defaultDate,
-  ]);
-  const [siteState, setSite] = useState(undefined);
-  const [programs, updatePrograms] = useState(structuredClone(PROGRAM_LIST));
-  const [programSelectorVisible, setProgramSelectorVisible] = useState(false);
-  const sites = [
-    { label: "GN", value: "GN" },
-    { label: "GS", value: "GS" },
-    { label: "BOTH", value: "ALL_SITES" },
-  ];
-
-  const [numNight, setNumNight] = useState<number>(1);
-  const [validInputs, setValidInputs] = useState(false);
-  const [schedule] = useLazyQuery(scheduleQuery, {
-    fetchPolicy: "no-cache",
+export default function ControlPanel({
+  loadingPlan,
+  runPlan,
+  programList,
+  vertical = false,
+  validationMode = false,
+}: {
+  loadingPlan: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+  runPlan: Function;
+  programList: ProgramListType[];
+  vertical?: boolean;
+  validationMode?: boolean;
+}) {
+  const DEFAULT_NIGHT_LENGTH_HOURS = 10;
+  const defaultDate = getDefaultDate(validationMode);
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: defaultDate,
+    to: addDays(defaultDate, 10),
   });
+  const [site, setSite] = useState(undefined);
+  const [programs, updatePrograms] = useState(structuredClone(programList));
+  const [numNight, setNumNight] = useState<number>(2);
+  const [semesterVisibility, setSemesterVisibility] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState<Date | undefined>(defaultDate);
+  const defaultEnd = new Date(defaultDate);
+  defaultEnd.setHours(defaultEnd.getHours() + DEFAULT_NIGHT_LENGTH_HOURS);
+  const [endTime, setEndTime] = useState<Date | null>(defaultEnd);
 
-  const {
-    thesis,
-    power,
-    metPower,
-    whaPower,
-    airPower,
-    visPower,
-    semesterVisibility,
-    setSemesterVisibility,
-    loadingPlan,
-    setLoadingPlan,
-    uuid,
-  } = useContext(GlobalStateContext);
+  useEffect(() => {
+    updatePrograms(structuredClone(programList));
+  }, [programList]);
+
+  function setToNow() {
+    const now = new Date();
+    now.setHours(now.getHours() + now.getTimezoneOffset() / 60);
+    setStartTime(new Date(toUtcIsoString(now)));
+  }
 
   function setProgram(program: string, state: boolean) {
     const auxProgramList = [...programs];
-    auxProgramList.find((p) => p.name === program).checked = state;
+    auxProgramList.find((p) => p.id === program).checked = state;
     updatePrograms(auxProgramList);
   }
-
-  function setProgramList(list: string[]) {
-    const auxProgramList = [...programs];
-    for (let p in auxProgramList) {
-      if (!auxProgramList[p].disabled) {
-        if (list.includes(auxProgramList[p].name)) {
-          auxProgramList[p].checked = true;
-        } else {
-          auxProgramList[p].checked = false;
-        }
-      }
-    }
-    updatePrograms(auxProgramList);
-  }
-
-  function resetPrograms() {
-    updatePrograms(structuredClone(PROGRAM_LIST));
-  }
-
-  function validateInputs() {
-    let valid = true;
-    if (numNight < 1) {
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: "Number of nights must be at least 1",
-        life: 3000,
-      });
-      valid = false;
-    }
-
-    let dateRange = 1;
-    if (datesState) {
-      if (datesState[0] && datesState[1]) {
-        dateRange =
-          1 +
-          Math.floor(
-            Math.abs(datesState[1].getTime() - datesState[0].getTime()) /
-              1000 /
-              60 /
-              60 /
-              24
-          );
-      }
-    }
-
-    if (dateRange < 2 && !semesterVisibility) {
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: "A date range should be selected or use semester visibility",
-        life: 3000,
-      });
-      valid = false;
-    }
-
-    if (numNight > dateRange && !semesterVisibility) {
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: "Number of nights cannot be greater than date range",
-        life: 3000,
-      });
-      valid = false;
-    }
-    return valid;
-  }
-
-  const onSaveClick = () => {
-    // Creates a json file with all the
-    setSaveState(true);
-    const output_run = {
-      site: siteState,
-      date: datesState,
-    };
-    setTimeout(() => {
-      setSaveState(false);
-    }, 2000);
-  };
-
-  const onLoadClick = () => {
-    // TODO: Idealistcally shows a list of saved runs.
-    console.log("Load Clicked");
-  };
 
   const isRunDisabled = !(
-    siteState &&
-    datesState !== null &&
-    datesState.length >= 2 &&
-    Array.isArray(datesState) &&
-    numNight &&
-    validInputs
+    site &&
+    date !== undefined &&
+    date.from !== undefined &&
+    date.to !== undefined
   );
 
-  const onRunClick = () => {
-    setLoadingPlan(true);
-    schedule({
-      variables: {
-        scheduleId: uuid,
-        startTime: datesState[0].toISOString().split(".")[0].replace("T", " "),
-        endTime: datesState[1].toISOString().split(".")[0].replace("T", " "),
-        mode: "VALIDATION",
-        sites: siteState,
-        numNightsToSchedule: numNight,
-        thesisFactor: thesis,
-        semesterVisibility: semesterVisibility,
-        power: power,
-        whaPower: whaPower,
-        airPower: airPower,
-        metPower: metPower,
-        visPower: visPower,
-        programs: programs.filter((p) => p.checked).map((p) => p.name),
-      },
-    });
-  };
-
   return (
-    <>
-      <Toast ref={toast}></Toast>
-      <Panel className="control-panel">
-        <div className="btn-group">
-          <Button
-            label="RUN"
-            icon="pi pi-play"
-            className="p-button-success"
-            loading={loadingPlan}
-            onClick={onRunClick}
-            disabled={isRunDisabled || loadingPlan}
-            loadingIcon="pi pi-spin pi-spinner"
-          />
-          <Button
-            label="SAVE"
-            icon="pi pi-save"
-            loading={saveState}
-            onClick={onSaveClick}
-          />
-          <Button
-            label="LOAD"
-            icon="pi pi-arrow-circle-up"
-            loading={saveState}
-            onClick={onLoadClick}
-          />
-        </div>
-        <SelectButton
-          value={siteState}
-          options={sites}
-          className="toggle-btn p-selectbutton p-component"
-          onChange={(e) => setSite(e.value)}
-          allowEmpty={false}
+    <div
+      className={cn(
+        "border rounded-md flex gap-2 p-3 flex-wrap",
+        "dark:bg-white/20 bg-black/10",
+        vertical ? "flex-col grow" : "flex-row"
+      )}
+    >
+      <RunButton
+        loadingPlan={loadingPlan}
+        run={() =>
+          validationMode
+            ? runPlan(date!, site!, programs, numNight, semesterVisibility)
+            : runPlan(date!, startTime!, endTime!, site!, programs)
+        }
+        isRunDisabled={isRunDisabled}
+      />
+      <SiteSelector
+        site={site}
+        setSite={setSite}
+        loadingPlan={loadingPlan}
+        vertical={vertical}
+        showAll={validationMode}
+      />
+      <VisibilityRange date={date} setDate={setDate} vertical={vertical} />
+      {!validationMode && (
+        <DateTimeSelector
+          dateTime={startTime!}
+          setDateTime={setStartTime}
+          setToNow={setToNow}
+          setToNowButton={true}
+          vertical={vertical}
         />
-        <div>
-          <label htmlFor="range" className="mr-2">
-            UT Date Range
-          </label>
-          <Calendar
-            id="range"
-            value={datesState}
-            onChange={(e) => setDates(e.value)}
-            onBlur={() => setValidInputs(validateInputs())}
-            selectionMode="range"
-            readOnlyInput
-            showButtonBar
-            showIcon
-          />
-        </div>
-        <div className="semester-visibility">
-          <label htmlFor="semesterVisibility">Semester Visibility</label>
-          <Checkbox
-            inputId="semesterVisibility"
-            name="semesterVisibility"
-            onChange={() => setSemesterVisibility(!semesterVisibility)}
-            onBlur={() => setValidInputs(validateInputs())}
-            checked={semesterVisibility}
-          />
-        </div>
-        <div className="semester-visibility">
-          <label htmlFor="minmax">Nights: </label>
-          <InputNumber
-            inputId="minmax"
-            disabled={semesterVisibility}
-            value={numNight}
-            onValueChange={(e: InputNumberValueChangeEvent) =>
-              setNumNight(e.value)
-            }
-            onBlur={() => setValidInputs(validateInputs())}
-            min={1}
-            max={365}
-          />
-        </div>
-        <Button
-          label="Programs Selection"
-          onClick={() => setProgramSelectorVisible(true)}
+      )}
+      {!validationMode && (
+        <DateTimeSelector
+          dateTime={endTime!}
+          setDateTime={setEndTime}
+          setToNow={() => {}}
+          setToNowButton={false}
+          vertical={vertical}
         />
-      </Panel>
-      <Dialog
-        header="Programs Selection"
-        visible={programSelectorVisible}
-        style={{ width: "80vw", height: "80vh" }}
-        className="program-selector-modal"
-        onHide={() => {
-          if (!programSelectorVisible) return;
-          setProgramSelectorVisible(false);
-        }}
-      >
-        <ProgramSelector
-          programs={programs}
-          setProgram={setProgram}
-          setProgramList={setProgramList}
-          resetPrograms={resetPrograms}
+      )}
+      {validationMode && (
+        <SemesterVisibility
+          semesterVisibility={semesterVisibility}
+          setSemesterVisibility={setSemesterVisibility}
         />
-      </Dialog>
-    </>
+      )}
+      {validationMode && (
+        <NightsNumber
+          vertical={vertical}
+          nights={numNight}
+          setNights={setNumNight}
+        />
+      )}
+      <ProgramSelectorDialog
+        programs={programs}
+        setProgram={setProgram}
+        resetPrograms={() => updatePrograms(structuredClone(programList))}
+        validationMode={validationMode}
+      />
+    </div>
   );
 }

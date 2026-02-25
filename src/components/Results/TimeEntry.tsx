@@ -1,10 +1,22 @@
 import { TimeEntryType, Visit } from "../../types";
 import NightPlanSummary from "./NightPlanSummary";
 import AltAzPlot from "../SchedulerPlot/SchedulerPlot";
-import { Accordion, AccordionTab } from "primereact/accordion";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { Tag } from "primereact/tag";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { ObsClassBadge } from "./ObsClassBadge";
 
 export default function TimeEntry({
   timeEntry,
@@ -46,13 +58,6 @@ export default function TimeEntry({
     return percentage;
   }
 
-  const startTimeBodyTemplate = (visit: Visit) => {
-    return new Date(visit.startTime).toLocaleString("en-UK", { timeZone: tz });
-  };
-  const obsClassBodyTemplate = (visit: Visit) => {
-    return <Tag value={visit.obsClass} severity={getSeverity(visit)}></Tag>;
-  };
-
   const scoreBodyTemplate = (visit: Visit) => {
     return formatScore(visit.score);
   };
@@ -66,119 +71,132 @@ export default function TimeEntry({
     ).toFixed(0)}%)`;
   };
 
-  const getSeverity = (visit: Visit) => {
-    switch (visit.obsClass) {
-      case "SCIENCE":
-        return "success";
-
-      case "PROGCAL":
-        return "warning";
-
-      case "PARTNERCAL":
-        return "danger";
-
-      case "ACQ":
-        return "info";
-
-      case "ACQCAL":
-        return "info";
-
-      case "DAYCAL":
-        return "info";
-
-      default:
-        return null;
-    }
-  };
-
-  const programCompletion = (programCompletion: { [key: string]: number }) => {
-    var pc = [];
-
-    for (var p in programCompletion) {
-      pc.push({
-        progId: p,
-        completion: programCompletion[p],
-      });
-    }
-    return pc;
-  };
-
-  if (!Boolean(timeEntry) || !Boolean(timeEntry.plan))
-    return <div>No plan found</div>;
+  if (!timeEntry || !timeEntry.plan) return <div>No plan found</div>;
 
   return (
-    <Accordion className="time-entry">
-      <AccordionTab
-        header={
+    <Accordion
+      type="single"
+      collapsible
+      className={cn("dark:bg-black/40 bg-white/40 p-3 border rounded-md")}
+    >
+      <AccordionItem value="item-1">
+        <AccordionTrigger className="p-0">
           <NightPlanSummary
             nightState={timeEntry.plan.nightStats}
             nightTitle={timeEntry.event}
             nightConditions={timeEntry.plan.nightConditions}
           />
-        }
-      >
-        <AltAzPlot
-          data={parseToVisitForPlot(timeEntry.plan.visits)}
-          eveTwilight={eveTwilight}
-          mornTwilight={mornTwilight}
-          site={site}
-        />
-        <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
-          <DataTable
-            value={timeEntry.plan.visits}
-            tableStyle={{ minWidth: "50rem" }}
-          >
-            <Column field="obsId" header="Observation ID">
-              {" "}
-            </Column>
-            <Column
-              header="Observation Class"
-              body={obsClassBodyTemplate}
-            ></Column>
-            <Column header="Start Time" body={startTimeBodyTemplate}></Column>
-            <Column field="atomStartIdx" header="Atom Start">
-              {" "}
-            </Column>
-            <Column field="atomEndIdx" header="Atom End">
-              {" "}
-            </Column>
-            <Column
-              header="Instrument"
-              body={(visit: Visit) => visit.instrument}
-            ></Column>
-            <Column header="FPU" body={(visit: Visit) => visit.fpu}></Column>
-            <Column
-              header="Grating"
-              body={(visit: Visit) => visit.disperser}
-            ></Column>
-            <Column
-              header="Filters"
-              body={(visit: Visit) =>
-                visit.filters.length > 0 ? visit.filters.join(", ") : "None"
-              }
-            ></Column>
-            <Column
-              header="Cloud Cover"
-              body={(visit: Visit) => visit.requiredConditions.cc}
-            ></Column>
-            <Column
-              header="Image Quality"
-              body={(visit: Visit) => visit.requiredConditions.iq}
-            ></Column>
-            <Column header="Obs Completion" body={obsCompletionBodyTemplate}>
-              {" "}
-            </Column>
-            <Column header="peakScore" body={peakScoreBodyTemplate}></Column>
-            <Column header="Score" body={scoreBodyTemplate}></Column>
-          </DataTable>
-        </div>
-        <DataTable
-          value={programCompletion(timeEntry.plan.nightStats.programCompletion)}
-        >
-          <Column field="progId" header="ProgramID"></Column>
-          <Column field="completion" header="Completion"></Column>
-        </DataTable>
-      </AccordionTab>
+        </AccordionTrigger>
+        <AccordionContent className="py-2 flex flex-col gap-2">
+          <AltAzPlot
+            data={parseToVisitForPlot(timeEntry.plan.visits)}
+            eveTwilight={eveTwilight}
+            mornTwilight={mornTwilight}
+            site={site}
+          />
+          <Table>
+            <TableHeader>
+              <TableRow
+                className={cn(
+                  "dark:bg-white/20 bg-black/20",
+                  "*:h-6 *:font-bold"
+                )}
+              >
+                <TableHead>Observation Id</TableHead>
+                <TableHead>Observation Class</TableHead>
+                <TableHead>Start Time</TableHead>
+                <TableHead>Atom Start</TableHead>
+                <TableHead>Atom End</TableHead>
+                <TableHead>Instrument</TableHead>
+                <TableHead>FPU</TableHead>
+                <TableHead>Grating</TableHead>
+                <TableHead>Filters</TableHead>
+                <TableHead>Cloud Cover</TableHead>
+                <TableHead>Image Quality</TableHead>
+                <TableHead>Obs Completion</TableHead>
+                <TableHead>Peak Score</TableHead>
+                <TableHead>Score</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {timeEntry.plan.visits.map((visit: Visit) => (
+                <TableRow
+                  key={visit.obsId}
+                  className={cn(
+                    "odd:bg-black/10 dark:odd:bg-white/10 *:p-0 *:px-2",
+                    "dark:hover:bg-white/30 hover:bg-black/30"
+                  )}
+                >
+                  <TableCell>{visit.obsId}</TableCell>
+                  <TableCell>
+                    <ObsClassBadge obsClass={visit.obsClass} />
+                  </TableCell>
+                  <TableCell>
+                    {new Date(visit.startTime).toLocaleString("en-UK", {
+                      timeZone: tz,
+                    })}
+                  </TableCell>
+                  <TableCell>{visit.atomStartIdx}</TableCell>
+                  <TableCell>{visit.atomEndIdx}</TableCell>
+                  <TableCell>{visit.instrument}</TableCell>
+                  <TableCell>{visit.fpu}</TableCell>
+                  <TableCell>{visit.disperser}</TableCell>
+                  <TableCell>{visit.filters}</TableCell>
+                  <TableCell>{visit.requiredConditions.cc}</TableCell>
+                  <TableCell>{visit.requiredConditions.iq}</TableCell>
+                  <TableCell>{obsCompletionBodyTemplate(visit)}</TableCell>
+                  <TableCell>{peakScoreBodyTemplate(visit)}</TableCell>
+                  <TableCell>{scoreBodyTemplate(visit)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Table>
+            <TableHeader>
+              <TableRow
+                className={cn(
+                  "dark:bg-white/20 bg-black/20",
+                  "*:h-6 *:font-bold"
+                )}
+              >
+                <TableHead>Program Id</TableHead>
+                <TableHead>Completition</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {Object.keys(timeEntry.plan.nightStats.programCompletion).length >
+              0 ? (
+                Object.keys(timeEntry.plan.nightStats.programCompletion).map(
+                  (progId: string) => (
+                    <TableRow
+                      key={progId}
+                      className={cn(
+                        "odd:bg-muted/50 *:p-0 *:px-2",
+                        "dark:hover:bg-white/30 hover:bg-black/30"
+                      )}
+                    >
+                      <TableCell>{progId}</TableCell>
+                      <TableCell>
+                        {timeEntry.plan.nightStats.programCompletion[progId]}
+                      </TableCell>
+                    </TableRow>
+                  )
+                )
+              ) : (
+                <TableRow
+                  className={cn(
+                    "odd:bg-muted/50 *:p-0 *:px-2",
+                    "dark:hover:bg-white/30 hover:bg-black/30"
+                  )}
+                >
+                  <TableCell>No available options</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </AccordionContent>
+      </AccordionItem>
     </Accordion>
   );
 }

@@ -1,12 +1,21 @@
 import { RtPlanType, Visit } from "../../types";
 import AltAzPlot from "../SchedulerPlot/SchedulerPlot";
-import { Accordion, AccordionTab } from "primereact/accordion";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { Tag } from "primereact/tag";
-import NightPlanSummary from "../Results/NightPlanSummary";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { ObsClassBadge } from "../Results/ObsClassBadge";
 
 export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
+  if (!rtPlan || !rtPlan.plansPerSite || rtPlan.plansPerSite.length === 0) {
+    return null;
+  }
+
   function parseToVisitForPlot(visits: Visit[]) {
     return visits.map((visit: Visit) => ({
       startDate: new Date(visit.startTime),
@@ -39,13 +48,6 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
     return percentage;
   }
 
-  const startTimeBodyTemplate = (visit: Visit) => {
-    return new Date(visit.startTime).toLocaleString("en-UK", { timeZone: tz });
-  };
-  const obsClassBodyTemplate = (visit: Visit) => {
-    return <Tag value={visit.obsClass} severity={getSeverity(visit)}></Tag>;
-  };
-
   const scoreBodyTemplate = (visit: Visit) => {
     return formatScore(visit.score);
   };
@@ -59,106 +61,74 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
     ).toFixed(0)}%)`;
   };
 
-  const getSeverity = (visit: Visit) => {
-    switch (visit.obsClass) {
-      case "SCIENCE":
-        return "success";
-
-      case "PROGCAL":
-        return "warning";
-
-      case "PARTNERCAL":
-        return "danger";
-
-      case "ACQ":
-        return "info";
-
-      case "ACQCAL":
-        return "info";
-
-      case "DAYCAL":
-        return "info";
-
-      default:
-        return null;
-    }
-  };
-
-  const programCompletion = (programCompletion: { [key: string]: number }) => {
-    var pc = [];
-
-    for (var p in programCompletion) {
-      pc.push({
-        progId: p,
-        completion: programCompletion[p],
-      });
-    }
-    return pc;
-  };
-
-  if (!Boolean(rtPlan) || !Boolean(rtPlan.plansPerSite.length))
-    return <div>No plan found</div>;
+  if (!rtPlan || !rtPlan.plansPerSite.length) return <div>No plan found</div>;
 
   return (
-    <div>
+    <div
+      className={cn(
+        "border rounded-md flex flex-col gap-2 p-3 flex-wrap",
+        "bg-transparent"
+      )}
+    >
+      <h1 className="font-bold w-full">Plan result</h1>
       <AltAzPlot
         data={parseToVisitForPlot(rtPlan.plansPerSite[0].visits)}
         eveTwilight={rtPlan.plansPerSite[0].startTime}
         mornTwilight={rtPlan.plansPerSite[0].endTime}
         site={rtPlan.plansPerSite[0].site}
       />
-      <DataTable
-        value={rtPlan.plansPerSite[0].visits}
-        tableStyle={{ minWidth: "50rem" }}
-      >
-        <Column field="obsId" header="Observation ID">
-          {" "}
-        </Column>
-        <Column header="Observation Class" body={obsClassBodyTemplate}></Column>
-        <Column header="Start Time" body={startTimeBodyTemplate}></Column>
-        <Column field="atomStartIdx" header="Atom Start">
-          {" "}
-        </Column>
-        <Column field="atomEndIdx" header="Atom End">
-          {" "}
-        </Column>
-        <Column
-          header="Instrument"
-          body={(visit: Visit) => visit.instrument}
-        ></Column>
-        <Column header="FPU" body={(visit: Visit) => visit.fpu}></Column>
-        <Column
-          header="Grating"
-          body={(visit: Visit) => visit.disperser}
-        ></Column>
-        <Column
-          header="Filters"
-          body={(visit: Visit) =>
-            visit.filters.length > 0 ? visit.filters.join(", ") : "None"
-          }
-        ></Column>
-        <Column
-          header="Cloud Cover"
-          body={(visit: Visit) => visit.requiredConditions.cc}
-        ></Column>
-        <Column
-          header="Image Quality"
-          body={(visit: Visit) => visit.requiredConditions.iq}
-        ></Column>
-        <Column header="Obs Completion" body={obsCompletionBodyTemplate}>
-          {" "}
-        </Column>
-        <Column header="peakScore" body={peakScoreBodyTemplate}></Column>
-        <Column header="Score" body={scoreBodyTemplate}></Column>
-      </DataTable>
-      <DataTable
-        value={programCompletion(
-          rtPlan.plansPerSite[0].nightStats.programCompletion
-        )}
-      >
-        <Column field="progId" header="ProgramID"></Column>
-        <Column field="completion" header="Completion"></Column>
-      </DataTable>
+      <Table>
+        <TableHeader>
+          <TableRow className={cn("*:h-6 *:font-bold")}>
+            <TableHead>Observation Id</TableHead>
+            <TableHead>Observation Class</TableHead>
+            <TableHead>Start Time</TableHead>
+            <TableHead>Atom Start</TableHead>
+            <TableHead>Atom End</TableHead>
+            <TableHead>Instrument</TableHead>
+            <TableHead>FPU</TableHead>
+            <TableHead>Grating</TableHead>
+            <TableHead>Filters</TableHead>
+            <TableHead>Cloud Cover</TableHead>
+            <TableHead>Image Quality</TableHead>
+            <TableHead>Obs Completion</TableHead>
+            <TableHead>Peak Score</TableHead>
+            <TableHead>Score</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rtPlan.plansPerSite[0].visits.map((visit: Visit) => (
+            <TableRow
+              key={visit.obsId}
+              className={cn(
+                "odd:bg-muted/50 *:p-0 *:px-2",
+                "dark:hover:bg-white/30 hover:bg-black/30"
+              )}
+            >
+              <TableCell>{visit.obsId}</TableCell>
+              <TableCell>
+                <ObsClassBadge obsClass={visit.obsClass} />
+              </TableCell>
+              <TableCell>
+                {new Date(visit.startTime).toLocaleString("en-UK", {
+                  timeZone: tz,
+                })}
+              </TableCell>
+              <TableCell>{visit.atomStartIdx}</TableCell>
+              <TableCell>{visit.atomEndIdx}</TableCell>
+              <TableCell>{visit.instrument}</TableCell>
+              <TableCell>{visit.fpu}</TableCell>
+              <TableCell>{visit.disperser}</TableCell>
+              <TableCell>{visit.filters}</TableCell>
+              <TableCell>{visit.requiredConditions.cc}</TableCell>
+              <TableCell>{visit.requiredConditions.iq}</TableCell>
+              <TableCell>{obsCompletionBodyTemplate(visit)}</TableCell>
+              <TableCell>{peakScoreBodyTemplate(visit)}</TableCell>
+              <TableCell>{scoreBodyTemplate(visit)}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }

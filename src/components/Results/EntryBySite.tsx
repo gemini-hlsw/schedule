@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { TimeEntriesBySite, TimeEntryType } from "../../types";
 import TimeEntry from "./TimeEntry";
+import { FaCloud, FaCog } from "react-icons/fa";
+import { LuTimerOff } from "react-icons/lu";
+import { Badge } from "@/components/ui/badge";
+import { TimelineBullets } from "./TimelineBullets";
 
 export default function EntryBySite({
   entryBySite,
@@ -15,32 +19,6 @@ export default function EntryBySite({
     setSelectedEntry(entryBySite.timeEntries[0] ?? ({} as TimeEntryType));
   }, [entryBySite]);
 
-  let w = 1;
-  if (entryBySite && entryBySite.timeEntries.length > 1) {
-    w =
-      entryBySite.timeEntries.at(-1).startTimeSlots -
-      entryBySite.timeEntries.at(0).startTimeSlots;
-  }
-
-  let timeLine: React.ReactElement<any>[] = [];
-  for (let en of entryBySite.timeEntries) {
-    let pos =
-      ((en.startTimeSlots - entryBySite.timeEntries.at(0).startTimeSlots) / w) *
-      100;
-    timeLine.push(
-      <div
-        key={en.startTimeSlots}
-        onClick={() => setSelectedEntry(en)}
-        className={
-          JSON.stringify(en) === JSON.stringify(selectedEntry)
-            ? "active bullet"
-            : "bullet"
-        }
-        style={{ left: `${pos}%` }}
-      />
-    );
-  }
-
   const timelineDate =
     entryBySite.mornTwilight.substring(
       0,
@@ -48,24 +26,27 @@ export default function EntryBySite({
     ) ?? "";
 
   return (
-    <div className="site-entry">
-      <h4 className="timeline-title">Timeline {timelineDate}</h4>
-      <div className="timeloss">
-        <span>
-          Night faults time: {entryBySite.timeLosses.fault.toFixed(2)}
-        </span>
-        <span>
-          {" "}
-          - Night weather time: {entryBySite.timeLosses.weather.toFixed(2)}
-        </span>
-        <span>
-          {" "}
-          - Unscheduled time: {entryBySite.timeLosses.unschedule.toFixed(2)}
-        </span>
+    <div className="flex flex-col gap-2">
+      <h4 className="font-bold">Timeline {timelineDate}</h4>
+      <div className="flex flex-row gap-2">
+        <Badge className={"text-white text-sm bg-red-500"}>
+          <FaCog />
+          Faults time: {entryBySite.timeLosses.fault.toFixed(2)}
+        </Badge>
+        <Badge className={"text-white text-sm bg-blue-500"}>
+          <FaCloud />
+          Weather time: {entryBySite.timeLosses.weather.toFixed(2)}
+        </Badge>
+        <Badge className={"text-white text-sm bg-purple-500"}>
+          <LuTimerOff />
+          Unscheduled time: {entryBySite.timeLosses.unschedule.toFixed(2)}
+        </Badge>
       </div>
-      <div className="timeline">
-        <div className="timeline-container">{timeLine}</div>
-      </div>
+      <TimelineBullets
+        timeline={entryBySite?.timeEntries}
+        selectedEntry={selectedEntry}
+        setSelectedEntry={setSelectedEntry}
+      />
       <TimeEntry
         timeEntry={selectedEntry}
         eveTwilight={entryBySite.eveTwilight}
