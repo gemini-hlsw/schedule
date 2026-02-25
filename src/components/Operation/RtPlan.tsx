@@ -1,4 +1,4 @@
-import { RtPlanType, Visit } from "../../types";
+import { PlanPerSite, Visit } from "../../types";
 import AltAzPlot from "../SchedulerPlot/SchedulerPlot";
 import {
   Table,
@@ -11,11 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ObsClassBadge } from "../Results/ObsClassBadge";
 
-export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
-  if (!rtPlan || !rtPlan.plansPerSite || rtPlan.plansPerSite.length === 0) {
-    return null;
-  }
-
+export default function RtPlan({ plan }: { plan: PlanPerSite }) {
   function parseToVisitForPlot(visits: Visit[]) {
     return visits.map((visit: Visit) => ({
       startDate: new Date(visit.startTime),
@@ -25,10 +21,7 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
       instrument: visit.instrument,
     }));
   }
-  const tz =
-    rtPlan.plansPerSite[0].site === "GN"
-      ? "Pacific/Honolulu"
-      : "America/Santiago";
+  const tz = plan.site === "GN" ? "Pacific/Honolulu" : "America/Santiago";
   const formatScore = (score: number) => {
     return score.toFixed(2);
   };
@@ -61,21 +54,13 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
     ).toFixed(0)}%)`;
   };
 
-  if (!rtPlan || !rtPlan.plansPerSite.length) return <div>No plan found</div>;
-
   return (
-    <div
-      className={cn(
-        "border rounded-md flex flex-col gap-2 p-3 flex-wrap",
-        "bg-transparent"
-      )}
-    >
-      <h1 className="font-bold w-full">Plan result</h1>
+    <>
       <AltAzPlot
-        data={parseToVisitForPlot(rtPlan.plansPerSite[0].visits)}
-        eveTwilight={rtPlan.plansPerSite[0].startTime}
-        mornTwilight={rtPlan.plansPerSite[0].endTime}
-        site={rtPlan.plansPerSite[0].site}
+        data={parseToVisitForPlot(plan.visits)}
+        eveTwilight={plan.startTime}
+        mornTwilight={plan.endTime}
+        site={plan.site}
       />
       <Table>
         <TableHeader>
@@ -97,7 +82,7 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rtPlan.plansPerSite[0].visits.map((visit: Visit) => (
+          {plan.visits.map((visit: Visit) => (
             <TableRow
               key={visit.obsId}
               className={cn(
@@ -129,6 +114,6 @@ export default function RtPlan({ rtPlan }: { rtPlan: RtPlanType }) {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </>
   );
 }

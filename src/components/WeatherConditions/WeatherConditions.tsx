@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { GlobalStateContext } from "../GlobalState/GlobalState";
 import { Button } from "@/components/ui/button";
-import { updateWeatherMutation } from "./query";
+import { updateWeatherMutation } from "./mutation";
 import { useMutation } from "@apollo/client";
 import { Field, FieldLabel } from "@/components/ui/field";
 import {
