@@ -9,6 +9,20 @@
   --color-dark-bg2: #1e1e1e;
   --color-light-bg: #ffffff;
   --color-light-bg2: #f8f9fa;
+
+  --animate-jump: jump 1s ease-in-out 1;
+
+  @keyframes jump {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
 }
 
 @theme inline {

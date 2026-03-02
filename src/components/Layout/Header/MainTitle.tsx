@@ -15,7 +15,13 @@ export default function MainTitle({ title }: MainTitleProps) {
       onClick={() => navigate("/")}
     >
       {splited_title.map((letter, index) => (
-        <span key={index}>{letter}</span>
+        <span
+          className={cn("animate-jump")}
+          style={{ animationDelay: `${index * 0.1}s` }}
+          key={index}
+        >
+          {letter}
+        </span>
       ))}
     </div>
   );
