@@ -2,7 +2,7 @@ import React, { createContext, useState, ReactNode } from "react";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed
-import { NightPlanType, RtPlanType, RunSummary } from "../../types";
+import { NightPlanType, RunSummary } from "../../types";
 import { NightPlansWithEvent } from "@/gql/graphql";
 // ------------------------------------------------------------
 

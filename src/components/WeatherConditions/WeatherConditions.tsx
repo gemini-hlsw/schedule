@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { FaCloud, FaCloudSun } from "react-icons/fa";
+import { FaCloudSun } from "react-icons/fa";
 
 interface OptionType {
   label: string;

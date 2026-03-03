@@ -3,14 +3,7 @@ import { weatherUpdatesSubscription } from "./subscription";
 import { cn } from "@/lib/utils";
 import { getWeather } from "./query";
 import { useEffect, useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
+import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 
 export function DisplayWeather() {
   const { data: weatherData } = useQuery(getWeather, {
