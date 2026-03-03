@@ -8,17 +8,20 @@ import { Button } from "@/components/ui/button";
 import { ProgramSelector } from "./ProgramSelection/ProgramSelector";
 import { cn } from "@/lib/utils";
 import { type ProgramListType } from "./ProgramSelection/ProgramList";
+import { FaList } from "react-icons/fa";
 
 export function ProgramSelectorDialog({
   programs,
   setProgram,
   resetPrograms,
   validationMode = false,
+  full = false,
 }: {
   programs: ProgramListType[];
   setProgram: (program: string, state: boolean) => void;
   resetPrograms: () => void;
   validationMode?: boolean;
+  full?: boolean;
 }) {
   return (
     <Dialog>
@@ -28,9 +31,11 @@ export function ProgramSelectorDialog({
           className={cn(
             "dark:bg-blue-800 bg-blue-400",
             "dark:text-white text-black",
-            "dark:hover:bg-blue-700 hover:bg-blue-500"
+            "dark:hover:bg-blue-700 hover:bg-blue-500",
+            full ? "w-full" : ""
           )}
         >
+          <FaList />
           Program Selection
         </Button>
       </DialogTrigger>

@@ -8,12 +8,14 @@ export function DateTimeSelector({
   dateTime,
   setDateTime,
   setToNow,
+  title = "UT Plan Start",
   setToNowButton = false,
   vertical = false,
 }: {
   dateTime: Date;
   setDateTime: (date: Date) => void;
   setToNow?: () => void;
+  title?: string;
   setToNowButton?: boolean;
   vertical?: boolean;
 }) {
@@ -23,7 +25,7 @@ export function DateTimeSelector({
         htmlFor="night-start"
         className={cn("text-nowrap", vertical ? "w-32" : "w-fit")}
       >
-        UT Plan Start
+        {title}
       </Label>
       <DateTimePicker date={dateTime} setDate={setDateTime} />
       {setToNowButton && (

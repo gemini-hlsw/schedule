@@ -103,6 +103,48 @@ export const subscriptionQueueSchedule = graphql(`
           }
         }
       }
+      ... on NightPlansWithEvent {
+        event
+        nightPlans {
+          nightIdx
+          plansPerSite {
+            endTime
+            site
+            startTime
+            visits {
+              altitude
+              atomEndIdx
+              atomStartIdx
+              completion
+              disperser
+              endTime
+              filters
+              fpu
+              instrument
+              obsClass
+              obsId
+              peakScore
+              score
+              startTime
+              requiredConditions {
+                cc
+                iq
+              }
+            }
+            nightConditions {
+              cc
+              iq
+            }
+            nightStats {
+              completionFraction
+              nToos
+              planScore
+              programCompletion
+              timeLoss
+            }
+          }
+        }
+      }
     }
   }
 `);
