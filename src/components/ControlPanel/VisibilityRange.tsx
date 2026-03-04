@@ -16,13 +16,15 @@ export function VisibilityRange({
   date,
   setDate,
   vertical = false,
+  clearButton = null,
 }: {
   date?: DateRange;
   setDate?: (date: DateRange) => void;
   vertical?: boolean;
+  clearButton?: React.ReactNode;
 }) {
   return (
-    <Field orientation="horizontal" className="w-fit">
+    <Field orientation="horizontal" className={cn(vertical ? "" : "w-fit")}>
       <Label
         htmlFor="range"
         className={cn("text-nowrap", vertical ? "w-32" : "w-fit")}
@@ -30,7 +32,7 @@ export function VisibilityRange({
         UT Visibility
       </Label>
       <Popover>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild className="grow">
           <Button
             variant="outline"
             id="date-picker-range"
@@ -61,6 +63,7 @@ export function VisibilityRange({
           />
         </PopoverContent>
       </Popover>
+      {clearButton}
     </Field>
   );
 }
