@@ -5,7 +5,6 @@ import { ProgramSelectorDialog } from "../ControlPanel/ProgramSelectorDialog";
 import { VisibilityRange } from "../ControlPanel/VisibilityRange";
 import { DateTimeSelector } from "../ControlPanel/DateTimeSelector";
 import { DateRange } from "react-day-picker";
-import { addDays } from "date-fns";
 import { PROGRAM_LIST_XT2 } from "@/components/ControlPanel/ProgramSelection/ProgramList";
 import { FaCog, FaTrash } from "react-icons/fa";
 import { toUtcIsoString } from "@/helpers/utcTime";
