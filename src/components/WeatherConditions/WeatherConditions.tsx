@@ -225,7 +225,11 @@ export default function WeatherConditions({
         )}
         {updateButton && (
           <Button
-            className={cn(vertical ? "w-full" : "w-fit mt-8")}
+            className={cn(
+              vertical ? "w-full" : "w-fit mt-8",
+              "dark:text-white text-black dark:bg-green-800 bg-green-400",
+              "dark:hover:bg-green-700 hover:bg-green-500"
+            )}
             disabled={!siteState}
             onClick={sendWeatherUpdate}
           >
