@@ -2,14 +2,15 @@ import React, { createContext, useState, ReactNode } from "react";
 
 // ------------------------------------------------------------
 // Populate initial data, just for testing, should be removed
-import { NightPlanType, RtPlanType, RunSummary } from "../../types";
+import { NightPlanType, RunSummary } from "../../types";
+import { NightPlansWithEvent } from "@/gql/graphql";
 // ------------------------------------------------------------
 
 interface GlobalStateContextType {
   nightPlans: NightPlanType[];
   setNightPlans: React.Dispatch<React.SetStateAction<NightPlanType[]>>;
-  rtPlan: RtPlanType;
-  setRtPlan: React.Dispatch<React.SetStateAction<RtPlanType>>;
+  rtPlan: NightPlansWithEvent;
+  setRtPlan: React.Dispatch<React.SetStateAction<NightPlansWithEvent>>;
   plansSummary: RunSummary;
   setPlansSummary: React.Dispatch<React.SetStateAction<RunSummary>>;
   thesis: number;
@@ -47,7 +48,9 @@ export default function GlobalStateProvider({
   children: ReactNode;
 }) {
   const [nightPlans, setNightPlans] = useState<NightPlanType[]>([]);
-  const [rtPlan, setRtPlan] = useState<RtPlanType>({} as RtPlanType);
+  const [rtPlan, setRtPlan] = useState<NightPlansWithEvent>(
+    {} as NightPlansWithEvent
+  );
   const [plansSummary, setPlansSummary] = useState<RunSummary>({
     summary: {},
     metricsPerBand: {},

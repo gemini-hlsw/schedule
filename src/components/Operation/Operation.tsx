@@ -16,6 +16,7 @@ import {
 } from "../ControlPanel/ProgramSelection/ProgramList";
 import { DisplayWeather } from "../WeatherConditions/DisplayWeather";
 import OnDemandControl from "../ControlPanel/OnDemandControl";
+import BuildParameters from "../BuildParameters/BuildParameters";
 
 export default function Operation({ v2 = false }: { v2?: boolean }) {
   const [scheduleRt] = useLazyQuery(scheduleRtQuery, {
@@ -99,7 +100,8 @@ export default function Operation({ v2 = false }: { v2?: boolean }) {
               loadingPlan={loadingPlan}
             />
           )}
-          <RankerTweaker vertical={v2} />
+          {/* <RankerTweaker vertical={v2} /> */}
+          {v2 && <BuildParameters vertical={true} />}
           <WeatherConditions vertical={v2} updateButton={v2} />
           {v2 && <DisplayWeather />}
         </div>

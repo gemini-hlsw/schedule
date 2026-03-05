@@ -59,7 +59,7 @@ export function DateTimePicker({
         step="60"
         max="23:59"
         min="00:00"
-        value={date ? format(date, "HH:mm") : "12:00"}
+        value={date ? format(date, "HH:mm") : ""}
         onChange={(e) => {
           const timeParts = e.target.value.split(":");
           if (timeParts.length === 2) {

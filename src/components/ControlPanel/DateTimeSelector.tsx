@@ -8,14 +8,18 @@ export function DateTimeSelector({
   dateTime,
   setDateTime,
   setToNow,
+  title = "UT Plan Start",
   setToNowButton = false,
   vertical = false,
+  clearButton = null,
 }: {
   dateTime: Date;
   setDateTime: (date: Date) => void;
   setToNow?: () => void;
+  title?: string;
   setToNowButton?: boolean;
   vertical?: boolean;
+  clearButton?: React.ReactNode;
 }) {
   return (
     <Field orientation="horizontal" className="w-fit">
@@ -23,7 +27,7 @@ export function DateTimeSelector({
         htmlFor="night-start"
         className={cn("text-nowrap", vertical ? "w-32" : "w-fit")}
       >
-        UT Plan Start
+        {title}
       </Label>
       <DateTimePicker date={dateTime} setDate={setDateTime} />
       {setToNowButton && (
@@ -38,6 +42,7 @@ export function DateTimeSelector({
           Set plan start to now
         </Button>
       )}
+      {clearButton}
     </Field>
   );
 }

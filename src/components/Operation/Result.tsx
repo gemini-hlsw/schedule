@@ -1,10 +1,15 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RtPlanType } from "../../types";
 import { cn } from "@/lib/utils";
 import RtPlan from "./RtPlan";
+import { NightPlansWithEvent } from "@/gql/graphql";
 
-export function Result({ rtPlan }: { rtPlan: RtPlanType }) {
-  if (!rtPlan || !rtPlan.plansPerSite || rtPlan.plansPerSite.length === 0) {
+export function Result({ rtPlan }: { rtPlan: NightPlansWithEvent }) {
+  if (
+    !rtPlan ||
+    !rtPlan.nightPlans ||
+    !rtPlan.nightPlans.plansPerSite ||
+    rtPlan.nightPlans.plansPerSite.length === 0
+  ) {
     return null;
   }
 
@@ -15,12 +20,12 @@ export function Result({ rtPlan }: { rtPlan: RtPlanType }) {
         "dark:bg-white/20 bg-black/10"
       )}
     >
-      <h1 className="font-bold w-full">Plan result</h1>
+      <h1 className="font-bold w-full">Plan result - {rtPlan.event}</h1>
       <Tabs defaultValue="GN" className="gap-0 w-full">
         <TabsList
           className={cn("p-0 rounded-br-none rounded-bl-none", "bg-tranparent")}
         >
-          {rtPlan.plansPerSite.map((plan) => (
+          {rtPlan.nightPlans.plansPerSite.map((plan) => (
             <TabsTrigger
               key={`siteTrigger${plan.site}`}
               value={plan.site}
@@ -35,7 +40,7 @@ export function Result({ rtPlan }: { rtPlan: RtPlanType }) {
             </TabsTrigger>
           ))}
         </TabsList>
-        {rtPlan.plansPerSite.map((plan) => (
+        {rtPlan.nightPlans.plansPerSite.map((plan) => (
           <TabsContent
             key={`siteContent${plan.site}`}
             value={plan.site}

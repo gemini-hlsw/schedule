@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { FaCloudSun } from "react-icons/fa";
 
 interface OptionType {
   label: string;
@@ -224,10 +225,15 @@ export default function WeatherConditions({
         )}
         {updateButton && (
           <Button
-            className={cn(vertical ? "w-full" : "w-fit mt-8")}
+            className={cn(
+              vertical ? "w-full" : "w-fit mt-8",
+              "dark:text-white text-black dark:bg-green-800 bg-green-400",
+              "dark:hover:bg-green-700 hover:bg-green-500"
+            )}
             disabled={!siteState}
             onClick={sendWeatherUpdate}
           >
+            <FaCloudSun />
             Send weather update
           </Button>
         )}

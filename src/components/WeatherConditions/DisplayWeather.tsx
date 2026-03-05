@@ -3,6 +3,7 @@ import { weatherUpdatesSubscription } from "./subscription";
 import { cn } from "@/lib/utils";
 import { getWeather } from "./query";
 import { useEffect, useState } from "react";
+import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 
 export function DisplayWeather() {
   const { data: weatherData } = useQuery(getWeather, {
@@ -45,28 +46,77 @@ export function DisplayWeather() {
     >
       <h1 className="font-bold">Current Weather</h1>
       {error && <p>Error loading weather data: {error.message}</p>}
-      <div className="flex flex-row gap-2 w-full">
-        {weatherState?.map(
-          (data: {
-            site: string;
-            imageQuality: number;
-            cloudCover: number;
-            windDirection: number;
-            windSpeed: number;
-          }) => (
-            <div
-              key={`siteWeather${data.site}`}
-              className="p-3 border rounded-md dark:bg-black/10 bg-white/10 grow"
-            >
-              <p>{data.site}</p>
-              <p>Image Quality: {data.imageQuality}</p>
-              <p>Cloud Cover: {data.cloudCover}</p>
-              <p>Wind Direction: {data.windDirection}</p>
-              <p>Wind Speed: {data.windSpeed}</p>
-            </div>
-          )
-        )}
-      </div>
+      <Table>
+        <TableBody>
+          <TableRow
+            className={cn(
+              "odd:bg-muted/50 *:px-2",
+              "dark:hover:bg-white/30 hover:bg-black/30"
+            )}
+          >
+            <TableCell>Site</TableCell>
+            {weatherState?.map((data: { site: string }) => (
+              <TableCell key={`site${data.site}`}>{data.site}</TableCell>
+            ))}
+          </TableRow>
+          <TableRow
+            className={cn(
+              "odd:bg-muted/50 *:px-2",
+              "dark:hover:bg-white/30 hover:bg-black/30"
+            )}
+          >
+            <TableCell>Image Quality</TableCell>
+            {weatherState?.map(
+              (data: { site: string; imageQuality: number }) => (
+                <TableCell key={`imageQuality${data.site}`}>
+                  {data.imageQuality}
+                </TableCell>
+              )
+            )}
+          </TableRow>
+          <TableRow
+            className={cn(
+              "odd:bg-muted/50 *:px-2",
+              "dark:hover:bg-white/30 hover:bg-black/30"
+            )}
+          >
+            <TableCell>Cloud Cover</TableCell>
+            {weatherState?.map((data: { site: string; cloudCover: number }) => (
+              <TableCell key={`cloudCover${data.site}`}>
+                {data.cloudCover}
+              </TableCell>
+            ))}
+          </TableRow>
+          <TableRow
+            className={cn(
+              "odd:bg-muted/50 *:px-2",
+              "dark:hover:bg-white/30 hover:bg-black/30"
+            )}
+          >
+            <TableCell>Wind Direction</TableCell>
+            {weatherState?.map(
+              (data: { site: string; windDirection: number }) => (
+                <TableCell key={`windDirection${data.site}`}>
+                  {data.windDirection}
+                </TableCell>
+              )
+            )}
+          </TableRow>
+          <TableRow
+            className={cn(
+              "odd:bg-muted/50 *:px-2",
+              "dark:hover:bg-white/30 hover:bg-black/30"
+            )}
+          >
+            <TableCell>Wind Speed</TableCell>
+            {weatherState?.map((data: { site: string; windSpeed: number }) => (
+              <TableCell key={`windSpeed${data.site}`}>
+                {data.windSpeed}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableBody>
+      </Table>
     </div>
   );
 }

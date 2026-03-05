@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { ProgramSelectorDialog } from "./ProgramSelectorDialog";
 import { ProgramListType } from "./ProgramSelection/ProgramList";
 import { cn } from "@/lib/utils";
 import { RunButton } from "./RunButton";
@@ -9,26 +8,18 @@ export default function OnDemandControl({
   runPlan,
   programList,
   vertical = false,
-  validationMode = false,
 }: {
   loadingPlan: boolean;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   runPlan: Function;
   programList: ProgramListType[];
   vertical?: boolean;
-  validationMode?: boolean;
 }) {
   const [programs, updatePrograms] = useState(structuredClone(programList));
 
   useEffect(() => {
     updatePrograms(structuredClone(programList));
   }, [programList]);
-
-  function setProgram(program: string, state: boolean) {
-    const auxProgramList = [...programs];
-    auxProgramList.find((p) => p.id === program).checked = state;
-    updatePrograms(auxProgramList);
-  }
 
   return (
     <div
@@ -50,12 +41,6 @@ export default function OnDemandControl({
           )
         }
         isRunDisabled={loadingPlan}
-      />
-      <ProgramSelectorDialog
-        programs={programs}
-        setProgram={setProgram}
-        resetPrograms={() => updatePrograms(structuredClone(programList))}
-        validationMode={validationMode}
       />
     </div>
   );
