@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { RunButton } from "../ControlPanel/RunButton";
 import { ProgramSelectorDialog } from "../ControlPanel/ProgramSelectorDialog";
 import { VisibilityRange } from "../ControlPanel/VisibilityRange";
 import { DateTimeSelector } from "../ControlPanel/DateTimeSelector";
 import { DateRange } from "react-day-picker";
-import { PROGRAM_LIST_XT2 } from "@/components/ControlPanel/ProgramSelection/ProgramList";
+import {
+  PROGRAM_LIST_XT2,
+  ProgramListType,
+} from "@/components/ControlPanel/ProgramSelection/ProgramList";
 import { FaCog, FaTrash } from "react-icons/fa";
 import { toUtcIsoString } from "@/helpers/utcTime";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { updateBuildParameters } from "./mutation";
 import { SiteNightTimesEntry } from "@/gql/graphql";
+import { getProgramList } from "./query";
 
 export default function BuildParameters({
   vertical = false,
@@ -21,13 +25,42 @@ export default function BuildParameters({
     fetchPolicy: "no-cache",
   });
 
+  const { data: programList, loading: programListLoading } = useQuery(
+    getProgramList,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
+
+  useEffect(() => {
+    if (programList) {
+      updatePrograms(
+        programList.availablePrograms.map((p) => ({
+          label: p,
+          id: p,
+          checked: true,
+          disabled: false,
+        }))
+      );
+    }
+  }, [programList]);
+
+  function resetPrograms() {
+    updatePrograms(
+      programList.availablePrograms.map((p) => ({
+        label: p,
+        id: p,
+        checked: true,
+        disabled: false,
+      }))
+    );
+  }
+
   const [date, setDate] = useState<DateRange | undefined>({
     from: undefined,
     to: undefined,
   });
-  const [programs, updatePrograms] = useState(
-    structuredClone(PROGRAM_LIST_XT2)
-  );
+  const [programs, updatePrograms] = useState([]);
   const [startTimeGN, setStartTimeGN] = useState<Date | undefined>(undefined);
   const [startTimeGS, setStartTimeGS] = useState<Date | undefined>(undefined);
   const [endTimeGN, setEndTimeGN] = useState<Date | null>(null);
@@ -159,11 +192,10 @@ export default function BuildParameters({
         <ProgramSelectorDialog
           programs={programs}
           setProgram={setProgram}
-          resetPrograms={() =>
-            updatePrograms(structuredClone(PROGRAM_LIST_XT2))
-          }
+          resetPrograms={resetPrograms}
           validationMode={false}
           full={true}
+          loading={programListLoading}
         />
         <RunButton
           loadingPlan={false}

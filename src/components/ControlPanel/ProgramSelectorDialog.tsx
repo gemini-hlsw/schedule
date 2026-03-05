@@ -9,6 +9,7 @@ import { ProgramSelector } from "./ProgramSelection/ProgramSelector";
 import { cn } from "@/lib/utils";
 import { type ProgramListType } from "./ProgramSelection/ProgramList";
 import { FaList } from "react-icons/fa";
+import { ImSpinner9 } from "react-icons/im";
 
 export function ProgramSelectorDialog({
   programs,
@@ -16,17 +17,20 @@ export function ProgramSelectorDialog({
   resetPrograms,
   validationMode = false,
   full = false,
+  loading = false,
 }: {
   programs: ProgramListType[];
   setProgram: (program: string, state: boolean) => void;
   resetPrograms: () => void;
   validationMode?: boolean;
   full?: boolean;
+  loading?: boolean;
 }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
+          disabled={loading}
           variant="default"
           className={cn(
             "dark:bg-blue-800 bg-blue-400",
@@ -35,7 +39,7 @@ export function ProgramSelectorDialog({
             full ? "w-full" : ""
           )}
         >
-          <FaList />
+          {loading ? <ImSpinner9 className="animate-spin" /> : <FaList />}
           Program Selection
         </Button>
       </DialogTrigger>
