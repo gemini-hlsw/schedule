@@ -5,10 +5,6 @@ import { ProgramSelectorDialog } from "../ControlPanel/ProgramSelectorDialog";
 import { VisibilityRange } from "../ControlPanel/VisibilityRange";
 import { DateTimeSelector } from "../ControlPanel/DateTimeSelector";
 import { DateRange } from "react-day-picker";
-import {
-  PROGRAM_LIST_XT2,
-  ProgramListType,
-} from "@/components/ControlPanel/ProgramSelection/ProgramList";
 import { FaCog, FaTrash } from "react-icons/fa";
 import { toUtcIsoString } from "@/helpers/utcTime";
 import { useMutation, useQuery } from "@apollo/client";
