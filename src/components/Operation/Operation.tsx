@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { GlobalStateContext } from "../GlobalState/GlobalState";
-import RankerTweaker from "../RankerTweaker/RankerTweaker";
 import ControlPanel from "../ControlPanel/ControlPanel";
 import WeatherConditions from "../WeatherConditions/WeatherConditions";
 import { Result } from "./Result";
@@ -100,7 +99,6 @@ export default function Operation({ v2 = false }: { v2?: boolean }) {
               loadingPlan={loadingPlan}
             />
           )}
-          {/* <RankerTweaker vertical={v2} /> */}
           {v2 && <BuildParameters vertical={true} />}
           <WeatherConditions vertical={v2} updateButton={v2} />
           {v2 && <DisplayWeather />}
