@@ -8,6 +8,22 @@ HighchartMore(Highcharts);
 
 import { ThemeContext } from "../../theme/ThemeProvider";
 
+export const debounce = <F extends (...args: any[]) => void>(
+  func: F,
+  delay: number
+) => {
+  let timeoutId: number | null;
+
+  return function (...args: Parameters<F>) {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  } as F;
+};
+
 interface Visit {
   startDate: Date;
   endDate: Date;
@@ -131,45 +147,62 @@ const AltAzPlot: React.FC<AltAzPlotProps> = ({
     }
   }
 
+  function updateChart() {
+    const chart = chartRef.current.chart;
+
+    chart.update({
+      series: seriesData,
+    });
+
+    // Remove old labels
+    labelRef.current.forEach((lbl: SVGRenderer) => lbl.destroy());
+
+    // Render custom labels for each section
+    data.forEach((d) => {
+      const x = (getTzTime(d.startDate) + getTzTime(d.endDate)) / 2;
+      const y = Math.max(...d.yPoints) / 2;
+
+      const xPos = chart.xAxis[0].toPixels(x, false);
+      const yPos = chart.yAxis[0].toPixels(y, false);
+
+      const lbl = chart.renderer
+        .text(d.label, xPos + 4.5, yPos)
+        .attr({
+          rotation: -90,
+          textAlign: "center",
+        })
+        .css({
+          fontWeight: "bold",
+          color: textColor, // Change the color of the custom label
+        })
+        .add();
+
+      labelRef.current.push(lbl);
+    });
+
+    chart.redraw();
+  }
+
   useEffect(() => {
     if (!labelRef.current) {
       labelRef.current = [];
     }
 
     if (chartRef.current) {
-      const chart = chartRef.current.chart;
-
-      chart.update({
-        series: seriesData,
-      });
-
-      // Remove old labels
-      labelRef.current.forEach((lbl: SVGRenderer) => lbl.destroy());
-
-      // Render custom labels for each section
-      data.forEach((d) => {
-        const x = (getTzTime(d.startDate) + getTzTime(d.endDate)) / 2;
-        const y = Math.max(...d.yPoints) / 2;
-
-        const xPos = chart.xAxis[0].toPixels(x, false);
-        const yPos = chart.yAxis[0].toPixels(y, false);
-
-        const lbl = chart.renderer
-          .text(d.label, xPos + 4.5, yPos)
-          .attr({
-            rotation: -90,
-            textAlign: "center",
-          })
-          .css({
-            fontWeight: "bold",
-            color: textColor, // Change the color of the custom label
-          })
-          .add();
-
-        labelRef.current.push(lbl);
-      });
+      updateChart();
     }
   }, [seriesData]);
+
+  const debouncedResizeHandler = debounce(updateChart, 300);
+
+  useEffect(() => {
+    // Set initial size if not already set (for SSR compatibility)
+    window.addEventListener("resize", debouncedResizeHandler);
+
+    return () => {
+      window.removeEventListener("resize", debouncedResizeHandler);
+    };
+  }, [debouncedResizeHandler, updateChart]);
 
   const options: Highcharts.Options = {
     time: {
