@@ -76,15 +76,20 @@ export default function Results({ plans }: { plans: NightPlanType[] }) {
                     "overflow-hidden",
                     isSelected
                       ? "bg-blue-500 dark:bg-blue-500 w-24"
-                      : "bg-gray-400 dark:bg-gray-600 w-4 text-transparent",
+                      : "bg-gray-400 dark:bg-gray-600 w-4",
                     "hover:bg-blue-500 dark:hover:bg-blue-500",
-                    "hover:w-24 hover:text-white",
+                    "hover:w-24",
                     "group",
                     "transition-all"
                   )}
                   onClick={goToSlide(idx)}
                 >
-                  <p className={cn(!isSelected && "group-hover:block hidden")}>
+                  <p
+                    className={cn(
+                      !isSelected && "group-hover:block hidden",
+                      "text-white"
+                    )}
+                  >
                     {timelineDate}
                   </p>
                 </button>
