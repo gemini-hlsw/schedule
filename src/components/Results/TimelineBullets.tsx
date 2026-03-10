@@ -7,10 +7,12 @@ import {
 } from "@/components/ui/tooltip";
 
 export function TimelineBullets({
+  date,
   timeline,
   selectedEntry,
   setSelectedEntry,
 }: {
+  date: string;
   timeline: TimeEntryType[];
   selectedEntry?: TimeEntryType;
   setSelectedEntry: (entry: TimeEntryType) => void;
@@ -36,7 +38,7 @@ export function TimelineBullets({
         {timeline.map((en) => {
           const pos = ((en.startTimeSlots - startSlot) / w) * 100;
           return (
-            <Tooltip key={en.event}>
+            <Tooltip key={`${en.event}${date}${en.startTimeSlots}`}>
               <TooltipTrigger
                 key={en.startTimeSlots}
                 onClick={() => setSelectedEntry(en)}
