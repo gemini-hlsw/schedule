@@ -43,6 +43,7 @@ export default function EntryBySite({
         </Badge>
       </div>
       <TimelineBullets
+        date={timelineDate}
         timeline={entryBySite?.timeEntries}
         selectedEntry={selectedEntry}
         setSelectedEntry={setSelectedEntry}
