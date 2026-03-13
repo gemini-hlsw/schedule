@@ -31,79 +31,95 @@ function App() {
   });
 
   useEffect(() => {
-    if (!subscriptionLoading) {
-      if (
-        scheduleData &&
-        scheduleData.queueSchedule.__typename === "NewNightPlans"
-      ) {
-        setNightPlans(scheduleData.queueSchedule.nightPlans.nightTimeline);
-        setPlansSummary(scheduleData.queueSchedule.plansSummary);
-      } else if (
-        scheduleData &&
-        scheduleData.queueSchedule.__typename === "NightPlansError"
-      ) {
-        toast.error(scheduleData.queueSchedule.error, {
-          closeButton: true,
-          duration: Infinity,
-        });
-        setNightPlans([]);
-        setPlansSummary({} as RunSummary);
-      } else if (
-        scheduleData &&
-        scheduleData.queueSchedule.__typename === "NewPlansRT"
-      ) {
-        // Deprecated
-        console.log("Deprecated method");
-        setRtPlan({
-          nightPlans: scheduleData.queueSchedule.nightPlans,
-          event: "Schedule Data",
-        });
-      } else {
-        toast.error(error.message, {
-          closeButton: true,
-          duration: Infinity,
-        });
-        setNightPlans([]);
-        setPlansSummary({} as RunSummary);
+    try {
+      if (!subscriptionLoading) {
+        if (
+          scheduleData &&
+          scheduleData.queueSchedule.__typename === "NewNightPlans"
+        ) {
+          setNightPlans(scheduleData.queueSchedule.nightPlans.nightTimeline);
+          setPlansSummary(scheduleData.queueSchedule.plansSummary);
+        } else if (
+          scheduleData &&
+          scheduleData.queueSchedule.__typename === "NightPlansError"
+        ) {
+          toast.error(scheduleData.queueSchedule.error, {
+            closeButton: true,
+            duration: Infinity,
+          });
+          setNightPlans([]);
+          setPlansSummary({} as RunSummary);
+        } else if (
+          scheduleData &&
+          scheduleData.queueSchedule.__typename === "NewPlansRT"
+        ) {
+          // Deprecated
+          console.log("Deprecated method");
+          setRtPlan({
+            nightPlans: scheduleData.queueSchedule.nightPlans,
+            event: "Schedule Data",
+          });
+        } else {
+          toast.error(
+            error?.message ??
+              "Unknown type, probbably due a mismatch between server and UI versions",
+            {
+              closeButton: true,
+              duration: Infinity,
+            }
+          );
+          setNightPlans([]);
+          setPlansSummary({} as RunSummary);
+        }
+        setLoadingPlan(false);
       }
-      setLoadingPlan(false);
+    } catch (e) {
+      console.log(e);
     }
   }, [scheduleData, subscriptionLoading]);
 
   useEffect(() => {
-    if (!rtLoading) {
-      if (rtData && rtData.queueSchedule.__typename === "NewNightPlans") {
-        setNightPlans(rtData.queueSchedule.nightPlans.nightTimeline);
-        setPlansSummary(rtData.queueSchedule.plansSummary);
-      } else if (
-        rtData &&
-        rtData.queueSchedule.__typename === "NightPlansError"
-      ) {
-        toast.error(rtData.queueSchedule.error, {
-          closeButton: true,
-          duration: Infinity,
-        });
-        setNightPlans([]);
-        setPlansSummary({} as RunSummary);
-      } else if (rtData && rtData.queueSchedule.__typename === "NewPlansRT") {
-        setRtPlan({
-          nightPlans: rtData.queueSchedule.nightPlans,
-          event: "RTPlan",
-        });
-      } else if (
-        rtData &&
-        rtData.queueSchedule.__typename === "NightPlansWithEvent"
-      ) {
-        setRtPlan(rtData.queueSchedule);
-      } else {
-        toast.error(rtError.message, {
-          closeButton: true,
-          duration: Infinity,
-        });
-        setNightPlans([]);
-        setPlansSummary({} as RunSummary);
+    try {
+      if (!rtLoading) {
+        if (rtData && rtData.queueSchedule.__typename === "NewNightPlans") {
+          setNightPlans(rtData.queueSchedule.nightPlans.nightTimeline);
+          setPlansSummary(rtData.queueSchedule.plansSummary);
+        } else if (
+          rtData &&
+          rtData.queueSchedule.__typename === "NightPlansError"
+        ) {
+          toast.error(rtData.queueSchedule.error, {
+            closeButton: true,
+            duration: Infinity,
+          });
+          setNightPlans([]);
+          setPlansSummary({} as RunSummary);
+        } else if (rtData && rtData.queueSchedule.__typename === "NewPlansRT") {
+          setRtPlan({
+            nightPlans: rtData.queueSchedule.nightPlans,
+            event: "RTPlan",
+          });
+        } else if (
+          rtData &&
+          rtData.queueSchedule.__typename === "NightPlansWithEvent"
+        ) {
+          setRtPlan(rtData.queueSchedule);
+        } else {
+          toast.error(
+            rtError?.message ??
+              "Unknown type, probbably due a mismatch between server and UI versions",
+            {
+              closeButton: true,
+              duration: Infinity,
+            }
+          );
+          setNightPlans([]);
+          setPlansSummary({} as RunSummary);
+        }
+        setLoadingPlan(false);
       }
-      setLoadingPlan(false);
+    } catch (e) {
+      console.log(e);
     }
   }, [rtData, rtLoading]);
 

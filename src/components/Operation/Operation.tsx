@@ -82,7 +82,7 @@ export default function Operation({ v2 = false }: { v2?: boolean }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-row md:flex-row w-full gap-2 py-2">
+      <div className="flex flex-row md:flex-row w-full gap-2">
         <div className={cn("grow flex gap-2", v2 ? "flex-row" : "flex-col")}>
           {v2 ? (
             <OnDemandControl
