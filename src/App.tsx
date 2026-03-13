@@ -59,7 +59,7 @@ function App() {
           event: "Schedule Data",
         });
       } else {
-        toast.error(error.message, {
+        toast.error(error?.message ?? "Unknown error", {
           closeButton: true,
           duration: Infinity,
         });
@@ -96,7 +96,7 @@ function App() {
       ) {
         setRtPlan(rtData.queueSchedule);
       } else {
-        toast.error(rtError.message, {
+        toast.error(rtError?.message ?? "Unknown error", {
           closeButton: true,
           duration: Infinity,
         });
