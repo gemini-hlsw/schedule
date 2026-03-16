@@ -24,6 +24,7 @@ export default function Operation({ v2 = false }: { v2?: boolean }) {
 
   const [scheduleV2] = useLazyQuery(scheduleV2Query, {
     fetchPolicy: "no-cache",
+    context: { clientName: "realtimeClient" },
   });
 
   const {
