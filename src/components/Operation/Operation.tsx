@@ -86,16 +86,16 @@ export default function Operation({ v2 = false }: { v2?: boolean }) {
         <div className={cn("grow flex gap-2", v2 ? "flex-row" : "flex-col")}>
           {v2 ? (
             <OnDemandControl
-              vertical={v2}
+              vertical={true}
               runPlan={runPlan}
-              programList={v2 ? PROGRAM_LIST_XT2 : PROGRAM_LIST}
+              programList={PROGRAM_LIST_XT2}
               loadingPlan={loadingPlan}
             />
           ) : (
             <ControlPanel
-              vertical={v2}
+              vertical={false}
               runPlan={runPlan}
-              programList={v2 ? PROGRAM_LIST_XT2 : PROGRAM_LIST}
+              programList={PROGRAM_LIST}
               loadingPlan={loadingPlan}
             />
           )}
