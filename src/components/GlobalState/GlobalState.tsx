@@ -7,6 +7,10 @@ import { NightPlansWithEvent } from "@/gql/graphql";
 // ------------------------------------------------------------
 
 interface GlobalStateContextType {
+  connectionState: { name: string; isConnected: boolean | null };
+  setConnectionState: React.Dispatch<
+    React.SetStateAction<{ name: string; isConnected: boolean | null }>
+  >;
   nightPlans: NightPlanType[];
   setNightPlans: React.Dispatch<React.SetStateAction<NightPlanType[]>>;
   rtPlan: NightPlansWithEvent;
@@ -47,6 +51,10 @@ export default function GlobalStateProvider({
 }: {
   children: ReactNode;
 }) {
+  const [connectionState, setConnectionState] = useState({
+    name: "",
+    isConnected: null,
+  });
   const [nightPlans, setNightPlans] = useState<NightPlanType[]>([]);
   const [rtPlan, setRtPlan] = useState<NightPlansWithEvent>(
     {} as NightPlansWithEvent
@@ -78,6 +86,8 @@ export default function GlobalStateProvider({
   return (
     <GlobalStateContext.Provider
       value={{
+        connectionState,
+        setConnectionState,
         nightPlans,
         setNightPlans,
         rtPlan,

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalStateContext } from "../GlobalState/GlobalState";
 
 // For testing
@@ -9,14 +9,16 @@ import {
   PROGRAM_LIST_VALIDATION,
   ProgramListType,
 } from "../ControlPanel/ProgramSelection/ProgramList";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useReactiveVar } from "@apollo/client";
 import { scheduleQuery } from "./query";
 import { toUtcIsoString } from "@/helpers/utcTime";
 import ControlPanel from "../ControlPanel/ControlPanel";
 import { type DateRange } from "react-day-picker";
+import { isSchedulerConnectedVar } from "@/apollo-client";
 
 export default function Validation() {
   const {
+    setConnectionState,
     nightPlans,
     plansSummary,
     thesis,
@@ -29,6 +31,15 @@ export default function Validation() {
     setLoadingPlan,
     uuid,
   } = useContext(GlobalStateContext);
+
+  const isValidationConnected = useReactiveVar(isSchedulerConnectedVar);
+
+  useEffect(() => {
+    setConnectionState({
+      name: uuid,
+      isConnected: isValidationConnected,
+    });
+  }, [isValidationConnected]);
 
   const [schedule] = useLazyQuery(scheduleQuery, {
     fetchPolicy: "no-cache",

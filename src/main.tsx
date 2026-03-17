@@ -24,10 +24,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                 <Route path="/" element={<App />}>
                   <Route index element={<Home />} />
                   <Route path="operation" element={<Operation />} />
-                  <Route
-                    path="operation-v2"
-                    element={<Operation v2={true} />}
-                  />
                   <Route path="validation" element={<Validation />} />
                   <Route path="simulation" element={<Simulation />} />
                   <Route path="link1" element={<h1>link1</h1>} />

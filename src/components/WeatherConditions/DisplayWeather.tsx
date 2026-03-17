@@ -1,17 +1,20 @@
-import { useQuery, useSubscription } from "@apollo/client";
+import { useQuery, useReactiveVar, useSubscription } from "@apollo/client";
 import { weatherUpdatesSubscription } from "./subscription";
 import { cn } from "@/lib/utils";
 import { getWeather } from "./query";
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
+import { isWeatherConnectedVar } from "@/apollo-client";
+import { ConnectionBadge } from "../ui/connectionBadge";
 
 export function DisplayWeather() {
+  const isOnline = useReactiveVar(isWeatherConnectedVar);
+
   const { data: weatherData } = useQuery(getWeather, {
     fetchPolicy: "no-cache",
     context: { clientName: "weatherClient" },
   });
 
-  // Use the useSubscription hook to subscribe to weather updates
   const { data, error } = useSubscription(weatherUpdatesSubscription, {
     context: { clientName: "weatherClient" },
   });
@@ -44,7 +47,10 @@ export function DisplayWeather() {
         "dark:bg-white/20 bg-black/10"
       )}
     >
-      <h1 className="font-bold">Current Weather</h1>
+      <h1 className="font-bold flex justify-between">
+        <span>Current Weather</span>
+        <ConnectionBadge isOnline={isOnline} />
+      </h1>
       {error && <p>Error loading weather data: {error.message}</p>}
       <Table>
         <TableBody>

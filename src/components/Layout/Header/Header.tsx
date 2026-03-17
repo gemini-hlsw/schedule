@@ -7,16 +7,11 @@ import { GlobalStateContext } from "../../GlobalState/GlobalState";
 import { cn } from "../../../lib/utils";
 import { Button } from "@/components/ui/button";
 import { FaMoon, FaSun } from "react-icons/fa";
-import { Badge } from "@/components/ui/badge";
+import { ConnectionBadge } from "@/components/ui/connectionBadge";
 
-interface HeaderProps {
-  title: string;
-  isOnline: boolean;
-}
-
-export default function Header({ title, isOnline }: HeaderProps) {
+export default function Header({ title }: { title: string }) {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { uuid } = useContext(GlobalStateContext);
+  const { connectionState } = useContext(GlobalStateContext);
 
   return (
     <div
@@ -32,18 +27,13 @@ export default function Header({ title, isOnline }: HeaderProps) {
       </div>
       <div className={cn("mx-auto")}>
         <div className="flex flex-row gap-2 grow items-center">
-          <span className={isOnline ? "text-green-500" : "text-red-500"}>
-            {isOnline ? "Connected" : "Disconnected"}
-          </span>
-          <Badge
-            variant="default"
-            className={cn(
-              "bg-black/10 dark:bg-white/10",
-              "text-black dark:text-white"
-            )}
-          >
-            ID: {uuid}
-          </Badge>
+          {connectionState.isConnected !== null && (
+            <ConnectionBadge
+              isOnline={connectionState.isConnected}
+              text={`ID: ${connectionState.name} | `}
+              className="font-bold"
+            />
+          )}
         </div>
       </div>
       <div className={cn("flex flex-row items-center gap-2 shrink")}>

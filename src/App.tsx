@@ -6,7 +6,6 @@ import { useContext, useEffect } from "react";
 import { GlobalStateContext } from "./components/GlobalState/GlobalState";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
-import { realtimeClient } from "./apollo-client";
 import { type RunSummary } from "./types";
 
 function App() {
@@ -27,7 +26,7 @@ function App() {
     error: rtError,
   } = useSubscription(subscriptionQueueSchedule, {
     variables: { scheduleId: "operation" },
-    client: realtimeClient,
+    context: { clientName: "realtimeClient" },
   });
 
   useEffect(() => {

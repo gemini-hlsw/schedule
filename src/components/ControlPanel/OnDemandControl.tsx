@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProgramListType } from "./ProgramSelection/ProgramList";
 import { cn } from "@/lib/utils";
 import { RunButton } from "./RunButton";
+import { GlobalStateContext } from "../GlobalState/GlobalState";
+import { useReactiveVar } from "@apollo/client";
+import { isRealtimeConnectedVar } from "@/apollo-client";
 
 export default function OnDemandControl({
   loadingPlan,
@@ -16,6 +19,16 @@ export default function OnDemandControl({
   vertical?: boolean;
 }) {
   const [programs, updatePrograms] = useState(structuredClone(programList));
+
+  const { setConnectionState } = useContext(GlobalStateContext);
+  const isRealtimeConnected = useReactiveVar(isRealtimeConnectedVar);
+
+  useEffect(() => {
+    setConnectionState({
+      name: `Operation`,
+      isConnected: isRealtimeConnected,
+    });
+  }, [isRealtimeConnected]);
 
   useEffect(() => {
     updatePrograms(structuredClone(programList));

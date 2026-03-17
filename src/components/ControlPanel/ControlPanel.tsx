@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProgramSelectorDialog } from "./ProgramSelectorDialog";
 import { ProgramListType } from "./ProgramSelection/ProgramList";
 import { toUtcIsoString } from "../../helpers/utcTime";
@@ -12,6 +12,9 @@ import { RunButton } from "./RunButton";
 import { getDefaultDate } from "@/helpers/defaultDate";
 import { SemesterVisibility } from "./SemesterVisibility";
 import { NightsNumber } from "./NightsNumber";
+import { GlobalStateContext } from "../GlobalState/GlobalState";
+import { useReactiveVar } from "@apollo/client";
+import { isSchedulerConnectedVar } from "@/apollo-client";
 
 export default function ControlPanel({
   loadingPlan,
@@ -27,6 +30,20 @@ export default function ControlPanel({
   vertical?: boolean;
   validationMode?: boolean;
 }) {
+  const { setConnectionState, uuid } = useContext(GlobalStateContext);
+  const isOperationConnected = useReactiveVar(isSchedulerConnectedVar);
+
+  useEffect(() => {
+    setConnectionState({
+      name: uuid,
+      isConnected: isOperationConnected,
+    });
+  }, [isOperationConnected]);
+
+  useEffect(() => {
+    updatePrograms(structuredClone(programList));
+  }, [programList]);
+
   const DEFAULT_NIGHT_LENGTH_HOURS = 10;
   const defaultDate = getDefaultDate(validationMode);
   const [date, setDate] = useState<DateRange | undefined>({
