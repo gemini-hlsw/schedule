@@ -25,6 +25,7 @@ export default function BuildParameters({
     getProgramList,
     {
       fetchPolicy: "no-cache",
+      context: { clientName: "realtimeClient" },
     }
   );
 

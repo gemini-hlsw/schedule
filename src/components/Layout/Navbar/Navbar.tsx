@@ -13,10 +13,7 @@ export default function Navbar() {
   const location = useLocation();
 
   const links: Array<CustomLink>[] = [
-    [
-      { to: "/operation", name: "Operation" },
-      { to: "/operation-v2", name: "RT V2" },
-    ],
+    [{ to: "/operation", name: "Operation" }],
     [
       { to: "/validation", name: "Validation" },
       { to: "/simulation", name: "Simulation" },
