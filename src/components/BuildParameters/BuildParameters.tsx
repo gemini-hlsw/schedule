@@ -19,6 +19,7 @@ export default function BuildParameters({
 }) {
   const [buildParams] = useMutation(updateBuildParameters, {
     fetchPolicy: "no-cache",
+    context: { clientName: "realtimeClient" },
   });
 
   const { data: programList, loading: programListLoading } = useQuery(
