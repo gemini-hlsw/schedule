@@ -5,7 +5,7 @@ import { Result } from "./Result";
 import { cn } from "@/lib/utils";
 import { useLazyQuery } from "@apollo/client";
 import { toUtcIsoString } from "@/helpers/utcTime";
-import { scheduleV2Query } from "./queryV2";
+import { scheduleV2Query } from "./query";
 import {
   PROGRAM_LIST_XT2,
   ProgramListType,

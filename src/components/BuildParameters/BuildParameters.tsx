@@ -34,8 +34,8 @@ export default function BuildParameters({
     if (programList) {
       updatePrograms(
         programList.availablePrograms.map((p) => ({
-          label: p,
-          id: p,
+          label: p.refLabel,
+          id: p.id,
           checked: true,
           disabled: false,
         }))
@@ -46,8 +46,8 @@ export default function BuildParameters({
   function resetPrograms() {
     updatePrograms(
       programList.availablePrograms.map((p) => ({
-        label: p,
-        id: p,
+        label: p.refLabel,
+        id: p.id,
         checked: true,
         disabled: false,
       }))

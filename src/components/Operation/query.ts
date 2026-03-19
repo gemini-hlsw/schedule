@@ -1,7 +1,6 @@
 import { graphql } from "../../gql";
-export const scheduleRtQuery = graphql(`
-  query scheduleRt(
-    $scheduleId: String!
+export const scheduleV2Query = graphql(`
+  query scheduleV2(
     $startTime: String!
     $endTime: String!
     $nightStartTime: String!
@@ -19,8 +18,7 @@ export const scheduleRtQuery = graphql(`
     $visPower: Float
     $programs: [String!]!
   ) {
-    scheduleRt(
-      scheduleId: $scheduleId
+    scheduleV2(
       newScheduleRtInput: {
         startTime: $startTime
         endTime: $endTime
