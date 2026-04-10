@@ -25,7 +25,7 @@ export function DateTimeSelector({
     <Field orientation="horizontal" className="w-fit">
       <Label
         htmlFor="night-start"
-        className={cn("text-nowrap", vertical ? "w-32" : "w-fit")}
+        className={cn("text-nowrap", vertical ? "w-36 shrink-0" : "w-fit")}
       >
         {title}
       </Label>

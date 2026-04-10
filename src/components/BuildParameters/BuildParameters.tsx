@@ -6,7 +6,7 @@ import { VisibilityRange } from "../ControlPanel/VisibilityRange";
 import { DateTimeSelector } from "../ControlPanel/DateTimeSelector";
 import { DateRange } from "react-day-picker";
 import { FaCog, FaTrash } from "react-icons/fa";
-import { toUtcIsoString } from "@/helpers/utcTime";
+import { toUtcIsoString, tzDateToString } from "@/helpers/utcTime";
 import { useMutation, useQuery } from "@apollo/client";
 import { updateBuildParameters } from "./mutation";
 import { SiteNightTimesEntry } from "@/gql/graphql";
@@ -76,8 +76,12 @@ export default function BuildParameters({
       nightTimes.push({
         site: "GN",
         nightTimes: {
-          nightEnd: endTimeGN ? toUtcIsoString(endTimeGN) : undefined,
-          nightStart: startTimeGN ? toUtcIsoString(startTimeGN) : undefined,
+          nightEnd: endTimeGN
+            ? tzDateToString(endTimeGN, "Pacific/Honolulu")
+            : undefined,
+          nightStart: startTimeGN
+            ? tzDateToString(startTimeGN, "Pacific/Honolulu")
+            : undefined,
         },
       } as SiteNightTimesEntry);
     }
@@ -86,8 +90,12 @@ export default function BuildParameters({
       nightTimes.push({
         site: "GS",
         nightTimes: {
-          nightEnd: endTimeGS ? toUtcIsoString(endTimeGS) : undefined,
-          nightStart: startTimeGS ? toUtcIsoString(startTimeGS) : undefined,
+          nightEnd: endTimeGS
+            ? tzDateToString(endTimeGS, "America/Santiago")
+            : undefined,
+          nightStart: startTimeGS
+            ? tzDateToString(startTimeGS, "America/Santiago")
+            : undefined,
         },
       } as SiteNightTimesEntry);
     }
@@ -132,7 +140,7 @@ export default function BuildParameters({
           }
         />
         <DateTimeSelector
-          title="GN Night Start"
+          title="GN Local Night Start"
           dateTime={startTimeGN!}
           setDateTime={setStartTimeGN}
           setToNow={() => {}}
@@ -146,7 +154,7 @@ export default function BuildParameters({
           }
         />
         <DateTimeSelector
-          title="GN Night End"
+          title="GN Local Night End"
           dateTime={endTimeGN!}
           setDateTime={setEndTimeGN}
           setToNow={() => {}}
@@ -160,7 +168,7 @@ export default function BuildParameters({
           }
         />
         <DateTimeSelector
-          title="GS Night Start"
+          title="GS Local Night Start"
           dateTime={startTimeGS!}
           setDateTime={setStartTimeGS}
           setToNow={() => {}}
@@ -174,7 +182,7 @@ export default function BuildParameters({
           }
         />
         <DateTimeSelector
-          title="GS Night End"
+          title="GS Local Night End"
           dateTime={endTimeGS!}
           setDateTime={setEndTimeGS}
           setToNow={() => {}}
