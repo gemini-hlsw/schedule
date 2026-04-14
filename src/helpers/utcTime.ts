@@ -45,7 +45,7 @@ function getTimezoneOffsetString(timeZone: string, date = new Date()) {
     map.day,
     map.hour,
     map.minute,
-    map.second
+    map.second,
   );
 
   const offsetMinutes = (asUTC - date.getTime()) / 60000;
@@ -64,4 +64,12 @@ export function tzDateToString(date: Date, timeZone: string) {
     .toISOString()
     .split(".")[0]
     .replace("T", " ");
+}
+
+export function stringDateToLocalString(date: string, site: string) {
+  return new Date(utcToLocal(new Date(date), getSiteOffset(site)))
+    .toISOString()
+    .split(".")[0]
+    .replace("T", " ")
+    .substring(0, 16);
 }
