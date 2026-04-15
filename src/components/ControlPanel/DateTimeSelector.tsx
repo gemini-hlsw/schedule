@@ -22,7 +22,7 @@ export function DateTimeSelector({
   clearButton?: React.ReactNode;
 }) {
   return (
-    <Field orientation="horizontal" className="w-fit">
+    <Field orientation="horizontal" className="">
       <Label
         htmlFor="night-start"
         className={cn("text-nowrap", vertical ? "w-36 shrink-0" : "w-fit")}
@@ -34,12 +34,12 @@ export function DateTimeSelector({
         <Button
           className={cn(
             "dark:bg-blue-800 bg-blue-400",
-            "dark:text-white text-black",
-            "dark:hover:bg-blue-700 hover:bg-blue-500"
+            "dark:text-white text-black text-sm",
+            "dark:hover:bg-blue-700 hover:bg-blue-500",
           )}
           onClick={setToNow}
         >
-          Set plan start to now
+          Now
         </Button>
       )}
       {clearButton}
